@@ -4,7 +4,7 @@ RewriteEngine On
 # disabling display of directories
 Options -Indexes
 
-# The below 3 lines are used to remove params and just show them as a url, has regex to escape characters
+# The below line are used to remove params and just show them as a url, has regex to escape characters
 RewriteRule ^logintoken/([a-zA-Z0-9\s_-]+)$ logintoken.php?token=$1 [L]
 
 # The below is used to remove the extensions in files i.e .html & .php
