@@ -35,9 +35,9 @@ class User extends Database
     /**
      * Check if credentials of a user exists
      */
-    public function loginUser(String $username, String $password):array
+    public function loginUser(String $username):array
     {
-        $loginUserSQL = "SELECT * FROM `users` WHERE email = '$username' OR username = '$username' AND password = '$password' LIMIT 1";
+        $loginUserSQL = "SELECT * FROM `users` WHERE email = '$username' OR username = '$username' LIMIT 1";
 
         return $this->selectSQLStatement($loginUserSQL, $this->DBConnection);
     }
@@ -63,7 +63,7 @@ class User extends Database
     }
 
     /**
-     * Add to the list of users
+     * Confirm tokens in logging in
      */
     public function confirmTokens(String $urlToken, String $code)
     {
@@ -73,11 +73,21 @@ class User extends Database
     }
 
     /**
+     * Update tokens for logging in
+     */
+    public function updateTokens(String $urlToken, String $code, String $userID)
+    {
+        $updateUserTokenSQL = "UPDATE `users` SET token = '$urlToken', code = '$code' WHERE entry_id = '$userID'";
+
+        return $this->updateSQLStatement($updateUserTokenSQL, $this->DBConnection);
+    }
+
+    /**
      * Update the verification status depending on scenario
      */
-    public function changeVerificationStatus(int $verificationStatus)
+    public function changeVerificationStatus(int $verificationStatus, String $userID)
     {
-        $changeVerificationStatusSQL = "UPDATE `users` SET verified = '$verificationStatus'";
+        $changeVerificationStatusSQL = "UPDATE `users` SET verified = '$verificationStatus' WHERE entry_id = '$userID'";
 
         return $this->updateSQLStatement($changeVerificationStatusSQL, $this->DBConnection);
     }

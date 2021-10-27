@@ -1,18 +1,18 @@
 <?php
 
-function superAdminTemplate(String $username, int $code, String $appURL, String $token): String
+function loginTokenTemplate(String $username, int $code, String $appURL, String $token): String
 {
   return "
        <div style='min-width:100%;min-height:100%;max-height:auto;max-width:auto;background:#f5f5f5;'>
 
        <div style='width:520px;margin:auto;background:#fff;'>
 
-       <h1 style='background:#000;color:white;padding:2px;text-align:center;'>Super Administrator Creation</h1>
+       <h1 style='background:#000;color:white;padding:2px;text-align:center;'>Login Token</h1>
 
        <div>
          <p style='padding:10px;font-size:1.17em;color:black;'>
            Hello <b>". $username ."</b>,<br/>
-           Enter the code below on the page to proceed with the creation of the super administrator for the system.<br/>
+           Enter the code below on the page to proceed with logging in to the system.<br/>
            <div style='text-align:center;width:100%;font-size: xx-large;'><b>".$code."</b></div>
          </p>
 

@@ -4,8 +4,6 @@ require_once '../vendor/autoload.php';
 
 require_once 'postMiddleware.php';
 
-use app\Mail;
-
 use app\User;
 
 if (!empty($_POST['url_token']) && !empty($_POST['code'])) {
@@ -20,7 +18,7 @@ if (!empty($_POST['url_token']) && !empty($_POST['code'])) {
 
   switch ($tokenConfirmResponse['response']) {
       case '200':
-          $User->changeVerificationStatus(1);
+          $User->changeVerificationStatus(1, $tokenConfirmResponse['data'][0]['entry_id']);
           $_SESSION['auth_token'] = $tokenConfirmResponse['data'][0]['token'];
           $_SESSION['auth_uid'] = $tokenConfirmResponse['data'][0]['entry_id'];
           $_SESSION['auth_uname'] = $tokenConfirmResponse['data'][0]['username'];
