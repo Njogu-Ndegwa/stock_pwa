@@ -5,6 +5,8 @@ if (!isset($_SESSION)) {
 
 require_once 'app/vendor/autoload.php';
 
+// check for the existence of a super admin
+
 use app\CSRF;
 ?>
 <!DOCTYPE html>
