@@ -19,20 +19,25 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
         case '200':
             $_SESSION['success'] = $loginUserResponse['data'][0]['username'] . "logged in successfully";
 
+            // generate a token and code for user.
+            // generateToken(5, 1, 'numbers')[0]
+
             echo "Success logging in". $loginUserResponse['data'][0]['username'];
             break;
+
         case '204':
             $_SESSION['error'] = "No matching credentials found!";
             header("Location:". $_SERVER['HTTP_REFERER']);
             exit();
             break;
+            
         default:
             $_SESSION['error'] = "There has been an internal error, this has been recorded and will be resolved.";
             header("Location:". $_SERVER['HTTP_REFERER']);
             exit();
             break;
     }
-    
+
 }else{
     $_SESSION['error'] = "Required input to perform login are missing";
     header("Location:". $_SERVER['HTTP_REFERER']);

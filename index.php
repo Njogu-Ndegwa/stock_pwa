@@ -6,6 +6,17 @@ if (!isset($_SESSION)) {
 require_once 'app/vendor/autoload.php';
 
 // check for the existence of a super admin
+use app\User;
+
+$User = new User();
+
+$checkSuperAdminResponse = $User->checkSuperAdministrator();
+
+if ($checkSuperAdminResponse['response'] == '204') {
+  header("Location: superadministrator-signup");
+  exit();
+}
+
 
 use app\CSRF;
 ?>
@@ -41,10 +52,10 @@ use app\CSRF;
         ?>
       <h1>Login to your account</h1>
       <div class="input-wrapper">
-        <input type="text" name="username" placeholder="Your email or username *" value="">
+        <input type="text" name="username" required placeholder="Your email or username *" value="">
       </div>
       <div class="input-wrapper">
-        <input type="password" name="password" placeholder="Password *" value="">
+        <input type="password" name="password" required placeholder="Password *" value="">
       </div>
       <div class="input-wrapper">
         <div class="">

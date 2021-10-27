@@ -7,7 +7,7 @@ namespace app;
  * This is the database abstract module,
  * it is extended by each class having to perform actions in the database
  */
-abstract class Database
+abstract class Database extends Utility
 {
 
   /**
@@ -47,21 +47,17 @@ abstract class Database
         if ($this->getSQLQueryType($SQLQueryString) != "INSERT") {
             throw new \Exception("Expecting 'INSERT' SQL statement, got '". $this->getSQLQueryType($SQLQueryString) . "' SQL statement", 1);
         }
-        // attempt the query
-        $queryResult = mysqli_query($DBConnection, $SQLQueryString);
+        $queryResult = $DBConnection->query($SQLQueryString);
 
         if ($queryResult) {
+            $insertID = $DBConnection->insert_id;
 
-      // in separate occassions the id of a successful insert maybe required
-            $insertID = mysqli_insert_id($DBConnection);
-
-            // add array to return
             $responseArray['response'] = '200';
             $responseArray['message'] = 'Success';
             $responseArray['data'] = ["The Insert Was Performed OK", $insertID];
         } else {
             $responseArray['response'] = '500';
-            $responseArray['message'] = mysqli_error($DBConnection);
+            $responseArray['message'] = $DBConnection->error;
             $responseArray['data'] = null;
 
             Logger::logToFile('Error', $responseArray['message']." SQL Statement: ". $SQLQueryString );
@@ -78,18 +74,14 @@ abstract class Database
         if ($this->getSQLQueryType($SQLQueryString) != "SELECT") {
             throw new \Exception("Expecting 'SELECT' SQL statement, got '". $this->getSQLQueryType($SQLQueryString) . "' SQL statement", 1);
         }
-        // attempt the query
-        $queryResult = mysqli_query($DBConnection, $SQLQueryString);
+        $queryResult = $DBConnection->query($SQLQueryString);
 
         if ($queryResult) {
-            // success
-            $rowCount = mysqli_affected_rows($DBConnection);
+            $rowCount = $DBConnection->affected_rows;
 
             if ($rowCount > 0) {
-
-       // move result set to an associative array
                 $queryData = array();
-                while ($datum= mysqli_fetch_assoc($queryResult)) {
+                while ($datum= $queryResult -> fetch_assoc()) {
                     $data[]=$datum;
                 }
 
@@ -97,18 +89,43 @@ abstract class Database
                 $responseArray['message'] = 'Success';
                 $responseArray['data'] = $data;
             } else {
-                // no data returned
                 $responseArray['response'] = '204';
                 $responseArray['message'] = 'No Matches!';
                 $responseArray['data'] = [];
             }
         } else {
             $responseArray['response'] = '500';
-            $responseArray['message'] = mysqli_error($DBConnection);
+            $responseArray['message'] = $DBConnection->error;
             $responseArray['data'] = null;
             Logger::logToFile('Error', $responseArray['message']." SQL Statement: ". $SQLQueryString );
         }
 
+
+        return $responseArray;
+    }
+
+    /**
+    * Updating data in the database
+    */
+    protected function updateSQLStatement(String $SQLQueryString, \mysqli $DBConnection): array
+    {
+        if ($this->getSQLQueryType($SQLQueryString) != "UPDATE") {
+            throw new \Exception("Expecting 'UPDATE' SQL statement, got '". $this->getSQLQueryType($SQLQueryString) . "' SQL statement", 1);
+        }
+        $queryResult = $DBConnection->query($SQLQueryString);
+
+        if ($queryResult) {
+
+    // add array to return
+            $responseArray['response'] = '200';
+            $responseArray['message'] = 'Success';
+            $responseArray['data'] = "The Update Was Performed OK";
+        } else {
+            $responseArray['response'] = '500';
+            $responseArray['message'] = $DBConnection->error;
+            $responseArray['data'] = null;
+            Logger::logToFile('Error', $responseArray['message']." SQL Statement: ". $SQLQueryString );
+        }
 
         return $responseArray;
     }

@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST' || !isset($_SERVER['HTTP_REFERER']) || 
     $forbiddenPage = file_get_contents('../../403.php');
 
     exit($forbiddenPage);
-
 }
 
 if (!CSRF::validate_token($_POST['token'])) {
