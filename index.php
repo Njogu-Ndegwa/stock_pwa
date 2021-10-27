@@ -75,7 +75,7 @@ use app\CSRF;
             <input type="checkbox" name="remember_me" id="remember_me" value="Yes"><label for="remember_me">Remember Me</label>
           </span>
           <span>
-            <a href="forgotpassword.html">Forgot Password?</a>
+            <a href="forgotpassword">Forgot Password?</a>
           </span>
         </div>
 

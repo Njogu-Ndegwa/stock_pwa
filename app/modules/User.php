@@ -73,6 +73,16 @@ class User extends Database
     }
 
     /**
+     * Confirm URL token
+     */
+    public function checkURLToken(String $urlToken)
+    {
+        $confirmUserTokenSQL = "SELECT * FROM `users` WHERE token = '$urlToken'";
+
+        return $this->selectSQLStatement($confirmUserTokenSQL, $this->DBConnection);
+    }
+
+    /**
      * Update tokens for logging in
      */
     public function updateTokens(String $urlToken, String $code, String $userID)
@@ -80,6 +90,16 @@ class User extends Database
         $updateUserTokenSQL = "UPDATE `users` SET token = '$urlToken', code = '$code' WHERE entry_id = '$userID'";
 
         return $this->updateSQLStatement($updateUserTokenSQL, $this->DBConnection);
+    }
+
+    /**
+     * Change password for user
+     */
+    public function changePassword(String $urlToken, String $newPassword)
+    {
+        $changePasswordSQL = "UPDATE `users` SET password = '$newPassword' WHERE token = '$urlToken'";
+
+        return $this->updateSQLStatement($changePasswordSQL, $this->DBConnection);
     }
 
     /**
