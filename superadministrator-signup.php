@@ -6,6 +6,19 @@ if (!isset($_SESSION)) {
 require_once 'app/vendor/autoload.php';
 
 use app\CSRF;
+
+use app\User;
+
+$User = new User();
+
+$checkSuperAdminResponse = $User->checkSuperAdministrator();
+
+if ($checkSuperAdminResponse['response'] == '200') {
+  header("Location:". $_ENV['APP_URL']);
+  exit();
+}
+
+// if there is a superadministrator go back to index
 ?>
 <!DOCTYPE html>
 <html lang="en">

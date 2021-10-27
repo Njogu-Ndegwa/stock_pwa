@@ -48,6 +48,17 @@ use app\CSRF;
         ?>
 
         <?php
+            if (isset($_SESSION['success'])) {
+        ?>
+            <div class="success-message">
+                <?php echo $_SESSION['success']; ?>
+            </div>
+        <?php
+            unset($_SESSION['success']);
+            }
+        ?>
+
+        <?php
             echo CSRF::createToken();
         ?>
       <h1>Login to your account</h1>
