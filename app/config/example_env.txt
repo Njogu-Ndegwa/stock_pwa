@@ -1,0 +1,19 @@
+#this is the root url to be used through out the file
+
+APP_URL = "http://localhost/shopeenlogin"
+
+#these are the db credentials for the project
+
+DB_HOSTNAME = ""
+DB_NAME = ""
+DB_USERNAME = ""
+DB_PASSWORD = ""
+
+#CREDENTIALS AND SOME CONSTANTS
+
+#phpmailer credentials
+EMAIL_USERNAME = ""
+EMAIL_PASSWORD = ""
+EMAIL_HOST = ""
+SMTP_SECURE_OPTION = ""
+EMAIL_PORT = ""
