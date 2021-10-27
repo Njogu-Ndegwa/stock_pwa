@@ -1,0 +1,19 @@
+{
+    "name": "xlvisben/Stock PWA",
+    "description": "A custom software for managing stock in a company",
+    "authors": [
+        {
+            "name": "Elvis Ben",
+            "email": "elvisben8@gmail.com"
+        }
+    ],
+    "autoload": {
+      "psr-4":{
+        "app\\": "./modules"
+      }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.3",
+        "phpmailer/phpmailer": "^6.3"
+    }
+}
