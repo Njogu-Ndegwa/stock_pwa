@@ -29,7 +29,7 @@ class Mail
             $mail->Port       = $senderOptions['email_port'];
 
             //Recipients
-            $mail->setFrom($senderOptions['email_username'], 'ShopeenBest');
+            $mail->setFrom($senderOptions['email_username'], 'Henfrey');
             $mail->addAddress($recipient, $name);
 
             //Content
