@@ -1,12 +1,13 @@
 <?php
 if (!isset($_SESSION)) {
-    session_start();
+  session_start();
 }
 
-require_once 'app/vendor/autoload.php';
+require_once '../app/vendor/autoload.php';
 
-// check for the existence of a super user when accessing the page directory
 use app\SuperUser;
+
+use app\CSRF;
 
 $SuperUser = new SuperUser();
 
@@ -16,10 +17,6 @@ if ($checkSuperUserResponse['response'] == '204') {
   header("Location: ". $_ENV['APP_URL'] .'/superuser/signup');
   exit();
 }
-
-
-use app\CSRF;
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,14 +26,14 @@ use app\CSRF;
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="<?php echo $_ENV['APP_URL']; ?>/assets/css/style.min.css">
   <link rel="stylesheet" href="<?php echo $_ENV['APP_URL']; ?>/assets/css/messages.min.css">
-  <title>Login Page</title>
+  <title>Super User - Login Page</title>
 </head>
 <body>
   <div class="form-container">
     <div class="image-section">
       <img src="<?php echo $_ENV['APP_URL']; ?>/assets/images/bg.jpg" alt="Image">
     </div>
-    <form onsubmit="validateLoginForm(event)" action="<?php echo $_ENV['APP_URL']; ?>app/formhandlers/loginUser" method="POST">
+    <form onsubmit="validateLoginForm(event)" action="<?php echo $_ENV['APP_URL']; ?>/app/formhandlers/loginSuperUser" method="POST">
         <?php
             if (isset($_SESSION['error'])) {
         ?>
@@ -87,6 +84,6 @@ use app\CSRF;
 
     </form>
   </div>
-  <script src="<?php echo $_ENV['APP_URL']; ?>assets/js/app.js"></script>
+  <script src="<?php echo $_ENV['APP_URL']; ?>/assets/js/app.min.js"></script>
 </body>
 </html>

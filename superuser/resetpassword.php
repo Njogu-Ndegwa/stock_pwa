@@ -2,7 +2,7 @@
 if (!isset($_GET['token']) || empty($_GET['token'])) {
   header("HTTP/1.1 403 Forbidden");
 
-  $forbiddenPage = file_get_contents('./403.php');
+  $forbiddenPage = file_get_contents('../403.php');
 
   exit($forbiddenPage);
 }
@@ -10,9 +10,31 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-require_once 'app/vendor/autoload.php';
+if (!empty($_SESSION['auth_token']) || !empty($_SESSION['auth_uid']) || !empty($_SESSION['auth_uname'])) {
+  header("Location: dashboard");
+
+  exit();
+}
+
+require_once '../app/vendor/autoload.php';
 
 use app\CSRF;
+
+use app\SuperUser;
+
+$SuperUser = new SuperUser();
+
+$token = $SuperUser->sanitiseInput($_GET['token']);
+
+$checkUserToken = $SuperUser->checkResetToken($token);
+
+if ($checkUserToken['response'] != '200') {
+  header("HTTP/1.1 403 Forbidden");
+
+  $forbiddenPage = file_get_contents('../403.php');
+
+  exit($forbiddenPage);
+}
 
 ?>
 <!DOCTYPE html>
@@ -21,16 +43,16 @@ use app\CSRF;
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="../assets/css/style.min.css">
-  <link rel="stylesheet" href="../assets/css/messages.min.css">
+  <link rel="stylesheet" href="<?php echo $_ENV['APP_URL']; ?>/assets/css/style.min.css">
+  <link rel="stylesheet" href="<?php echo $_ENV['APP_URL']; ?>/assets/css/messages.min.css">
   <title>Enter Token</title>
 </head>
 <body>
   <div class="form-container">
     <div class="image-section">
-      <img src="../assets/images/bg.jpg" alt="Image">
+      <img src="<?php echo $_ENV['APP_URL']; ?>/assets/images/bg.jpg" alt="Image">
     </div>
-    <form class="" action="../app/formhandlers/tokenConfirm" method="post">
+    <form class="" action="<?php echo $_ENV['APP_URL']; ?>/app/formhandlers/resetPasswordSuperUser" method="post">
       <?php
           if (isset($_SESSION['error'])) {
       ?>
@@ -57,9 +79,13 @@ use app\CSRF;
           echo CSRF::createToken();
       ?>
       <input type="hidden" name="url_token" value="<?php echo $_GET['token'] ?>">
-      <h1>Enter the code sent in your email</h1>
+      <h1>Password Reset</h1>
+      <small>
+        Email: <?php echo $checkUserToken['data'][0]['email'] ?><br>
+        Fill in new password below
+      </small>
       <div class="input-wrapper">
-        <input type="text" name="code" placeholder="Enter code*" value="">
+        <input type="password" name="new_password" placeholder="Enter new password*" value="">
       </div>
 
       <div class="input-wrapper">

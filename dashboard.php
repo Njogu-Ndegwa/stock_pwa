@@ -8,7 +8,7 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
 
   $forbiddenPage = file_get_contents('./403.php');
 
-  exit($forbiddenPage);
+  // exit($forbiddenPage);
 }
 ?>
 <!DOCTYPE html>
@@ -78,7 +78,7 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
           <a href="logout">
             <img src="assets/images/sign-out-alt-solid.svg" alt="sign-out-alt-solid Font Awesome icon">
           </a>
-          
+
           <img src="assets/images/bell-solid.svg" alt="bell-solid Font Awesome icon">
         </div>
 

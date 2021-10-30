@@ -8,9 +8,7 @@ namespace app;
 class User extends Database
 {
     private $DBConnection;
-    /**
-     * Class constructor.
-     */
+    
     public function __construct()
     {
         $connectionAttempt = $this->dbConnect();
@@ -21,7 +19,6 @@ class User extends Database
             throw new \Exception("Error experienced connecting the User module to the database", 1);
             exit();
         }
-
     }
 
     /**

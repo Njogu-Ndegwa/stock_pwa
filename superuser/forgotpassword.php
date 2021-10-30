@@ -1,19 +1,17 @@
 <?php
-if (!isset($_GET['token']) || empty($_GET['token'])) {
-  header("HTTP/1.1 403 Forbidden");
-
-  $forbiddenPage = file_get_contents('./403.php');
-
-  exit($forbiddenPage);
-}
 if (!isset($_SESSION)) {
     session_start();
 }
 
-require_once 'app/vendor/autoload.php';
+if (!empty($_SESSION['auth_token']) || !empty($_SESSION['auth_uid']) || !empty($_SESSION['auth_uname'])) {
+  header("Location: dashboard");
+
+  exit();
+}
+
+require_once '../app/vendor/autoload.php';
 
 use app\CSRF;
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,14 +21,14 @@ use app\CSRF;
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../assets/css/style.min.css">
   <link rel="stylesheet" href="../assets/css/messages.min.css">
-  <title>Enter Token</title>
+  <title>Forgot Password Page</title>
 </head>
 <body>
   <div class="form-container">
     <div class="image-section">
       <img src="../assets/images/bg.jpg" alt="Image">
     </div>
-    <form class="" action="../app/formhandlers/tokenConfirm" method="post">
+    <form class="" action="../app/formhandlers/forgotPasswordSuperUser" method="post">
       <?php
           if (isset($_SESSION['error'])) {
       ?>
@@ -56,10 +54,9 @@ use app\CSRF;
       <?php
           echo CSRF::createToken();
       ?>
-      <input type="hidden" name="url_token" value="<?php echo $_GET['token'] ?>">
-      <h1>Enter the code sent in your email</h1>
+      <h1>Forgot password</h1>
       <div class="input-wrapper">
-        <input type="text" name="code" placeholder="Enter code*" value="">
+        <input type="text" name="username" required placeholder="Enter username or email of associated account *" value="">
       </div>
 
       <div class="input-wrapper">
