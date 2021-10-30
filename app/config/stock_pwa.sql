@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 27, 2021 at 05:03 PM
+-- Generation Time: Oct 30, 2021 at 12:44 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `stock_pwa`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `super_users`
+--
+
+CREATE TABLE `super_users` (
+  `entry_id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `code` int(11) NOT NULL,
+  `token_validity` tinyint(1) NOT NULL DEFAULT 0,
+  `reset_token` varchar(255) NOT NULL DEFAULT '0',
+  `reset_validity` tinyint(1) NOT NULL DEFAULT 0,
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -44,6 +63,14 @@ CREATE TABLE `users` (
 --
 
 --
+-- Indexes for table `super_users`
+--
+ALTER TABLE `super_users`
+  ADD PRIMARY KEY (`entry_id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -54,6 +81,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `super_users`
+--
+ALTER TABLE `super_users`
+  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
