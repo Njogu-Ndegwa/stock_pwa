@@ -131,6 +131,33 @@ abstract class Database extends Utility
     }
 
     /**
+    * Delete data in the database
+    */
+    protected function deleteSQLStatement(String $SQLQueryString, \mysqli $DBConnection): array
+    {
+        if ($this->getSQLQueryType($SQLQueryString) != "DELETE") {
+            throw new \Exception("Expecting 'DELETE' SQL statement, got '". $this->getSQLQueryType($SQLQueryString) . "' SQL statement", 1);
+        }
+        // attempt the query
+        $queryResult = mysqli_query($DBConnection, $SQLQueryString);
+
+        if ($queryResult) {
+
+    // add array to return
+            $responseArray['response'] = '200';
+            $responseArray['message'] = 'Success';
+            $responseArray['data'] = "The record was deleted";
+        } else {
+            $responseArray['response'] = '500';
+            $responseArray['message'] = mysqli_error($DBConnection);
+            $responseArray['data'] = null;
+            Logger::logToFile('Error', $responseArray['message']." SQL Statement: ". $SQLQueryString );
+        }
+
+        return $responseArray;
+    }
+
+    /**
      *Pass an SQL statement to get the query type
     */
     private function getSQLQueryType(String $SQLQueryString): String

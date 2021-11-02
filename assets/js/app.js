@@ -91,6 +91,9 @@ function validateSuperAdminForm(event) {
     }
 }
 
+/**
+ * Validate that an input is of email format
+ */
 function validateEmail(inputText)
 {
     const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -99,4 +102,44 @@ function validateEmail(inputText)
     }else{
        return false;
     }
+}
+
+document.querySelector('#keyInput').value = getRandomString(15);
+
+/**
+ * Generate a random string
+ */
+function getRandomString(length) {
+    var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    for ( var i = 0; i < length; i++ ) {
+        result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+    }
+
+    return result;
+}
+
+/**
+ * Open a modal
+ */
+function openModal(modalID) {
+  const modal = document.querySelector(modalID);
+  modal.style.height = '100vh';
+  modal.style.overflow = 'scroll';
+}
+
+/**
+ * Close a modal
+ */
+function closeModal(modalID) {
+  const modal = document.querySelector(modalID);
+  modal.style.height = '0vh';
+  modal.style.overflow = 'hidden';
+}
+
+/**
+ * Close an alert box
+ */
+function closeAlert(alertElement) {
+  alertElement.parentElement.style.display = 'none';
 }

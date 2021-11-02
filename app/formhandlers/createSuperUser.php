@@ -19,8 +19,6 @@ if (!empty($_POST['email']) && !empty($_POST['username']) && !empty($_POST['pass
     }
     $SuperUser = new SuperUser();
 
-    $postedArray = array();
-
     $email = $SuperUser->sanitiseInput($_POST['email']);
 
     $username = $SuperUser->sanitiseInput($_POST['username']);

@@ -1,0 +1,1 @@
+.alert{position:absolute;z-index:1;top:10px;right:20px;padding:10px;border-radius:5px;display:flex;align-items:center;font-weight:bold;color:white;animation:fadeOut 10s ease forwards}.alert span:nth-child(2){font-size:1.8rem}.alert:hover{opacity:1}.success{background:rgba(0,204,0,0.73)}.error{background:rgba(204,0,0,0.73)}@keyframes fadeOut{0%{opacity:1}100%{opacity:0}}

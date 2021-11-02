@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace app;
 
 /**
- * The SuperUser module, 
+ * The SuperUser module,
  * a means through which Super User data is manipulated
  */
 class SuperUser extends Database
@@ -20,9 +20,9 @@ class SuperUser extends Database
             Logger::logToFile('Error', $connectionAttempt['message']);
 
             throw new \Exception("Error experienced connecting the User module to the database", 1);
-            
+
             exit();
-        } 
+        }
     }
 
     /**
@@ -131,6 +131,26 @@ class SuperUser extends Database
         $changePasswordSQL = "UPDATE `super_users` SET password = '$newPassword', reset_validity = 0 WHERE reset_token = '$urlToken'";
 
         return $this->updateSQLStatement($changePasswordSQL, $this->DBConnection);
+    }
+
+    /**
+     * Create a company for use
+     */
+    public function createCompany(String $companyEmail, String $companyName, String $activationKey, String $subscriptionUUID, String $subscriptionExpiry, int $trial, String $loginToken)
+    {
+        $createCompanySQL = "INSERT INTO `companies` (email, company_name, activation_key, subscription_uuid, subscription_expiry, trial, login_token) VALUES ('$companyEmail', '$companyName', '$activationKey', '$subscriptionUUID', '$subscriptionExpiry', $trial, '$loginToken')";
+
+        return $this->insertSQLStatement($createCompanySQL, $this->DBConnection);
+    }
+
+    /**
+     * Delete a company
+     */
+    public function deleteCompany(String $companyID)
+    {
+        $createCompanySQL = "DELETE FROM `companies` WHERE entry_id = '$companyID'";
+
+        return $this->deleteSQLStatement($createCompanySQL, $this->DBConnection);
     }
 
 }
