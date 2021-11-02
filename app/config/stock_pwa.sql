@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 02, 2021 at 12:52 PM
+-- Generation Time: Nov 02, 2021 at 05:31 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `stock_pwa`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `entry_id` int(11) NOT NULL,
+  `category_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -41,6 +52,29 @@ CREATE TABLE `companies` (
   `code` int(11) NOT NULL DEFAULT 0,
   `token_valid` tinyint(1) NOT NULL DEFAULT 1,
   `date_created` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `locations`
+--
+
+CREATE TABLE `locations` (
+  `entry_id` int(11) NOT NULL,
+  `location_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subcategories`
+--
+
+CREATE TABLE `subcategories` (
+  `entry_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `subcategory_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -80,9 +114,38 @@ CREATE TABLE `users` (
   `privileges` mediumtext NOT NULL DEFAULT 'N/A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendors`
+--
+
+CREATE TABLE `vendors` (
+  `entry_id` int(11) NOT NULL,
+  `vendor_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `warehouses`
+--
+
+CREATE TABLE `warehouses` (
+  `entry_id` int(11) NOT NULL,
+  `warehouse_name` varchar(255) NOT NULL,
+  `location_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`entry_id`);
 
 --
 -- Indexes for table `companies`
@@ -90,6 +153,18 @@ CREATE TABLE `users` (
 ALTER TABLE `companies`
   ADD PRIMARY KEY (`entry_id`),
   ADD UNIQUE KEY `activation_key` (`activation_key`);
+
+--
+-- Indexes for table `locations`
+--
+ALTER TABLE `locations`
+  ADD PRIMARY KEY (`entry_id`);
+
+--
+-- Indexes for table `subcategories`
+--
+ALTER TABLE `subcategories`
+  ADD PRIMARY KEY (`entry_id`);
 
 --
 -- Indexes for table `super_users`
@@ -108,13 +183,43 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `vendors`
+--
+ALTER TABLE `vendors`
+  ADD PRIMARY KEY (`entry_id`);
+
+--
+-- Indexes for table `warehouses`
+--
+ALTER TABLE `warehouses`
+  ADD PRIMARY KEY (`entry_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
+  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `locations`
+--
+ALTER TABLE `locations`
+  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `subcategories`
+--
+ALTER TABLE `subcategories`
   MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -128,6 +233,18 @@ ALTER TABLE `super_users`
 --
 ALTER TABLE `users`
   MODIFY `entry_id` int(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `vendors`
+--
+ALTER TABLE `vendors`
+  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `warehouses`
+--
+ALTER TABLE `warehouses`
+  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
