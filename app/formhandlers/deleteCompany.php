@@ -4,8 +4,6 @@ require_once '../vendor/autoload.php';
 
 require_once 'postMiddleware.php';
 
-require_once '../mailtemplates/companyEmailTemplates.php';
-
 use app\SuperUser;
 
 if (!empty($_POST['company_id'])) {
@@ -22,7 +20,7 @@ if (!empty($_POST['company_id'])) {
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }else {
-    $_SESSION['error'] = "Failed to create company. Error has been logged";
+    $_SESSION['error'] = "Failed to delete company. Error has been logged";
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }

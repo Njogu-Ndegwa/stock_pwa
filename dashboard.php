@@ -30,35 +30,57 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
       </div>
 
       <div class="navigation-items-container">
-        <a href="dashboard.html" class="navigation-item active">
+        <a href="dashboard" class="navigation-item active">
           <img src="assets/images/home-solid.svg" alt="home-solid Font Awesome icon">
           Dashboard
         </a>
 
-        <a href="powder-coating.html" class="navigation-item">
+        <h3>Projects</h3>
+
+        <a href="#" class="navigation-item">
           <img src="assets/images/industry-solid.svg" alt="industry-solid Font Awesome icon">
           Powder Coating
         </a>
 
         <h3>Office</h3>
-        <a href="requisition.html" class="navigation-item">
-          <img src="assets/images/file-pdf-regular.svg" alt="file-pdf-regular Font Awesome icon">
-          Requisition
+        <a href="locations" class="navigation-item">
+          <img src="assets/images/map-marker-alt-solid.svg" alt="map-marker-alt-solid Font Awesome icon">
+          Locations
         </a>
 
-        <a href="inventory.html" class="navigation-item">
-          <img src="assets/images/file-pdf-regular.svg" alt="file-pdf-regular Font Awesome icon">
-          Inventory
+        <a href="warehouses" class="navigation-item">
+          <img src="assets/images/store-alt-solid.svg" alt="store-alt-solid Font Awesome icon">
+          Warehouses
         </a>
 
-        <a href="reports.html" class="navigation-item">
-          <img src="assets/images/file-pdf-regular.svg" alt="file-pdf-regular Font Awesome icon">
-          Reports
+        <a href="categories" class="navigation-item">
+          <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
+          Categories
+        </a>
+
+        <a href="subcategories" class="navigation-item">
+          <img src="assets/images/chess-pawn-solid.svg" alt="chess-pawn-solid Font Awesome icon">
+          Subcategories
         </a>
 
         <a href="users.html" class="navigation-item">
-          <img src="assets/images/users-solid.svg" alt="user-solid Font Awesome icon">
-          Users
+          <img src="assets/images/people-carry-solid.svg" alt="people-carry-solid Font Awesome icon">
+          Vendor/Supplier
+        </a>
+
+        <a href="users.html" class="navigation-item">
+          <img src="assets/images/user-friends-solid.svg" alt="user-friends-solid Font Awesome icon">
+          Customers
+        </a>
+
+        <a href="users.html" class="navigation-item">
+          <img src="assets/images/money-check-alt-solid.svg" alt="money-check-alt-solid Font Awesome icon">
+          Sales
+        </a>
+
+        <a href="users.html" class="navigation-item">
+          <img src="assets/images/cog-solid.svg" alt="cog-solid Font Awesome icon">
+          Setting
         </a>
 
       </div>
