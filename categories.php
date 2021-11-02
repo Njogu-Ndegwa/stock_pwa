@@ -10,6 +10,15 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
 
   // exit($forbiddenPage);
 }
+require_once 'app/vendor/autoload.php';
+
+use app\CSRF;
+
+use app\Category;
+
+$Category = new Category();
+
+$getCategoriesResponse = $Category->getCategories();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,9 +27,35 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="assets/css/dashboard.min.css">
+  <link rel="stylesheet" href="assets/css/casual.min.css">
+  <link rel="stylesheet" href="assets/css/table.min.css">
+  <link rel="stylesheet" href="assets/css/alert.min.css">
   <title>Dashboard</title>
 </head>
 <body>
+  <?php
+    if (isset($_SESSION['error'])) {
+  ?>
+  <div class="alert error">
+    <span><?php echo $_SESSION['error'] ?></span>
+    <span onclick="closeAlert(this)">&times;</span>
+  </div>
+  <?php
+    unset($_SESSION['error']);
+    }
+  ?>
+
+  <?php
+    if (isset($_SESSION['success'])) {
+  ?>
+  <div class="alert success">
+    <span><?php echo $_SESSION['success'] ?></span>
+    <span onclick="closeAlert(this)">&times;</span>
+  </div>
+  <?php
+    unset($_SESSION['success']);
+    }
+  ?>
   <div class="main">
 
     <div class="navigation-bar glassmorphic">
@@ -85,7 +120,7 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
 
       <div class="top-bar">
         <div class="breadcrumb">
-          Home / Locations
+          Home / Categories
         </div>
 
         <div class="options">
@@ -101,78 +136,129 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
 
       </div>
 
+        <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newCategory')">ADD A CATEGORY</button>
 
+        <div class="modal" id="newCategory">
+
+          <div class="modal-dialog">
+              <div class="modal-head">
+                <h2>Add a Warehouse</h2>
+              </div>
+              <div class="modal-body">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/addCategory" method="post">
+                  <?php
+                      echo CSRF::createToken();
+                  ?>
+
+                  <label for="location_name">Category Name</label>
+                  <input type="text" required name="category_name" placeholder="Category name">
+
+                  <input type="submit" name="submit" value="Add Category">
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="close-modal-btn" onclick="closeModal('#newCategory')" name="button">Close &times;</button>
+              </div>
+          </div>
+
+        </div>
+
+        <?php
+          foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
+        ?>
+          <div class="modal" id="editCategory<?php echo $singleCategoryInfo['entry_id']; ?>">
+
+            <div class="modal-dialog">
+                <div class="modal-head">
+                  <h2>Edit Category: <?php echo $singleCategoryInfo['category_name'] ?></h2>
+                </div>
+                <div class="modal-body">
+                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/editCategory" method="post">
+                    <?php
+                        echo CSRF::createToken();
+                    ?>
+                    <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['entry_id'] ?>">
+
+                    <label for="location_name">Category Name</label>
+                    <input type="text" required name="category_name" placeholder="Location name" value="<?php echo $singleCategoryInfo['category_name'] ?>">
+
+
+                    <input type="submit" name="submit" value="Submit Edits Category">
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#editCategory<?php echo $singleCategoryInfo['entry_id']; ?>')" name="button">Close &times;</button>
+                </div>
+            </div>
+
+          </div>
+          <div class="modal" id="deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>">
+
+            <div class="modal-dialog">
+                <div class="modal-head">
+                  <h2>Delete location: <?php echo $singleCategoryInfo['category_name'] ?></h2>
+                </div>
+                <div class="modal-body">
+                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/deleteCategory" method="post">
+                    <?php
+                        echo CSRF::createToken();
+                    ?>
+                    <p>Are you sure you want to delete this category?</p>
+                    <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['entry_id'] ?>">
+
+                    <input type="submit" name="submit" value="Yes I am">
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>')" name="button">No &times;</button>
+                </div>
+            </div>
+
+          </div>
+        <?php
+          }
+        ?>
 
       <table class="table-data glassmorphic">
         <thead>
-          <th colspan="8">
-            <h2>Companies Present</h2>
+          <th colspan="4">
+            <h2>Categories Present</h2>
           </th>
         </thead>
         <thead>
-          <th>Company Name</th>
-          <th>Company Email</th>
-          <th>Subscription Expiry</th>
-          <th>Activation Key</th>
-          <th>Key Validity</th>
-          <th>Date of creation</th>
+          <th>Category ID</th>
+          <th>Category Name</th>
           <th>Actions</th>
         </thead>
         <tbody>
           <?php
-            if ($companiesPresentResponse['response'] == '500') {
+            if ($getCategoriesResponse['response'] == '500') {
           ?>
             <tr>
-              <td colspan="8">
+              <td colspan="4">
                 <h3>There has been an error retrieving the records. It had been recorded</h3>
               </td>
             </tr>
           <?php
-          }else if($companiesPresentResponse['response'] == '204') {
+          }else if($getCategoriesResponse['response'] == '204') {
           ?>
             <tr>
-              <td colspan="8">
-                <h3>No companies present in the system</h3>
+              <td colspan="4">
+                <h3>No categories present in the system</h3>
               </td>
             </tr>
           <?php
           }else {
-            foreach ($companiesPresentResponse['data'] as $singleCompanyInfo) {
+            foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
             ?>
             <tr>
-              <td><?php echo $singleCompanyInfo['company_name'] ?></td>
-              <td><?php echo $singleCompanyInfo['email'] ?></td>
-              <td><?php echo date('Y-m-d h:i:sa',$singleCompanyInfo['subscription_expiry']) ?></td>
-              <td class="sensitive"><?php echo $singleCompanyInfo['activation_key'] ?></td>
-              <td><?php echo $keyValidity = ($singleCompanyInfo['key_validity']) ? "Valid" : "Invalid" ; ?></td>
-              <td><?php echo $singleCompanyInfo['date_created'] ?></td>
+              <td><?php echo $singleCategoryInfo['entry_id'] ?></td>
+              <td><?php echo $singleCategoryInfo['category_name'] ?></td>
               <td>
-                <button class="action-delete-btn" onclick="openModal('#deleteCompany<?php echo $singleCompanyInfo['entry_id']; ?>')">Delete</button>
+                <button class="action-edit-btn" onclick="openModal('#editCategory<?php echo $singleCategoryInfo['entry_id']; ?>')">Edit</button>
+                <button class="action-delete-btn" onclick="openModal('#deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>')">Delete</button>
               </td>
             </tr>
-            <div class="modal" id="deleteCompany<?php echo $singleCompanyInfo['entry_id']; ?>">
-
-              <div class="modal-dialog">
-                  <div class="modal-head">
-                    <h2>Delete company: <?php echo $singleCompanyInfo['company_name'] ?></h2>
-                  </div>
-                  <div class="modal-body">
-                    <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/deleteCompany" method="post">
-                      <?php
-                          echo CSRF::createToken();
-                      ?>
-                      <p>Are you sure you want to delete this company?</p>
-                      <input type="hidden" name="company_id" value="<?php echo $singleCompanyInfo['entry_id'] ?>">
-
-                      <input type="submit" name="submit" value="Yes I am">
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="close-modal-btn" onclick="closeModal('#deleteCompany<?php echo $singleCompanyInfo['entry_id']; ?>')" name="button">No &times;</button>
-                  </div>
-              </div>
-
-            </div>
             <?php
             }
           }
@@ -183,5 +269,6 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
     </div>
 
   </div>
+  <script src="assets/js/app.min.js" charset="utf-8"></script>
 </body>
 </html>
