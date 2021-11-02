@@ -64,6 +64,16 @@ class SuperUser extends Database
     }
 
     /**
+     * Check for token validity
+     */
+    public function checkCompanyTokenValidity(String $token): array
+    {
+        $checkCompanyTokenValiditySQL = "SELECT * FROM `companies` WHERE login_token = '$token' AND token_validity = 1";
+
+        return $this->selectSQLStatement($checkCompanyTokenValiditySQL, $this->DBConnection);
+    }
+
+    /**
      * Confirm tokens in logging in
      */
     public function confirmTokens(String $urlToken, String $code): array
@@ -138,7 +148,7 @@ class SuperUser extends Database
      */
     public function createCompany(String $companyEmail, String $companyName, String $activationKey, String $subscriptionUUID, String $subscriptionExpiry, int $trial, String $loginToken)
     {
-        $createCompanySQL = "INSERT INTO `companies` (email, company_name, activation_key, subscription_uuid, subscription_expiry, trial, login_token) VALUES ('$companyEmail', '$companyName', '$activationKey', '$subscriptionUUID', '$subscriptionExpiry', $trial, '$loginToken')";
+        $createCompanySQL = "INSERT INTO `companies` (email, company_name, activation_key, subscription_uuid, subscription_expiry, trial, login_token, key_validity) VALUES ('$companyEmail', '$companyName', '$activationKey', '$subscriptionUUID', '$subscriptionExpiry', $trial, '$loginToken', 1)";
 
         return $this->insertSQLStatement($createCompanySQL, $this->DBConnection);
     }

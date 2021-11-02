@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 30, 2021 at 12:44 PM
+-- Generation Time: Nov 02, 2021 at 12:52 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `stock_pwa`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `companies`
+--
+
+CREATE TABLE `companies` (
+  `entry_id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `company_name` varchar(255) NOT NULL,
+  `activation_key` varchar(255) NOT NULL,
+  `key_validity` tinyint(1) NOT NULL DEFAULT 1,
+  `trial` tinyint(1) NOT NULL DEFAULT 0,
+  `subscription_uuid` varchar(255) NOT NULL,
+  `subscription_expiry` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL DEFAULT '00',
+  `login_token` varchar(255) NOT NULL,
+  `code` int(11) NOT NULL DEFAULT 0,
+  `token_valid` tinyint(1) NOT NULL DEFAULT 1,
+  `date_created` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -63,6 +85,13 @@ CREATE TABLE `users` (
 --
 
 --
+-- Indexes for table `companies`
+--
+ALTER TABLE `companies`
+  ADD PRIMARY KEY (`entry_id`),
+  ADD UNIQUE KEY `activation_key` (`activation_key`);
+
+--
 -- Indexes for table `super_users`
 --
 ALTER TABLE `super_users`
@@ -81,6 +110,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `companies`
+--
+ALTER TABLE `companies`
+  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `super_users`

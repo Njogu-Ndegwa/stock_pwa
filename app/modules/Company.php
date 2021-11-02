@@ -36,8 +36,28 @@ class Company extends Database
      */
     public function getCompanies()
     {
-        $getCompaniesSQL = "SELECT * FROM companies";
+        $getCompaniesSQL = "SELECT * FROM `companies`";
 
         return $this->selectSQLStatement($getCompaniesSQL, $this->DBConnection);
+    }
+
+    /**
+     * Get all the companies present
+     */
+    public function confirmTokens(String $urlToken, String $activationKey)
+    {
+        $confirmCompanyTokensSQL = "SELECT * FROM `companies` WHERE login_token = '$urlToken' AND activation_key = '$activationKey' AND key_validity = 1";
+
+        return $this->selectSQLStatement($confirmCompanyTokensSQL, $this->DBConnection);
+    }
+
+    /**
+     * Get all the companies present
+     */
+    public function invalidateKey(String $activationKey)
+    {
+        $invalidateKeySQL = "UPDATE `companies` SET key_validity = 0 WHERE activation_key = '$activationKey'";
+
+        return $this->updateSQLStatement($invalidateKeySQL, $this->DBConnection);
     }
 }

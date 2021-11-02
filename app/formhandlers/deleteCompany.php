@@ -18,7 +18,6 @@ if (!empty($_POST['company_id'])) {
 
   if ($deleteCompanyResponse['response'] == '200') {
 
-    // TODO: Send email functionality
     $_SESSION['success'] = "Company has been deleted";
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();

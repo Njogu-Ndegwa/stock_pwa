@@ -9,6 +9,7 @@ RewriteRule ^logintoken/([a-zA-Z0-9\s_-]+)$ logintoken.php?token=$1 [L]
 RewriteRule ^superuser/logintoken/([a-zA-Z0-9\s_-]+)$ superuser/logintoken.php?token=$1 [L]
 RewriteRule ^resetpassword/([a-zA-Z0-9\s_-]+)$ resetpassword.php?token=$1 [L]
 RewriteRule ^superuser/resetpassword/([a-zA-Z0-9\s_-]+)$ superuser/resetpassword.php?token=$1 [L]
+RewriteRule ^company/activation/([a-zA-Z0-9\s_-]+)$ company/activation.php?token=$1 [L]
 
 # The below is used to remove the extensions in files i.e .html & .php
 RewriteCond %{REQUEST_FILENAME} !-d

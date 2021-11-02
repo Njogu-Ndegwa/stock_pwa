@@ -8,7 +8,7 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
 
   $forbiddenPage = file_get_contents('../403.php');
 
-  // exit($forbiddenPage);
+  exit($forbiddenPage);
 }
 
 require_once '../app/vendor/autoload.php';
