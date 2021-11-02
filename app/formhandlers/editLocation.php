@@ -20,12 +20,12 @@ if (!empty($_POST['location_name']) && !empty($_POST['location_id'])) {
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }else {
-    $_SESSION['success'] = "Failed to edit new location";
+    $_SESSION['success'] = "Failed to edit the location";
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }
 }else {
-  $_SESSION['error'] = "Required input to add a location are missing";
+  $_SESSION['error'] = "Required input to edit location are missing";
   header("Location:". $_SERVER['HTTP_REFERER']);
   exit();
 }

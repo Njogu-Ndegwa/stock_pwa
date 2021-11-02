@@ -18,7 +18,7 @@ if (!empty($_POST['location_name'])) {
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }else {
-    $_SESSION['success'] = "Failed to add new location";
+    $_SESSION['error'] = "Failed to add new location";
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }

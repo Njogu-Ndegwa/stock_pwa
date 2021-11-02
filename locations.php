@@ -31,7 +31,7 @@ $getLocationsResponse = $Location->getLocations();
   <link rel="stylesheet" href="assets/css/casual.min.css">
   <link rel="stylesheet" href="assets/css/table.min.css">
   <link rel="stylesheet" href="assets/css/alert.min.css">
-  <title>Dashboard</title>
+  <title>Locations</title>
 </head>
 <body>
   <?php
@@ -113,6 +113,11 @@ $getLocationsResponse = $Location->getLocations();
         <a href="users.html" class="navigation-item">
           <img src="assets/images/money-check-alt-solid.svg" alt="money-check-alt-solid Font Awesome icon">
           Sales
+        </a>
+
+        <a href="settings" class="navigation-item">
+          <img src="assets/images/cog-solid.svg" alt="cog-solid Font Awesome icon">
+          Settings
         </a>
 
       </div>
@@ -206,7 +211,7 @@ $getLocationsResponse = $Location->getLocations();
                   <?php
                       echo CSRF::createToken();
                   ?>
-                  <p>Are you sure you want to delete this company?</p>
+                  <p>Are you sure you want to delete this location?</p>
                   <input type="hidden" name="location_id" value="<?php echo $singleLocationInfo['entry_id'] ?>">
 
                   <input type="submit" name="submit" value="Yes I am">

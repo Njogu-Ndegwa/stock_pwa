@@ -3,8 +3,8 @@
 namespace app;
 
 /**
- * This is the Company module
- * this handles a company's actions and
+ * This is the Location module
+ * this handles a locations's actions and
  * manipulating its data
  */
 class Location extends Database
