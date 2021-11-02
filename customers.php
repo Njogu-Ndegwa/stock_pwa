@@ -10,16 +10,15 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
 
   // exit($forbiddenPage);
 }
-
 require_once 'app/vendor/autoload.php';
 
 use app\CSRF;
 
-use app\Location;
+use app\Category;
 
-$Location = new Location();
+$Category = new Category();
 
-$getLocationsResponse = $Location->getLocations();
+$getCategoriesResponse = $Category->getCategories();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +30,7 @@ $getLocationsResponse = $Location->getLocations();
   <link rel="stylesheet" href="assets/css/casual.min.css">
   <link rel="stylesheet" href="assets/css/table.min.css">
   <link rel="stylesheet" href="assets/css/alert.min.css">
-  <title>Locations</title>
+  <title>Categories</title>
 </head>
 <body>
   <?php
@@ -57,7 +56,6 @@ $getLocationsResponse = $Location->getLocations();
     unset($_SESSION['success']);
     }
   ?>
-
   <div class="main">
 
     <div class="navigation-bar glassmorphic">
@@ -80,7 +78,7 @@ $getLocationsResponse = $Location->getLocations();
         </a>
 
         <h3>Office</h3>
-        <a href="locations" class="navigation-item active">
+        <a href="locations" class="navigation-item">
           <img src="assets/images/map-marker-alt-solid.svg" alt="map-marker-alt-solid Font Awesome icon">
           Locations
         </a>
@@ -105,7 +103,7 @@ $getLocationsResponse = $Location->getLocations();
           Vendor/Supplier
         </a>
 
-        <a href="customers" class="navigation-item">
+        <a href="customers" class="navigation-item active">
           <img src="assets/images/user-friends-solid.svg" alt="user-friends-solid Font Awesome icon">
           Customers
         </a>
@@ -115,11 +113,6 @@ $getLocationsResponse = $Location->getLocations();
           Sales
         </a>
 
-        <a href="settings" class="navigation-item">
-          <img src="assets/images/cog-solid.svg" alt="cog-solid Font Awesome icon">
-          Settings
-        </a>
-
       </div>
     </div>
 
@@ -127,7 +120,7 @@ $getLocationsResponse = $Location->getLocations();
 
       <div class="top-bar">
         <div class="breadcrumb">
-          Home / Locations
+          Home / Categories
         </div>
 
         <div class="options">
@@ -143,105 +136,103 @@ $getLocationsResponse = $Location->getLocations();
 
       </div>
 
-      <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newLocation')">ADD A LOCATION</button>
+        <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newCategory')">ADD A CATEGORY</button>
 
-      <div class="modal" id="newLocation">
-
-        <div class="modal-dialog">
-            <div class="modal-head">
-              <h2>Add a Location</h2>
-            </div>
-            <div class="modal-body">
-              <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/addLocation" method="post">
-                <?php
-                    echo CSRF::createToken();
-                ?>
-
-                <label for="location_name">Location Name</label>
-                <input type="text" required name="location_name" placeholder="Location name">
-
-
-                <input type="submit" name="submit" value="Add Location">
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="close-modal-btn" onclick="closeModal('#newLocation')" name="button">Close &times;</button>
-            </div>
-        </div>
-
-      </div>
-
-      <?php
-        foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
-      ?>
-        <div class="modal" id="editLocation<?php echo $singleLocationInfo['entry_id']; ?>">
+        <div class="modal" id="newCategory">
 
           <div class="modal-dialog">
               <div class="modal-head">
-                <h2>Add a Location</h2>
+                <h2>Add a Category</h2>
               </div>
               <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/editLocation" method="post">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/addCategory" method="post">
                   <?php
                       echo CSRF::createToken();
                   ?>
-                  <input type="hidden" name="location_id" value="<?php echo $singleLocationInfo['entry_id'] ?>">
 
-                  <label for="location_name">Location Name</label>
-                  <input type="text" required name="location_name" placeholder="Location name" value="<?php echo $singleLocationInfo['location_name'] ?>">
+                  <label for="location_name">Category Name</label>
+                  <input type="text" required name="category_name" placeholder="Category name">
 
-
-                  <input type="submit" name="submit" value="Submit Edits Location">
+                  <input type="submit" name="submit" value="Add Category">
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="close-modal-btn" onclick="closeModal('#editLocation<?php echo $singleLocationInfo['entry_id']; ?>')" name="button">Close &times;</button>
+                <button type="button" class="close-modal-btn" onclick="closeModal('#newCategory')" name="button">Close &times;</button>
               </div>
           </div>
 
         </div>
-        <div class="modal" id="deleteLocation<?php echo $singleLocationInfo['entry_id']; ?>">
 
-          <div class="modal-dialog">
-              <div class="modal-head">
-                <h2>Delete location: <?php echo $singleLocationInfo['location_name'] ?></h2>
-              </div>
-              <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/deleteLocation" method="post">
-                  <?php
-                      echo CSRF::createToken();
-                  ?>
-                  <p>Are you sure you want to delete this location?</p>
-                  <input type="hidden" name="location_id" value="<?php echo $singleLocationInfo['entry_id'] ?>">
+        <?php
+          foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
+        ?>
+          <div class="modal" id="editCategory<?php echo $singleCategoryInfo['entry_id']; ?>">
 
-                  <input type="submit" name="submit" value="Yes I am">
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="close-modal-btn" onclick="closeModal('#deleteLocation<?php echo $singleLocationInfo['entry_id']; ?>')" name="button">No &times;</button>
-              </div>
+            <div class="modal-dialog">
+                <div class="modal-head">
+                  <h2>Edit Category: <?php echo $singleCategoryInfo['category_name'] ?></h2>
+                </div>
+                <div class="modal-body">
+                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/editCategory" method="post">
+                    <?php
+                        echo CSRF::createToken();
+                    ?>
+                    <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['entry_id'] ?>">
+
+                    <label for="location_name">Category Name</label>
+                    <input type="text" required name="category_name" placeholder="Location name" value="<?php echo $singleCategoryInfo['category_name'] ?>">
+
+
+                    <input type="submit" name="submit" value="Submit Edits Category">
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#editCategory<?php echo $singleCategoryInfo['entry_id']; ?>')" name="button">Close &times;</button>
+                </div>
+            </div>
+
           </div>
+          <div class="modal" id="deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>">
 
-        </div>
-      <?php
-        }
-      ?>
+            <div class="modal-dialog">
+                <div class="modal-head">
+                  <h2>Delete location: <?php echo $singleCategoryInfo['category_name'] ?></h2>
+                </div>
+                <div class="modal-body">
+                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/deleteCategory" method="post">
+                    <?php
+                        echo CSRF::createToken();
+                    ?>
+                    <p>Are you sure you want to delete this category?</p>
+                    <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['entry_id'] ?>">
 
+                    <input type="submit" name="submit" value="Yes I am">
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>')" name="button">No &times;</button>
+                </div>
+            </div>
+
+          </div>
+        <?php
+          }
+        ?>
 
       <table class="table-data glassmorphic">
         <thead>
           <th colspan="4">
-            <h3>Locations Present</h3>
+            <h2>Categories Present</h2>
           </th>
         </thead>
         <thead>
-          <th>Entry ID</th>
-          <th>Location Name</th>
+          <th>Category ID</th>
+          <th>Category Name</th>
           <th>Actions</th>
         </thead>
         <tbody>
           <?php
-            if ($getLocationsResponse['response'] == '500') {
+            if ($getCategoriesResponse['response'] == '500') {
           ?>
             <tr>
               <td colspan="4">
@@ -249,23 +240,23 @@ $getLocationsResponse = $Location->getLocations();
               </td>
             </tr>
           <?php
-          }else if($getLocationsResponse['response'] == '204') {
+          }else if($getCategoriesResponse['response'] == '204') {
           ?>
             <tr>
               <td colspan="4">
-                <h3>No locations present in the system</h3>
+                <h3>No categories present in the system</h3>
               </td>
             </tr>
           <?php
           }else {
-            foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
+            foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
             ?>
             <tr>
-              <td><?php echo $singleLocationInfo['entry_id'] ?></td>
-              <td><?php echo $singleLocationInfo['location_name'] ?></td>
+              <td><?php echo $singleCategoryInfo['entry_id'] ?></td>
+              <td><?php echo $singleCategoryInfo['category_name'] ?></td>
               <td>
-                <button class="action-edit-btn" onclick="openModal('#editLocation<?php echo $singleLocationInfo['entry_id']; ?>')">Edit</button>
-                <button class="action-delete-btn" onclick="openModal('#deleteLocation<?php echo $singleLocationInfo['entry_id']; ?>')">Delete</button>
+                <button class="action-edit-btn" onclick="openModal('#editCategory<?php echo $singleCategoryInfo['entry_id']; ?>')">Edit</button>
+                <button class="action-delete-btn" onclick="openModal('#deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>')">Delete</button>
               </td>
             </tr>
             <?php
