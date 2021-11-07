@@ -12,16 +12,13 @@
     filter: blur(0px);
   }
 }
+// linear-gradient(to bottom right,  0%, #9136c8 100%)
 td, th {
   border: 1px solid #85858573;
   text-align: center;
   padding: 8px;
 }
 
-tr:nth-child(even) {
-  background-color: #00143e;
-  color: white;
-}
 .action-edit-btn, .action-delete-btn{
   border: none;
   outline: none;

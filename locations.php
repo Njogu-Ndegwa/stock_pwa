@@ -152,7 +152,7 @@ $getLocationsResponse = $Location->getLocations();
               <h2>Add a Location</h2>
             </div>
             <div class="modal-body">
-              <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/addLocation" method="post">
+              <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/location/addLocation" method="post">
                 <?php
                     echo CSRF::createToken();
                 ?>
@@ -160,6 +160,11 @@ $getLocationsResponse = $Location->getLocations();
                 <label for="location_name">Location Name</label>
                 <input type="text" required name="location_name" placeholder="Location name">
 
+                <label for="location_description">Location Description</label>
+                <textarea name="location_description" rows="3" placeholder="Location description"></textarea>
+
+                <label for="location_status">Location Status</label>
+                <input type="text" required name="location_status" placeholder="Location status">
 
                 <input type="submit" name="submit" value="Add Location">
               </form>
@@ -178,10 +183,10 @@ $getLocationsResponse = $Location->getLocations();
 
           <div class="modal-dialog">
               <div class="modal-head">
-                <h2>Add a Location</h2>
+                <h2>Edit Location : <?php echo $singleLocationInfo['location_name']; ?></h2>
               </div>
               <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/editLocation" method="post">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/location/editLocation" method="post">
                   <?php
                       echo CSRF::createToken();
                   ?>
@@ -190,8 +195,14 @@ $getLocationsResponse = $Location->getLocations();
                   <label for="location_name">Location Name</label>
                   <input type="text" required name="location_name" placeholder="Location name" value="<?php echo $singleLocationInfo['location_name'] ?>">
 
+                  <label for="location_description">Location Description</label>
+                  <textarea name="location_description" rows="3" placeholder="Location description"><?php echo $singleLocationInfo['location_description'] ?></textarea>
 
-                  <input type="submit" name="submit" value="Submit Edits Location">
+                  <label for="location_status">Location Status</label>
+                  <input type="text" required name="location_status" placeholder="Location status" value="<?php echo $singleLocationInfo['location_status'] ?>">
+
+
+                  <input type="submit" name="submit" value="Edit Location">
                 </form>
               </div>
               <div class="modal-footer">
@@ -200,6 +211,7 @@ $getLocationsResponse = $Location->getLocations();
           </div>
 
         </div>
+
         <div class="modal" id="deleteLocation<?php echo $singleLocationInfo['entry_id']; ?>">
 
           <div class="modal-dialog">
@@ -207,7 +219,7 @@ $getLocationsResponse = $Location->getLocations();
                 <h2>Delete location: <?php echo $singleLocationInfo['location_name'] ?></h2>
               </div>
               <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/deleteLocation" method="post">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/location/deleteLocation" method="post">
                   <?php
                       echo CSRF::createToken();
                   ?>
@@ -223,6 +235,7 @@ $getLocationsResponse = $Location->getLocations();
           </div>
 
         </div>
+
       <?php
         }
       ?>
@@ -230,13 +243,19 @@ $getLocationsResponse = $Location->getLocations();
 
       <table class="table-data glassmorphic">
         <thead>
-          <th colspan="4">
+          <th colspan="10">
             <h3>Locations Present</h3>
           </th>
         </thead>
         <thead>
           <th>Entry ID</th>
           <th>Location Name</th>
+          <th>Location Description</th>
+          <th>Location Status</th>
+          <th>Created By</th>
+          <th>Created At</th>
+          <th>Updated By</th>
+          <th>Updated At</th>
           <th>Actions</th>
         </thead>
         <tbody>
@@ -244,7 +263,7 @@ $getLocationsResponse = $Location->getLocations();
             if ($getLocationsResponse['response'] == '500') {
           ?>
             <tr>
-              <td colspan="4">
+              <td colspan="9">
                 <h3>There has been an error retrieving the records. It had been recorded</h3>
               </td>
             </tr>
@@ -252,7 +271,7 @@ $getLocationsResponse = $Location->getLocations();
           }else if($getLocationsResponse['response'] == '204') {
           ?>
             <tr>
-              <td colspan="4">
+              <td colspan="9">
                 <h3>No locations present in the system</h3>
               </td>
             </tr>
@@ -263,6 +282,16 @@ $getLocationsResponse = $Location->getLocations();
             <tr>
               <td><?php echo $singleLocationInfo['entry_id'] ?></td>
               <td><?php echo $singleLocationInfo['location_name'] ?></td>
+              <td><?php echo $singleLocationInfo['location_description'] ?></td>
+              <td><?php echo $singleLocationInfo['location_status'] ?></td>
+              <td><?php echo $singleLocationInfo['created_by'] ?></td>
+              <td><?php echo $singleLocationInfo['created_at'] ?></td>
+              <td>
+                <?php echo $retVal = (is_null($singleLocationInfo['updated_by'])) ? "-" : $singleLocationInfo['updated_by'] ; ?>
+              </td>
+              <td>
+                <?php echo $retVal = (empty($singleLocationInfo['updated_at'])) ? "-" : $singleLocationInfo['updated_at'] ; ?>
+              </td>
               <td>
                 <button class="action-edit-btn" onclick="openModal('#editLocation<?php echo $singleLocationInfo['entry_id']; ?>')">Edit</button>
                 <button class="action-delete-btn" onclick="openModal('#deleteLocation<?php echo $singleLocationInfo['entry_id']; ?>')">Delete</button>

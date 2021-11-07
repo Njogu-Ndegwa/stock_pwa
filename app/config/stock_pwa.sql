@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 02, 2021 at 05:31 PM
+-- Generation Time: Nov 07, 2021 at 12:03 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -62,7 +62,13 @@ CREATE TABLE `companies` (
 
 CREATE TABLE `locations` (
   `entry_id` int(11) NOT NULL,
-  `location_name` varchar(255) NOT NULL
+  `location_name` varchar(255) NOT NULL,
+  `location_description` char(255) NOT NULL,
+  `location_status` char(255) NOT NULL,
+  `created_by` char(255) DEFAULT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

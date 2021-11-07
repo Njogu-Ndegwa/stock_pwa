@@ -44,9 +44,9 @@ class Location extends Database
     /**
      * Get all the companies present
      */
-    public function addLocation(String $locationName)
+    public function addLocation(String $locationName, String $locationDescription, String $locationStatus, String $createdBy)
     {
-        $addLocationSQL = "INSERT INTO `locations`(location_name) VALUES ('$locationName')";
+        $addLocationSQL = "INSERT INTO `locations`(location_name, location_description, location_status, created_by) VALUES ('$locationName', '$locationDescription', '$locationName', '$createdBy')";
 
         return $this->insertSQLStatement($addLocationSQL, $this->DBConnection);
     }
@@ -54,9 +54,9 @@ class Location extends Database
     /**
      * Get all the companies present
      */
-    public function editLocation(String $locationID, String $locationName)
+    public function editLocation(String $locationName, String $locationDescription, String $locationStatus, String $locationID, String $userID, String $updateTime)
     {
-        $updateLocationSQL = "UPDATE `locations` SET location_name = '$locationName' WHERE entry_id = '$locationID'";
+        $updateLocationSQL = "UPDATE `locations` SET location_name = '$locationName', location_description = '$locationDescription', location_status = '$locationStatus', updated_by = '$userID', updated_at = '$updateTime' WHERE entry_id = '$locationID'";
 
         return $this->updateSQLStatement($updateLocationSQL, $this->DBConnection);
     }
