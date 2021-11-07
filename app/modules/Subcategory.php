@@ -36,7 +36,7 @@ class Subcategory extends Database
      */
     public function getSubcategories()
     {
-        $getSubcategoriesSQL = "SELECT subcategories.entry_id as entry_id, category_name, subcategory_name FROM `subcategories` INNER JOIN categories ON categories.entry_id = subcategories.category_id";
+        $getSubcategoriesSQL = "SELECT * FROM `subcategories` INNER JOIN categories ON categories.category_id = subcategories.category_id";
 
         return $this->selectSQLStatement($getSubcategoriesSQL, $this->DBConnection);
     }
@@ -44,9 +44,9 @@ class Subcategory extends Database
     /**
      * Get all the companies present
      */
-    public function addSubcategory(String $subcategoryName, String $categoryID)
+    public function addSubcategory(String $subcategoryName, String $subcategoryDescription, String $subcategoryStatus, String $categoryID, String $createdBy)
     {
-        $addSubcategorySQL = "INSERT INTO `subcategories`(subcategory_name, category_id) VALUES ('$subcategoryName', '$categoryID')";
+        $addSubcategorySQL = "INSERT INTO `subcategories`(subcategory_name, subcategory_status, subcategory_description, category_id, created_by) VALUES ('$subcategoryName', '$subcategoryStatus', '$subcategoryDescription' ,'$categoryID', '$createdBy')";
 
         return $this->insertSQLStatement($addSubcategorySQL, $this->DBConnection);
     }
@@ -54,9 +54,9 @@ class Subcategory extends Database
     /**
      * Get all the companies present
      */
-    public function editSubcategory(String $subcategoryID, String $categoryID, String $subcategoryName)
+    public function editSubcategory(String $subcategoryID, String $categoryID, String $subcategoryName, String $subcategoryStatus, String $subcategoryDescription, String $updatedBy, String $updateTime)
     {
-        $updateSubcategorySQL = "UPDATE `subcategories` SET category_id = '$categoryID', subcategory_name='$subcategoryName' WHERE entry_id = '$subcategoryID'";
+        $updateSubcategorySQL = "UPDATE `subcategories` SET category_id = '$categoryID', subcategory_name='$subcategoryName', subcategory_status = '$subcategoryStatus', subcategory_description = '$subcategoryDescription', updated_at = '$updateTime', updated_by = '$updatedBy' WHERE subcategory_id = '$subcategoryID'";
 
         return $this->updateSQLStatement($updateSubcategorySQL, $this->DBConnection);
     }
@@ -66,7 +66,7 @@ class Subcategory extends Database
      */
     public function deleteSubcategory(String $subcategoryID)
     {
-        $deletesubCategorySQL = "DELETE FROM `subcategories` WHERE entry_id = '$subcategoryID'";
+        $deletesubCategorySQL = "DELETE FROM `subcategories` WHERE subcategory_id = '$subcategoryID'";
 
         return $this->deleteSQLStatement($deletesubCategorySQL, $this->DBConnection);
     }

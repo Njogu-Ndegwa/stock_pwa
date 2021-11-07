@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2021 at 01:46 PM
+-- Generation Time: Nov 07, 2021 at 03:38 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -85,9 +85,15 @@ CREATE TABLE `locations` (
 --
 
 CREATE TABLE `subcategories` (
-  `entry_id` int(11) NOT NULL,
+  `subcategory_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `subcategory_name` varchar(255) NOT NULL
+  `subcategory_name` varchar(255) NOT NULL,
+  `subcategory_description` char(255) NOT NULL,
+  `subcategory_status` char(255) NOT NULL,
+  `created_by` char(255) NOT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -184,7 +190,7 @@ ALTER TABLE `locations`
 -- Indexes for table `subcategories`
 --
 ALTER TABLE `subcategories`
-  ADD PRIMARY KEY (`entry_id`);
+  ADD PRIMARY KEY (`subcategory_id`);
 
 --
 -- Indexes for table `super_users`
@@ -240,7 +246,7 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT for table `subcategories`
 --
 ALTER TABLE `subcategories`
-  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `subcategory_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `super_users`

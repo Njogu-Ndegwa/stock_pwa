@@ -151,13 +151,20 @@ $getSubcategoriesResponse = $Subcategory->getSubcategories();
                 <h2>Add a Subcategory</h2>
               </div>
               <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/addSubcategory" method="post">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/subcategory/addSubcategory" method="post">
                   <?php
                       echo CSRF::createToken();
                   ?>
 
                   <label for="subcategory_name">Subcategory Name</label>
                   <input type="text" required name="subcategory_name" placeholder="Subcategory name">
+
+                  <label for="subcategory_description">Subcategory Description</label>
+                  <textarea required name="subcategory_description" placeholder="Subcategory description"></textarea>
+
+                  <label for="subcategory_status">Subcategory Status</label>
+                  <input type="text" required name="subcategory_status" placeholder="Subcategory status">
+
                   <label for="category_id">Select a category to link to</label>
                   <select name="category_id">
                     <?php
@@ -170,7 +177,7 @@ $getSubcategoriesResponse = $Subcategory->getSubcategories();
                       }else {
                         foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
                       ?>
-                          <option value="<?php echo $singleCategoryInfo['entry_id'] ?>">
+                          <option value="<?php echo $singleCategoryInfo['category_id'] ?>">
                             <?php echo $singleCategoryInfo['category_name'] ?>
                           </option>
                       <?php
@@ -192,35 +199,42 @@ $getSubcategoriesResponse = $Subcategory->getSubcategories();
         <?php
           foreach ($getSubcategoriesResponse['data'] as $singleSubcategoryInfo) {
         ?>
-          <div class="modal" id="editSubcategory<?php echo $singleSubcategoryInfo['entry_id']; ?>">
+          <div class="modal" id="editSubcategory<?php echo $singleSubcategoryInfo['subcategory_id']; ?>">
 
             <div class="modal-dialog">
                 <div class="modal-head">
                   <h2>Edit Subcategory: <?php echo $singleSubcategoryInfo['subcategory_name'] ?></h2>
                 </div>
                 <div class="modal-body">
-                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/editSubcategory" method="post">
+                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/subcategory/editSubcategory" method="post">
                     <?php
                         echo CSRF::createToken();
                     ?>
-                    <input type="hidden" name="subcategory_id" value="<?php echo $singleSubcategoryInfo['entry_id'] ?>">
+                    <input type="hidden" name="subcategory_id" value="<?php echo $singleSubcategoryInfo['subcategory_id'] ?>">
 
                     <label for="location_name">Subcategory Name</label>
                     <input type="text" required name="subcategory_name" placeholder="Subcategory name" value="<?php echo $singleSubcategoryInfo['subcategory_name'] ?>">
 
+                    <label for="subcategory_description">Subcategory Description</label>
+                    <textarea required name="subcategory_description" placeholder="Subcategory description"><?php echo $singleSubcategoryInfo['subcategory_description'] ?></textarea>
+
+                    <label for="subcategory_status">Subcategory Status</label>
+                    <input type="text" required name="subcategory_status" placeholder="Subcategory status" value="<?php echo $singleSubcategoryInfo['subcategory_status'] ?>">
+
+                    <label for="category_id">Choose Category</label>
                     <select name="category_id">
                         <?php
                           foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
-                            if ( $singleCategoryInfo['entry_id'] == $singleSubcategoryInfo['entry_id'] ) {
+                            if ( $singleCategoryInfo['category_id'] == $singleSubcategoryInfo['category_id'] ) {
                               ?>
-                                  <option value="<?php echo $singleCategoryInfo['entry_id'] ?>">
+                                  <option selected value="<?php echo $singleCategoryInfo['category_id'] ?>">
                                     <?php echo $singleCategoryInfo['category_name']; ?>(CHOSEN)
                                   </option>
                               <?php
                               } else {
                               ?>
-                                  <option value="<?php echo $singleCategoryInfo['entry_id'] ?>">
-                                    <?php echo $singleCategoryInfo['category_name']; ?>(CHOSEN)
+                                  <option value="<?php echo $singleCategoryInfo['category_id'] ?>">
+                                    <?php echo $singleCategoryInfo['category_name']; ?>
                                   </option>
                               <?php
                             }
@@ -233,30 +247,30 @@ $getSubcategoriesResponse = $Subcategory->getSubcategories();
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="close-modal-btn" onclick="closeModal('#editSubcategory<?php echo $singleCategoryInfo['entry_id']; ?>')" name="button">Close &times;</button>
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#editSubcategory<?php echo $singleSubcategoryInfo['subcategory_id']; ?>')" name="button">Close &times;</button>
                 </div>
             </div>
 
           </div>
-          <div class="modal" id="deleteSubcategory<?php echo $singleSubcategoryInfo['entry_id']; ?>">
+          <div class="modal" id="deleteSubcategory<?php echo $singleSubcategoryInfo['subcategory_id']; ?>">
 
             <div class="modal-dialog">
                 <div class="modal-head">
                   <h2>Delete subcategory: <?php echo $singleSubcategoryInfo['category_name'] ?></h2>
                 </div>
                 <div class="modal-body">
-                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/deleteSubcategory" method="post">
+                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/subcategory/deleteSubcategory" method="post">
                     <?php
                         echo CSRF::createToken();
                     ?>
                     <p>Are you sure you want to delete this category?</p>
-                    <input type="hidden" name="subcategory_id" value="<?php echo $singleSubcategoryInfo['entry_id'] ?>">
+                    <input type="hidden" name="subcategory_id" value="<?php echo $singleSubcategoryInfo['subcategory_id'] ?>">
 
                     <input type="submit" name="submit" value="Yes I am">
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="close-modal-btn" onclick="closeModal('#deleteSubcategory<?php echo $singleSubcategoryInfo['entry_id']; ?>')" name="button">No &times;</button>
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#deleteSubcategory<?php echo $singleSubcategoryInfo['subcategory_id']; ?>')" name="button">No &times;</button>
                 </div>
             </div>
 
@@ -301,8 +315,8 @@ $getSubcategoriesResponse = $Subcategory->getSubcategories();
               <td><?php echo $singleSubcategoryInfo['subcategory_name'] ?></td>
               <td><?php echo $singleSubcategoryInfo['category_name'] ?></td>
               <td>
-                <button class="action-edit-btn" onclick="openModal('#editSubcategory<?php echo $singleSubcategoryInfo['entry_id']; ?>')">Edit</button>
-                <button class="action-delete-btn" onclick="openModal('#deleteSubcategory<?php echo $singleSubcategoryInfo['entry_id']; ?>')">Delete</button>
+                <button class="action-edit-btn" onclick="openModal('#editSubcategory<?php echo $singleSubcategoryInfo['subcategory_id']; ?>')">Edit</button>
+                <button class="action-delete-btn" onclick="openModal('#deleteSubcategory<?php echo $singleSubcategoryInfo['subcategory_id']; ?>')">Delete</button>
               </td>
             </tr>
             <?php
