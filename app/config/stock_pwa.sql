@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2021 at 01:13 PM
+-- Generation Time: Nov 07, 2021 at 01:46 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -28,8 +28,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categories` (
-  `entry_id` int(11) NOT NULL,
-  `category_name` varchar(255) NOT NULL
+  `category_id` int(11) NOT NULL,
+  `category_name` varchar(255) NOT NULL,
+  `category_description` char(255) NOT NULL,
+  `category_status` char(255) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `created_by` char(255) NOT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -138,7 +145,7 @@ CREATE TABLE `vendors` (
 --
 
 CREATE TABLE `warehouses` (
-  `entry_id` int(11) NOT NULL,
+  `warehouse_id` int(11) NOT NULL,
   `warehouse_name` varchar(255) NOT NULL,
   `location_id` int(11) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
@@ -158,7 +165,7 @@ CREATE TABLE `warehouses` (
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`entry_id`);
+  ADD PRIMARY KEY (`category_id`);
 
 --
 -- Indexes for table `companies`
@@ -205,7 +212,7 @@ ALTER TABLE `vendors`
 -- Indexes for table `warehouses`
 --
 ALTER TABLE `warehouses`
-  ADD PRIMARY KEY (`entry_id`);
+  ADD PRIMARY KEY (`warehouse_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -215,7 +222,7 @@ ALTER TABLE `warehouses`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -257,7 +264,7 @@ ALTER TABLE `vendors`
 -- AUTO_INCREMENT for table `warehouses`
 --
 ALTER TABLE `warehouses`
-  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `warehouse_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

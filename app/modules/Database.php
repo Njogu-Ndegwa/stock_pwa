@@ -114,12 +114,22 @@ abstract class Database extends Utility
         }
         $queryResult = $DBConnection->query($SQLQueryString);
 
+        $rowCount = $DBConnection->affected_rows;
+
         if ($queryResult) {
 
-    // add array to return
+          if ($rowCount > 0) {
             $responseArray['response'] = '200';
             $responseArray['message'] = 'Success';
             $responseArray['data'] = "The Update Was Performed OK";
+          }else {
+
+            $responseArray['response'] = '204';
+            $responseArray['message'] = 'The Update Didn\'t Affect Any Record';
+            $responseArray['data'] = [];
+            Logger::logToFile('Error', $responseArray['message']." SQL Statement: ". $SQLQueryString );
+
+          }
         } else {
             $responseArray['response'] = '500';
             $responseArray['message'] = $DBConnection->error;

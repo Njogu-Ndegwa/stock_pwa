@@ -30,7 +30,7 @@ if (!empty($_POST['location_id']) && !empty($_POST['warehouse_id']) && !empty($_
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }else {
-    $_SESSION['success'] = "Failed to edit warehouse";
+    $_SESSION['error'] = "Failed to edit warehouse";
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }

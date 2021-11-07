@@ -36,7 +36,7 @@ class Warehouse extends Database
      */
     public function getWarehouses()
     {
-      $getWarehousesSQL = "SELECT * , warehouses.entry_id as entry_id FROM `warehouses` INNER JOIN locations ON locations.entry_id = warehouses.location_id WHERE is_deleted = 0";
+      $getWarehousesSQL = "SELECT * FROM `warehouses` INNER JOIN locations ON locations.entry_id = warehouses.location_id WHERE is_deleted = 0";
 
         return $this->selectSQLStatement($getWarehousesSQL, $this->DBConnection);
     }
@@ -56,7 +56,7 @@ class Warehouse extends Database
      */
     public function editWarehouse(String $warehouseID, String $locationID, String $warehouseName, String $warehouseDescription, String $warehouseStatus, String $updatedBy, String $updateTime)
     {
-        $updateWarehouseSQL = "UPDATE `warehouses` SET location_id = '$locationID', warehouse_name = '$warehouseName', warehouse_description = '$warehouseDescription', warehouse_status = '$warehouseStatus', updated_by = '$updatedBy', updated_at = '$updateTime' WHERE entry_id = '$warehouseID'";
+        $updateWarehouseSQL = "UPDATE `warehouses` SET location_id = '$locationID', warehouse_name = '$warehouseName', warehouse_description = '$warehouseDescription', warehouse_status = '$warehouseStatus', updated_by = '$updatedBy', updated_at = '$updateTime' WHERE warehouse_id = '$warehouseID'";
 
         return $this->updateSQLStatement($updateWarehouseSQL, $this->DBConnection);
     }
@@ -66,7 +66,7 @@ class Warehouse extends Database
      */
     public function deleteWarehouse(String $warehouseID)
     {
-        $deleteWarehouseSQL = "DELETE FROM `warehouses` WHERE entry_id = '$warehouseID'";
+        $deleteWarehouseSQL = "DELETE FROM `warehouses` WHERE warehouse_id = '$warehouseID'";
 
         return $this->deleteSQLStatement($deleteWarehouseSQL, $this->DBConnection);
     }

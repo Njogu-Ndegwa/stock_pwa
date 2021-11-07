@@ -201,7 +201,7 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
         foreach ($getWarehousesResponse['data'] as $singleWarehouseInfo) {
 
       ?>
-        <div class="modal" id="editWarehouse<?php echo $singleWarehouseInfo['entry_id']; ?>">
+        <div class="modal" id="editWarehouse<?php echo $singleWarehouseInfo['warehouse_id']; ?>">
 
           <div class="modal-dialog">
 
@@ -213,7 +213,7 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
                   <?php
                       echo CSRF::createToken();
                   ?>
-                  <input type="hidden" name="warehouse_id" value="<?php echo $singleWarehouseInfo['entry_id'] ?>">
+                  <input type="hidden" name="warehouse_id" value="<?php echo $singleWarehouseInfo['warehouse_id'] ?>">
 
                   <label for="location_name">Warehouse Name</label>
                   <input type="text" required name="warehouse_name" placeholder="Warehouse name" value="<?php echo $singleWarehouseInfo['warehouse_name'] ?>">
@@ -227,7 +227,7 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
                   <select name="location_id">
                       <?php
                         foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
-                          if ( $singleLocationInfo['entry_id'] == $singleWarehouseInfo['location_id'] ) {
+                          if ( $singleLocationInfo['entry_id'] == $singleWarehouseInfo['warehouse_id'] ) {
                             ?>
                                 <option selected value="<?php echo $singleLocationInfo['entry_id'] ?>">
                                   <?php echo $singleLocationInfo['location_name']; ?>(CHOSEN)
@@ -248,12 +248,12 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="close-modal-btn" onclick="closeModal('#editWarehouse<?php echo $singleWarehouseInfo['entry_id']; ?>')" name="button">Close &times;</button>
+                <button type="button" class="close-modal-btn" onclick="closeModal('#editWarehouse<?php echo $singleWarehouseInfo['warehouse_id']; ?>')" name="button">Close &times;</button>
               </div>
           </div>
 
         </div>
-        <div class="modal" id="deleteWarehouse<?php echo $singleWarehouseInfo['entry_id']; ?>">
+        <div class="modal" id="deleteWarehouse<?php echo $singleWarehouseInfo['warehouse_id']; ?>">
 
           <div class="modal-dialog">
               <div class="modal-head">
@@ -265,13 +265,13 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
                       echo CSRF::createToken();
                   ?>
                   <p>Are you sure you want to delete this warehouse?</p>
-                  <input type="hidden" name="warehouse_id" value="<?php echo $singleWarehouseInfo['entry_id'] ?>">
+                  <input type="hidden" name="warehouse_id" value="<?php echo $singleWarehouseInfo['warehouse_id'] ?>">
 
                   <input type="submit" name="submit" value="Yes I am">
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="close-modal-btn" onclick="closeModal('#deleteWarehouse<?php echo $singleWarehouseInfo['entry_id']; ?>')" name="button">No &times;</button>
+                <button type="button" class="close-modal-btn" onclick="closeModal('#deleteWarehouse<?php echo $singleWarehouseInfo['warehouse_id']; ?>')" name="button">No &times;</button>
               </div>
           </div>
 
@@ -316,13 +316,13 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
             foreach ($getWarehousesResponse['data'] as $singleWarehouseInfo) {
             ?>
             <tr>
-              <td><?php echo $singleWarehouseInfo['entry_id'] ?></td>
+              <td><?php echo $singleWarehouseInfo['warehouse_id'] ?></td>
               <td><?php echo $singleWarehouseInfo['warehouse_name'] ?></td>
               <td><?php echo $singleWarehouseInfo['warehouse_description'] ?></td>
               <td><?php echo $singleWarehouseInfo['location_name'] ?></td>
               <td>
-                <button class="action-edit-btn" onclick="openModal('#editWarehouse<?php echo $singleWarehouseInfo['entry_id']; ?>')">Edit</button>
-                <button class="action-delete-btn" onclick="openModal('#deleteWarehouse<?php echo $singleWarehouseInfo['entry_id']; ?>')">Delete</button>
+                <button class="action-edit-btn" onclick="openModal('#editWarehouse<?php echo $singleWarehouseInfo['warehouse_id']; ?>')">Edit</button>
+                <button class="action-delete-btn" onclick="openModal('#deleteWarehouse<?php echo $singleWarehouseInfo['warehouse_id']; ?>')">Delete</button>
               </td>
             </tr>
             <?php

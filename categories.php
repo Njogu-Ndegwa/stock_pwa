@@ -145,13 +145,19 @@ $getCategoriesResponse = $Category->getCategories();
                 <h2>Add a Category</h2>
               </div>
               <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/addCategory" method="post">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/category/addCategory" method="post">
                   <?php
                       echo CSRF::createToken();
                   ?>
 
-                  <label for="location_name">Category Name</label>
+                  <label for="category_name">Category Name</label>
                   <input type="text" required name="category_name" placeholder="Category name">
+
+                  <label for="category_name">Category Description</label>
+                  <textarea name="category_description" rows="3"></textarea>
+
+                  <label for="category_status">Category Status</label>
+                  <input type="text" required name="category_status" placeholder="Category status">
 
                   <input type="submit" name="submit" value="Add Category">
                 </form>
@@ -166,51 +172,58 @@ $getCategoriesResponse = $Category->getCategories();
         <?php
           foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
         ?>
-          <div class="modal" id="editCategory<?php echo $singleCategoryInfo['entry_id']; ?>">
+          <div class="modal" id="editCategory<?php echo $singleCategoryInfo['category_id']; ?>">
 
             <div class="modal-dialog">
                 <div class="modal-head">
                   <h2>Edit Category: <?php echo $singleCategoryInfo['category_name'] ?></h2>
                 </div>
                 <div class="modal-body">
-                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/editCategory" method="post">
+                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/category/editCategory" method="post">
                     <?php
                         echo CSRF::createToken();
                     ?>
-                    <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['entry_id'] ?>">
+                    <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['category_id'] ?>">
 
                     <label for="location_name">Category Name</label>
                     <input type="text" required name="category_name" placeholder="Location name" value="<?php echo $singleCategoryInfo['category_name'] ?>">
+
+                    <label for="category_name">Category Description</label>
+                    <textarea name="category_description" rows="3"><?php echo $singleCategoryInfo['category_description'] ?></textarea>
+
+                    <label for="category_status">Category Status</label>
+                    <input type="text" required name="category_status" placeholder="Category status" value="<?php echo $singleCategoryInfo['category_status'] ?>">
+
 
 
                     <input type="submit" name="submit" value="Submit Edits Category">
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="close-modal-btn" onclick="closeModal('#editCategory<?php echo $singleCategoryInfo['entry_id']; ?>')" name="button">Close &times;</button>
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#editCategory<?php echo $singleCategoryInfo['category_id']; ?>')" name="button">Close &times;</button>
                 </div>
             </div>
 
           </div>
-          <div class="modal" id="deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>">
+          <div class="modal" id="deleteCategory<?php echo $singleCategoryInfo['category_id']; ?>">
 
             <div class="modal-dialog">
                 <div class="modal-head">
                   <h2>Delete location: <?php echo $singleCategoryInfo['category_name'] ?></h2>
                 </div>
                 <div class="modal-body">
-                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/deleteCategory" method="post">
+                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/category/deleteCategory" method="post">
                     <?php
                         echo CSRF::createToken();
                     ?>
                     <p>Are you sure you want to delete this category?</p>
-                    <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['entry_id'] ?>">
+                    <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['category_id'] ?>">
 
                     <input type="submit" name="submit" value="Yes I am">
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="close-modal-btn" onclick="closeModal('#deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>')" name="button">No &times;</button>
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#deleteCategory<?php echo $singleCategoryInfo['category_id']; ?>')" name="button">No &times;</button>
                 </div>
             </div>
 
@@ -221,13 +234,15 @@ $getCategoriesResponse = $Category->getCategories();
 
       <table class="table-data glassmorphic">
         <thead>
-          <th colspan="4">
+          <th colspan="7">
             <h2>Categories Present</h2>
           </th>
         </thead>
         <thead>
           <th>Category ID</th>
           <th>Category Name</th>
+          <th>Category Description</th>
+          <th>Category Status</th>
           <th>Actions</th>
         </thead>
         <tbody>
@@ -235,7 +250,7 @@ $getCategoriesResponse = $Category->getCategories();
             if ($getCategoriesResponse['response'] == '500') {
           ?>
             <tr>
-              <td colspan="4">
+              <td colspan="7">
                 <h3>There has been an error retrieving the records. It had been recorded</h3>
               </td>
             </tr>
@@ -243,7 +258,7 @@ $getCategoriesResponse = $Category->getCategories();
           }else if($getCategoriesResponse['response'] == '204') {
           ?>
             <tr>
-              <td colspan="4">
+              <td colspan="7">
                 <h3>No categories present in the system</h3>
               </td>
             </tr>
@@ -252,11 +267,13 @@ $getCategoriesResponse = $Category->getCategories();
             foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
             ?>
             <tr>
-              <td><?php echo $singleCategoryInfo['entry_id'] ?></td>
+              <td><?php echo $singleCategoryInfo['category_id'] ?></td>
               <td><?php echo $singleCategoryInfo['category_name'] ?></td>
+              <td><?php echo $singleCategoryInfo['category_description'] ?></td>
+              <td><?php echo $singleCategoryInfo['category_status'] ?></td>
               <td>
-                <button class="action-edit-btn" onclick="openModal('#editCategory<?php echo $singleCategoryInfo['entry_id']; ?>')">Edit</button>
-                <button class="action-delete-btn" onclick="openModal('#deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>')">Delete</button>
+                <button class="action-edit-btn" onclick="openModal('#editCategory<?php echo $singleCategoryInfo['category_id']; ?>')">Edit</button>
+                <button class="action-delete-btn" onclick="openModal('#deleteCategory<?php echo $singleCategoryInfo['category_id']; ?>')">Delete</button>
               </td>
             </tr>
             <?php

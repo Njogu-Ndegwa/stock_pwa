@@ -44,9 +44,9 @@ class Category extends Database
     /**
      * Get all the companies present
      */
-    public function addCategory(String $categoryName)
+    public function addCategory(String $categoryName, String $categoryDescription, String $categoryStatus, String $createdBy)
     {
-        $addCategorySQL = "INSERT INTO `categories`(category_name) VALUES ('$categoryName')";
+        $addCategorySQL = "INSERT INTO `categories`(category_name, category_description, category_status, created_by) VALUES ('$categoryName', '$categoryDescription', '$categoryStatus', '$createdBy')";
 
         return $this->insertSQLStatement($addCategorySQL, $this->DBConnection);
     }
@@ -54,9 +54,9 @@ class Category extends Database
     /**
      * Get all the companies present
      */
-    public function editCategory(String $categoryID, String $categoryName)
+    public function editCategory(String $categoryID, String $categoryName, String $categoryDescription, String $categoryStatus, String $updatedBy, String $updateTime)
     {
-        $updateCategorySQL = "UPDATE `categories` SET category_name = '$categoryName' WHERE entry_id = '$categoryID'";
+        $updateCategorySQL = "UPDATE `categories` SET category_name = '$categoryName', category_description = '$categoryDescription', category_status = '$categoryStatus', updated_by = '$updatedBy', updated_at = '$updateTime' WHERE category_id = '$categoryID'";
 
         return $this->updateSQLStatement($updateCategorySQL, $this->DBConnection);
     }
@@ -66,7 +66,7 @@ class Category extends Database
      */
     public function deleteCategory(String $categoryID)
     {
-        $deleteCategorySQL = "DELETE FROM `categories` WHERE entry_id = '$categoryID'";
+        $deleteCategorySQL = "DELETE FROM `categories` WHERE category_id = '$categoryID'";
 
         return $this->deleteSQLStatement($deleteCategorySQL, $this->DBConnection);
     }
