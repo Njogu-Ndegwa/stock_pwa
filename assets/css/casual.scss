@@ -37,6 +37,19 @@
       form{
         display: flex;
         flex-direction: column;
+        .grid{
+          display: grid;
+          grid-template-columns: 40% 55%;
+          justify-content: space-between;
+          width: 100%;
+          div{
+            width: 100%;
+            input, select{
+              width: 90%;
+            }
+          }
+
+        }
         .input-wrapper{
           display: -ms-flexbox;
           display: flex;

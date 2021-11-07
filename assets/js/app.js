@@ -143,3 +143,11 @@ function closeModal(modalID) {
 function closeAlert(alertElement) {
   alertElement.parentElement.style.display = 'none';
 }
+
+function changeUnit(selectElement) {
+  if (selectElement.value == 'Hardware' || selectElement.value == 'Aluminum') {
+    document.querySelector('#unit').innerHTML = '(Units)';
+  }else {
+    document.querySelector('#unit').innerHTML = '(in KG)';
+  }
+}

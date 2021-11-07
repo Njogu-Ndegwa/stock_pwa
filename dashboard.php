@@ -73,9 +73,9 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
           Customers
         </a>
 
-        <a href="users.html" class="navigation-item">
+        <a href="inventory" class="navigation-item">
           <img src="assets/images/money-check-alt-solid.svg" alt="money-check-alt-solid Font Awesome icon">
-          Sales
+          Inventory
         </a>
 
         <a href="users.html" class="navigation-item">

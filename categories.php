@@ -98,19 +98,19 @@ $getCategoriesResponse = $Category->getCategories();
           Subcategories
         </a>
 
-        <a href="users.html" class="navigation-item">
+        <a href="vendors" class="navigation-item">
           <img src="assets/images/people-carry-solid.svg" alt="people-carry-solid Font Awesome icon">
           Vendor/Supplier
         </a>
 
-        <a href="users.html" class="navigation-item">
+        <a href="customers" class="navigation-item">
           <img src="assets/images/user-friends-solid.svg" alt="user-friends-solid Font Awesome icon">
           Customers
         </a>
 
-        <a href="users.html" class="navigation-item">
+        <a href="inventory" class="navigation-item">
           <img src="assets/images/money-check-alt-solid.svg" alt="money-check-alt-solid Font Awesome icon">
-          Sales
+          Inventory
         </a>
 
       </div>
