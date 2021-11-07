@@ -26,6 +26,7 @@ use app\Warehouse;
 $Warehouse = new Warehouse();
 
 $getWarehousesResponse = $Warehouse->getWarehouses();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -124,7 +125,6 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
     </div>
 
     <div class="content">
-
       <div class="top-bar">
         <div class="breadcrumb">
           Home / Warehouses
@@ -154,13 +154,19 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
               <h2>Add a Warehouse</h2>
             </div>
             <div class="modal-body">
-              <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/addWarehouse" method="post">
+              <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/warehouse/addWarehouse" method="post">
                 <?php
                     echo CSRF::createToken();
                 ?>
 
-                <label for="location_name">Warehouse Name</label>
+                <label for="warehouse_name">Warehouse Name</label>
                 <input type="text" required name="warehouse_name" placeholder="Warehouse name">
+
+                <label for="warehouse_description">Warehouse Description</label>
+                <textarea name="warehouse_description" rows="3" placeholder="Warehouse description"></textarea>
+
+                <label for="warehouse_status">Warehouse Status</label>
+                <input type="text" required name="warehouse_status" placeholder="Warehouse status">
 
                 <select name="location_id">
                   <?php
@@ -200,10 +206,10 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
           <div class="modal-dialog">
 
               <div class="modal-head">
-                <h2>Edit warehouse <u><?php echo $singleWarehouseInfo['warehouse_name']; ?></u></h2>
+                <h2>Edit warehouse: <u><?php echo $singleWarehouseInfo['warehouse_name']; ?></u></h2>
               </div>
               <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/editWarehouse" method="post">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/warehouse/editWarehouse" method="post">
                   <?php
                       echo CSRF::createToken();
                   ?>
@@ -212,12 +218,18 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
                   <label for="location_name">Warehouse Name</label>
                   <input type="text" required name="warehouse_name" placeholder="Warehouse name" value="<?php echo $singleWarehouseInfo['warehouse_name'] ?>">
 
+                  <label for="warehouse_description">Warehouse Description</label>
+                  <textarea name="warehouse_description" rows="3" placeholder="Warehouse description"><?php echo $singleWarehouseInfo['warehouse_description']; ?></textarea>
+
+                  <label for="warehouse_status">Warehouse Status</label>
+                  <input type="text" required name="warehouse_status" placeholder="Warehouse status" value="<?php echo $singleWarehouseInfo['warehouse_status']; ?>">
+
                   <select name="location_id">
                       <?php
                         foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
                           if ( $singleLocationInfo['entry_id'] == $singleWarehouseInfo['location_id'] ) {
                             ?>
-                                <option value="<?php echo $singleLocationInfo['entry_id'] ?>">
+                                <option selected value="<?php echo $singleLocationInfo['entry_id'] ?>">
                                   <?php echo $singleLocationInfo['location_name']; ?>(CHOSEN)
                                 </option>
                             <?php
@@ -248,7 +260,7 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
                 <h2>Delete warehouse: <?php echo $singleWarehouseInfo['warehouse_name'] ?></h2>
               </div>
               <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/deleteWarehouse" method="post">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/warehouse/deleteWarehouse" method="post">
                   <?php
                       echo CSRF::createToken();
                   ?>
@@ -271,13 +283,14 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
 
       <table class="table-data glassmorphic">
         <thead>
-          <th colspan="5">
-            <h3>Locations Present</h3>
+          <th colspan="10">
+            <h3>Warehouses Present</h3>
           </th>
         </thead>
         <thead>
           <th>Entry ID</th>
           <th>Warehouse Name</th>
+          <th>Warehouse Description</th>
           <th>Location Name</th>
           <th>Actions</th>
         </thead>
@@ -286,7 +299,7 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
             if ($getWarehousesResponse['response'] == '500') {
           ?>
             <tr>
-              <td colspan="5">
+              <td colspan="10">
                 <h3>There has been an error retrieving the records. It had been recorded</h3>
               </td>
             </tr>
@@ -294,7 +307,7 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
           }else if($getWarehousesResponse['response'] == '204') {
           ?>
             <tr>
-              <td colspan="5">
+              <td colspan="10">
                 <h3>No warehouses present in the system</h3>
               </td>
             </tr>
@@ -305,6 +318,7 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
             <tr>
               <td><?php echo $singleWarehouseInfo['entry_id'] ?></td>
               <td><?php echo $singleWarehouseInfo['warehouse_name'] ?></td>
+              <td><?php echo $singleWarehouseInfo['warehouse_description'] ?></td>
               <td><?php echo $singleWarehouseInfo['location_name'] ?></td>
               <td>
                 <button class="action-edit-btn" onclick="openModal('#editWarehouse<?php echo $singleWarehouseInfo['entry_id']; ?>')">Edit</button>

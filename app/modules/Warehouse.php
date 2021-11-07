@@ -36,7 +36,7 @@ class Warehouse extends Database
      */
     public function getWarehouses()
     {
-        $getWarehousesSQL = "SELECT warehouses.entry_id as entry_id, location_id, location_name, warehouse_name FROM `warehouses` INNER JOIN locations ON locations.entry_id = warehouses.location_id";
+      $getWarehousesSQL = "SELECT * , warehouses.entry_id as entry_id FROM `warehouses` INNER JOIN locations ON locations.entry_id = warehouses.location_id WHERE is_deleted = 0";
 
         return $this->selectSQLStatement($getWarehousesSQL, $this->DBConnection);
     }
@@ -44,9 +44,9 @@ class Warehouse extends Database
     /**
      * Get all the companies present
      */
-    public function addWarehouse(String $warehouseName, String $locationID)
+    public function addWarehouse(String $warehouseName, String $warehouseDescription, String $warehouseStatus, String $locationID, String $createdBy)
     {
-        $addWarehouseSQL = "INSERT INTO `warehouses`(warehouse_name, location_id) VALUES ('$warehouseName', '$locationID')";
+        $addWarehouseSQL = "INSERT INTO `warehouses`(warehouse_name, warehouse_status, warehouse_description, location_id, created_by) VALUES ('$warehouseName', '$warehouseStatus', '$warehouseDescription','$locationID', '$createdBy')";
 
         return $this->insertSQLStatement($addWarehouseSQL, $this->DBConnection);
     }
@@ -54,9 +54,9 @@ class Warehouse extends Database
     /**
      * Get all the companies present
      */
-    public function editWarehouse(String $warehouseID, String $locationID, String $warehouseName)
+    public function editWarehouse(String $warehouseID, String $locationID, String $warehouseName, String $warehouseDescription, String $warehouseStatus, String $updatedBy, String $updateTime)
     {
-        $updateWarehouseSQL = "UPDATE `warehouses` SET location_id = '$locationID', warehouse_name = '$warehouseName' WHERE entry_id = '$warehouseID'";
+        $updateWarehouseSQL = "UPDATE `warehouses` SET location_id = '$locationID', warehouse_name = '$warehouseName', warehouse_description = '$warehouseDescription', warehouse_status = '$warehouseStatus', updated_by = '$updatedBy', updated_at = '$updateTime' WHERE entry_id = '$warehouseID'";
 
         return $this->updateSQLStatement($updateWarehouseSQL, $this->DBConnection);
     }

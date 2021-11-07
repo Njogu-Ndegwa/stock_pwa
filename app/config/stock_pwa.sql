@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2021 at 12:03 PM
+-- Generation Time: Nov 07, 2021 at 01:13 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -140,7 +140,14 @@ CREATE TABLE `vendors` (
 CREATE TABLE `warehouses` (
   `entry_id` int(11) NOT NULL,
   `warehouse_name` varchar(255) NOT NULL,
-  `location_id` int(11) NOT NULL
+  `location_id` int(11) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `warehouse_status` char(255) DEFAULT NULL,
+  `warehouse_description` char(255) NOT NULL,
+  `created_by` char(255) NOT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

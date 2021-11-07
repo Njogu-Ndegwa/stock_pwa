@@ -252,10 +252,6 @@ $getLocationsResponse = $Location->getLocations();
           <th>Location Name</th>
           <th>Location Description</th>
           <th>Location Status</th>
-          <th>Created By</th>
-          <th>Created At</th>
-          <th>Updated By</th>
-          <th>Updated At</th>
           <th>Actions</th>
         </thead>
         <tbody>
@@ -284,14 +280,6 @@ $getLocationsResponse = $Location->getLocations();
               <td><?php echo $singleLocationInfo['location_name'] ?></td>
               <td><?php echo $singleLocationInfo['location_description'] ?></td>
               <td><?php echo $singleLocationInfo['location_status'] ?></td>
-              <td><?php echo $singleLocationInfo['created_by'] ?></td>
-              <td><?php echo $singleLocationInfo['created_at'] ?></td>
-              <td>
-                <?php echo $retVal = (is_null($singleLocationInfo['updated_by'])) ? "-" : $singleLocationInfo['updated_by'] ; ?>
-              </td>
-              <td>
-                <?php echo $retVal = (empty($singleLocationInfo['updated_at'])) ? "-" : $singleLocationInfo['updated_at'] ; ?>
-              </td>
               <td>
                 <button class="action-edit-btn" onclick="openModal('#editLocation<?php echo $singleLocationInfo['entry_id']; ?>')">Edit</button>
                 <button class="action-delete-btn" onclick="openModal('#deleteLocation<?php echo $singleLocationInfo['entry_id']; ?>')">Delete</button>
