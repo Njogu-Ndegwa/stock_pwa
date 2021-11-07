@@ -1,8 +1,8 @@
 <?php
 
-require_once '../vendor/autoload.php';
+require_once '../../vendor/autoload.php';
 
-require_once 'postMiddleware.php';
+require_once '../postMiddleware.php';
 
 use app\Vendor;
 

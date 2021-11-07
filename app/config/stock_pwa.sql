@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2021 at 03:38 PM
+-- Generation Time: Nov 07, 2021 at 03:58 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -140,8 +140,13 @@ CREATE TABLE `users` (
 --
 
 CREATE TABLE `vendors` (
-  `entry_id` int(11) NOT NULL,
-  `vendor_name` varchar(255) NOT NULL
+  `vendor_id` int(11) NOT NULL,
+  `vendor_name` varchar(255) NOT NULL,
+  `vendor_email` char(255) NOT NULL,
+  `vendor_mobile` char(255) NOT NULL,
+  `vendor_description` char(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -212,7 +217,7 @@ ALTER TABLE `users`
 -- Indexes for table `vendors`
 --
 ALTER TABLE `vendors`
-  ADD PRIMARY KEY (`entry_id`);
+  ADD PRIMARY KEY (`vendor_id`);
 
 --
 -- Indexes for table `warehouses`
@@ -264,7 +269,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `vendors`
 --
 ALTER TABLE `vendors`
-  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `warehouses`

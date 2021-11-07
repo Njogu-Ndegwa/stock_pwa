@@ -18,7 +18,7 @@ class Vendor extends Database
             $this->DBConnection = $connectionAttempt['data'];
         } else {
             Logger::logToFile('Error', $connectionAttempt['message']);
-            throw new \Exception("Error experienced connecting the Warehouse module to the database", 1);
+            throw new \Exception("Error experienced connecting the Vendor module to the database", 1);
             exit();
         }
     }
@@ -44,9 +44,9 @@ class Vendor extends Database
     /**
      * Get all the companies present
      */
-    public function addVendor(String $vendorName)
+    public function addVendor(String $vendorName, String $vendorEmail, String $vendorPhone, String $vendorDescription)
     {
-        $addVendorSQL = "INSERT INTO `vendors`(vendor_name) VALUES ('$vendorName')";
+        $addVendorSQL = "INSERT INTO `vendors`(vendor_name, vendor_email, vendor_mobile, vendor_description) VALUES ('$vendorName', '$vendorEmail', '$vendorPhone', '$vendorDescription')";
 
         return $this->insertSQLStatement($addVendorSQL, $this->DBConnection);
     }
@@ -54,9 +54,9 @@ class Vendor extends Database
     /**
      * Get all the companies present
      */
-    public function editVendor(String $vendorID, String $vendorName)
+    public function editVendor(String $vendorID, String $vendorName, String $vendorEmail, String $vendorPhone, String $vendorDescription, String $updateTime)
     {
-        $updateCategorySQL = "UPDATE `vendors` SET vendor_name = '$vendorName' WHERE entry_id = '$vendorID'";
+        $updateCategorySQL = "UPDATE `vendors` SET vendor_name = '$vendorName', vendor_email = '$vendorEmail', vendor_mobile = '$vendorPhone', vendor_description = '$vendorDescription' WHERE vendor_id = '$vendorID'";
 
         return $this->updateSQLStatement($updateCategorySQL, $this->DBConnection);
     }
@@ -66,7 +66,7 @@ class Vendor extends Database
      */
     public function deleteCategory(String $vendorID)
     {
-        $deleteCategorySQL = "DELETE FROM `vendors` WHERE entry_id = '$vendorID'";
+        $deleteCategorySQL = "DELETE FROM `vendors` WHERE vendor_id = '$vendorID'";
 
         return $this->deleteSQLStatement($deleteCategorySQL, $this->DBConnection);
     }
