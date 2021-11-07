@@ -56,19 +56,19 @@ class Vendor extends Database
      */
     public function editVendor(String $vendorID, String $vendorName, String $vendorEmail, String $vendorPhone, String $vendorDescription, String $updateTime)
     {
-        $updateCategorySQL = "UPDATE `vendors` SET vendor_name = '$vendorName', vendor_email = '$vendorEmail', vendor_mobile = '$vendorPhone', vendor_description = '$vendorDescription' WHERE vendor_id = '$vendorID'";
+        $updateVendorSQL = "UPDATE `vendors` SET vendor_name = '$vendorName', vendor_email = '$vendorEmail', vendor_mobile = '$vendorPhone', vendor_description = '$vendorDescription' WHERE vendor_id = '$vendorID'";
 
-        return $this->updateSQLStatement($updateCategorySQL, $this->DBConnection);
+        return $this->updateSQLStatement($updateVendorSQL, $this->DBConnection);
     }
 
     /**
      * Get all the companies present
      */
-    public function deleteCategory(String $vendorID)
+    public function deleteVendor(String $vendorID)
     {
-        $deleteCategorySQL = "DELETE FROM `vendors` WHERE vendor_id = '$vendorID'";
+        $deleteVendorSQL = "DELETE FROM `vendors` WHERE vendor_id = '$vendorID'";
 
-        return $this->deleteSQLStatement($deleteCategorySQL, $this->DBConnection);
+        return $this->deleteSQLStatement($deleteVendorSQL, $this->DBConnection);
     }
 
 }

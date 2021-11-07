@@ -14,11 +14,11 @@ require_once 'app/vendor/autoload.php';
 
 use app\CSRF;
 
-use app\Category;
+use app\Customer;
 
-$Category = new Category();
+$Customer = new Customer();
 
-$getCategoriesResponse = $Category->getCategories();
+$getCustomersResponse = $Customer->getCustomers();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +30,7 @@ $getCategoriesResponse = $Category->getCategories();
   <link rel="stylesheet" href="assets/css/casual.min.css">
   <link rel="stylesheet" href="assets/css/table.min.css">
   <link rel="stylesheet" href="assets/css/alert.min.css">
-  <title>Categories</title>
+  <title>Customers</title>
 </head>
 <body>
   <?php
@@ -136,81 +136,93 @@ $getCategoriesResponse = $Category->getCategories();
 
       </div>
 
-        <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newCategory')">ADD A CATEGORY</button>
+        <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newCustomer')">ADD A CUSTOMER</button>
 
-        <div class="modal" id="newCategory">
+        <div class="modal" id="newCustomer">
 
           <div class="modal-dialog">
               <div class="modal-head">
-                <h2>Add a Category</h2>
+                <h2>Add a Customer</h2>
               </div>
               <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/addCategory" method="post">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/customer/addCustomer" method="post">
                   <?php
                       echo CSRF::createToken();
                   ?>
 
-                  <label for="location_name">Category Name</label>
-                  <input type="text" required name="category_name" placeholder="Category name">
+                  <label for="customer_name">Customer Name</label>
+                  <input type="text" required name="customer_name" placeholder="Customer name">
 
-                  <input type="submit" name="submit" value="Add Category">
+                  <label for="credit_limit">Credit Limit</label>
+                  <input type="text" required name="credit_limit" placeholder="Credit limit">
+
+                  <label for="contact_number">Contact Number</label>
+                  <input type="tel" required name="contact_number" placeholder="Contact number">
+
+                  <input type="submit" name="submit" value="Add Customer">
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="close-modal-btn" onclick="closeModal('#newCategory')" name="button">Close &times;</button>
+                <button type="button" class="close-modal-btn" onclick="closeModal('#newCustomer')" name="button">Close &times;</button>
               </div>
           </div>
 
         </div>
 
         <?php
-          foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
+          foreach ($getCustomersResponse['data'] as $singleCustomerInfo) {
         ?>
-          <div class="modal" id="editCategory<?php echo $singleCategoryInfo['entry_id']; ?>">
+          <div class="modal" id="editCustomer<?php echo $singleCustomerInfo['customer_id']; ?>">
 
             <div class="modal-dialog">
                 <div class="modal-head">
-                  <h2>Edit Category: <?php echo $singleCategoryInfo['category_name'] ?></h2>
+                  <h2>Edit Category: <?php echo $singleCustomerInfo['customer_name'] ?></h2>
                 </div>
                 <div class="modal-body">
-                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/editCategory" method="post">
+                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/customer/editCustomer" method="post">
                     <?php
                         echo CSRF::createToken();
                     ?>
-                    <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['entry_id'] ?>">
+                    <input type="hidden" name="customer_id" value="<?php echo $singleCustomerInfo['customer_id'] ?>">
 
-                    <label for="location_name">Category Name</label>
-                    <input type="text" required name="category_name" placeholder="Location name" value="<?php echo $singleCategoryInfo['category_name'] ?>">
+                    <label for="customer_name">Customer Name</label>
+                    <input type="text" required name="customer_name" placeholder="Customer name" value="<?php echo $singleCustomerInfo['customer_name'] ?>">
+
+                    <label for="credit_limit">Credit Limit</label>
+                    <input type="text" required name="credit_limit" placeholder="Credit limit" value="<?php echo $singleCustomerInfo['credit_limit'] ?>">
+
+                    <label for="contact_number">Contact Number</label>
+                    <input type="tel" required name="contact_number" placeholder="Contact number" value="<?php echo $singleCustomerInfo['contact_number'] ?>">
 
 
-                    <input type="submit" name="submit" value="Submit Edits Category">
+                    <input type="submit" name="submit" value="Submit Edits">
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="close-modal-btn" onclick="closeModal('#editCategory<?php echo $singleCategoryInfo['entry_id']; ?>')" name="button">Close &times;</button>
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#editCustomer<?php echo $singleCustomerInfo['customer_id']; ?>')" name="button">Close &times;</button>
                 </div>
             </div>
 
           </div>
-          <div class="modal" id="deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>">
+          <div class="modal" id="deleteCustomer<?php echo $singleCustomerInfo['customer_id']; ?>">
 
             <div class="modal-dialog">
                 <div class="modal-head">
-                  <h2>Delete location: <?php echo $singleCategoryInfo['category_name'] ?></h2>
+                  <h2>Delete customer: <?php echo $singleCustomerInfo['customer_name'] ?></h2>
                 </div>
                 <div class="modal-body">
-                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/deleteCategory" method="post">
+                  <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/customer/deleteCustomer" method="post">
                     <?php
                         echo CSRF::createToken();
                     ?>
                     <p>Are you sure you want to delete this category?</p>
-                    <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['entry_id'] ?>">
+                    <input type="hidden" name="customer_id" value="<?php echo $singleCustomerInfo['customer_id'] ?>">
 
                     <input type="submit" name="submit" value="Yes I am">
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="close-modal-btn" onclick="closeModal('#deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>')" name="button">No &times;</button>
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#deleteCustomer<?php echo $singleCustomerInfo['customer_id']; ?>')" name="button">No &times;</button>
                 </div>
             </div>
 
@@ -221,42 +233,44 @@ $getCategoriesResponse = $Category->getCategories();
 
       <table class="table-data glassmorphic">
         <thead>
-          <th colspan="4">
-            <h2>Categories Present</h2>
+          <th colspan="5">
+            <h2>Customers Present</h2>
           </th>
         </thead>
         <thead>
-          <th>Category ID</th>
-          <th>Category Name</th>
+          <th>Customer Name</th>
+          <th>Credit Limit</th>
+          <th>Contact Number</th>
           <th>Actions</th>
         </thead>
         <tbody>
           <?php
-            if ($getCategoriesResponse['response'] == '500') {
+            if ($getCustomersResponse['response'] == '500') {
           ?>
             <tr>
-              <td colspan="4">
+              <td colspan="5">
                 <h3>There has been an error retrieving the records. It had been recorded</h3>
               </td>
             </tr>
           <?php
-          }else if($getCategoriesResponse['response'] == '204') {
+        }else if($getCustomersResponse['response'] == '204') {
           ?>
             <tr>
-              <td colspan="4">
-                <h3>No categories present in the system</h3>
+              <td colspan="5">
+                <h3>No customers present in the system</h3>
               </td>
             </tr>
           <?php
           }else {
-            foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
+            foreach ($getCustomersResponse['data'] as $singleCustomerInfo) {
             ?>
             <tr>
-              <td><?php echo $singleCategoryInfo['entry_id'] ?></td>
-              <td><?php echo $singleCategoryInfo['category_name'] ?></td>
+              <td><?php echo $singleCustomerInfo['customer_name'] ?></td>
+              <td><?php echo $singleCustomerInfo['credit_limit'] ?></td>
+              <td><?php echo $singleCustomerInfo['contact_number'] ?></td>
               <td>
-                <button class="action-edit-btn" onclick="openModal('#editCategory<?php echo $singleCategoryInfo['entry_id']; ?>')">Edit</button>
-                <button class="action-delete-btn" onclick="openModal('#deleteCategory<?php echo $singleCategoryInfo['entry_id']; ?>')">Delete</button>
+                <button class="action-edit-btn" onclick="openModal('#editCustomer<?php echo $singleCustomerInfo['customer_id']; ?>')">Edit</button>
+                <button class="action-delete-btn" onclick="openModal('#deleteCustomer<?php echo $singleCustomerInfo['customer_id']; ?>')">Delete</button>
               </td>
             </tr>
             <?php

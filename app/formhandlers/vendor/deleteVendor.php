@@ -12,7 +12,7 @@ if (!empty($_POST['vendor_id'])) {
 
   $vendorID = $Vendor->sanitiseInput($_POST['vendor_id']);
 
-  $deleteVendorResponse = $Vendor->deleteCategory($vendorID);
+  $deleteVendorResponse = $Vendor->deleteVendor($vendorID);
 
   if ($deleteVendorResponse['response'] == '200') {
 
