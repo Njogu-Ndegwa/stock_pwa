@@ -20,6 +20,8 @@ use app\Material;
 
 use app\Location;
 
+use app\Customer;
+
 $Material = new Material();
 
 $getMaterialsResponse = $Material->getMaterials();
@@ -31,6 +33,10 @@ $getVendorsResponse = $Vendor->getVendors();
 $Location = new Location();
 
 $getLocationsResponse = $Location->getLocations();
+
+$Customer = new Customer();
+
+$getCustomersResponse = $Customer->getCustomers();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -156,9 +162,97 @@ $getLocationsResponse = $Location->getLocations();
           STOCK IN
         </button>
 
-        <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newStock')">
+        <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newAcquisition')">
           INVENTORY ACQUISITION
         </button>
+
+        <div class="modal" id="newAcquisition">
+
+          <div class="modal-dialog">
+              <div class="modal-head">
+                <h2>Inventory Acquisition</h2>
+              </div>
+              <div class="modal-body">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/inventory/inventoryAcquisition" method="post">
+                  <?php
+                      echo CSRF::createToken();
+                  ?>
+
+                  <label for="vendor_id">Vendor</label>
+                  <select name="vendor_id">
+                    <?php
+                      if ($getVendorsResponse['response'] == '204') {
+                      ?>
+                        <option selected disabled value="">There are no vendors present in the system</option>
+                      <?php
+                      }else {
+                        foreach ($getVendorsResponse['data'] as $vendorInfo) {
+                      ?>
+                          <option value="<?php echo $vendorInfo['vendor_id'] ?>">
+                            <?php echo $vendorInfo['vendor_name'] ?>
+                          </option>
+                      <?php
+                        }
+                      }
+                    ?>
+                  </select>
+
+                  <label for="customer_id">Customer</label>
+                  <select name="customer_id">
+                    <?php
+                      if ($getCustomersResponse['response'] == '204') {
+                      ?>
+                        <option selected disabled value="">There are no customers present in the system</option>
+                      <?php
+                      }else {
+                        foreach ($getCustomersResponse['data'] as $customerInfo) {
+                      ?>
+                          <option value="<?php echo $customerInfo['customer_id'] ?>">
+                            <?php echo $customerInfo['customer_name'] ?>
+                          </option>
+                      <?php
+                        }
+                      }
+                    ?>
+                  </select>
+
+                  <label for="item">Item</label>
+                  <select name="item">
+                    <?php
+                      if ($getMaterialsResponse['response'] == '204') {
+                      ?>
+                        <option selected disabled value="">There are no items present in the system</option>
+                      <?php
+                      }else {
+                        foreach ($getMaterialsResponse['data'] as $materialInfo) {
+                      ?>
+                          <option value="<?php echo $materialInfo['material_id'] ?>">
+                            <?php echo $materialInfo['item_name'] ?> (<?php echo $materialInfo['material_code'] ?>)
+                          </option>
+                      <?php
+                        }
+                      }
+                    ?>
+                  </select>
+
+                  <label for="quantity">Quantity</label>
+                  <input type="number" required name="quantity" placeholder="Quantity">
+
+                  <label for="description">Description</label>
+                  <textarea name="description" rows="3"></textarea>
+
+                  <label for="date">Date</label>
+                  <input type="date" name="date"/>
+
+                  <input type="submit" name="submit" value="Proceed">
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="close-modal-btn" onclick="closeModal('#newAcquisition')" name="button">Close &times;</button>
+              </div>
+          </div>
+
+        </div>
 
         <div class="modal" id="newStock">
 

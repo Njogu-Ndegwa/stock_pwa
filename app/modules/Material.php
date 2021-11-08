@@ -81,4 +81,14 @@ class Material extends Database
         return $this->insertSQLStatement($stockInSQL, $this->DBConnection);
     }
 
+    /**
+     * Remove an item
+     */
+    public function itemAcquisition(String $vendorID, String $customerID, String $item, String $quantity, String $description, String $date)
+    {
+        $stockInSQL = "INSERT INTO `inventory_acquisition`(vendor_id, item_id, customer_name, quantity, description, stock_subtracted, date) VALUES('$vendorID', '$item', '$customerID', '$quantity', '$description', '$quantity', '$date')";
+
+        return $this->insertSQLStatement($stockInSQL, $this->DBConnection);
+    }
+
 }
