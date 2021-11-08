@@ -151,3 +151,42 @@ function changeUnit(selectElement) {
     document.querySelector('#unit').innerHTML = '(in KG)';
   }
 }
+
+
+function updateItemCode(selectElement) {
+  document.querySelector('#itemCodeStockIn').value = selectElement.options[selectElement.options.selectedIndex].getAttribute('data-code')
+}
+
+function getLocationWarehouses(selectElement) {
+
+  fetch('app/formhandlers/warehouse/getLocationWarehouse', {
+      method: 'POST',
+      body: JSON.stringify({location_id: selectElement.value})
+  })
+  .then(res => res.json())
+  .then(json => {
+    const selectWarehouse = document.querySelector('#warehouseIDStockIn');
+    selectWarehouse.innerHTML = '';
+    if (json.response == '204') {
+
+      const option = document.createElement('option');
+      option.innerHTML = 'There are no warehouses in that location';
+      option.disabled=true;
+      option.selected=true;
+      selectWarehouse.appendChild(option);
+
+    }else if (json.response == '200') {
+
+      json.data.forEach((warehouseLocation) => {
+
+        const option = document.createElement('option');
+        option.innerHTML = warehouseLocation.warehouse_name;
+        option.value = warehouseLocation.warehouse_id;
+        selectWarehouse.appendChild(option);
+        
+      });
+
+    }
+  })
+  .catch(err => alert(err));
+}

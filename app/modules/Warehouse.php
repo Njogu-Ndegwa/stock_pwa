@@ -38,7 +38,7 @@ class Warehouse extends Database
     {
       $getWarehousesSQL = "SELECT * FROM `warehouses` INNER JOIN locations ON locations.entry_id = warehouses.location_id WHERE is_deleted = 0";
 
-        return $this->selectSQLStatement($getWarehousesSQL, $this->DBConnection);
+      return $this->selectSQLStatement($getWarehousesSQL, $this->DBConnection);
     }
 
     /**
@@ -69,6 +69,13 @@ class Warehouse extends Database
         $deleteWarehouseSQL = "DELETE FROM `warehouses` WHERE warehouse_id = '$warehouseID'";
 
         return $this->deleteSQLStatement($deleteWarehouseSQL, $this->DBConnection);
+    }
+
+    public function getLocationWarehouses(String $locationID)
+    {
+      $getLocationWarehousesSQL = "SELECT * FROM `warehouses` WHERE location_id = '$locationID'";
+
+      return $this->selectSQLStatement($getLocationWarehousesSQL, $this->DBConnection);
     }
 
 }

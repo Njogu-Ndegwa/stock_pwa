@@ -71,4 +71,14 @@ class Material extends Database
         return $this->deleteSQLStatement($deleteMaterialSQL, $this->DBConnection);
     }
 
+    /**
+     * Stock in an item
+     */
+    public function stockIn(String $itemName, String $itemCode, String $locationID, String $warehouseID, String $vendorID, String $invoice, String $lpo, String $quantity, String $deliveryNoteNo, String $vehiclePlate, String $startMileage, String $stopMileage, String $powder, String $color , String $material,  String $pricePerItem, String $costPerItem, String $imageURL, String $minimumThreshold, String $maximumThreshold)
+    {
+        $stockInSQL = "INSERT INTO `stock_in`(item_name, item_code, location_id, warehouse_id, vendor_id, invoice, lpo, quantity, delivery_note_number, vehicle, start_mileage, stop_mileage, powder, color, material, price_per_item, cost_per_item, image_url ,minimum_threshold, maximum_threshold) VALUES('$itemName', '$itemCode', '$locationID', '$warehouseID', '$vendorID' , '$invoice', '$lpo', '$quantity' , '$deliveryNoteNo', '$vehiclePlate', '$startMileage', '$stopMileage', '$powder', '$color', '$material', '$pricePerItem', '$costPerItem', '$imageURL', '$minimumThreshold', '$maximumThreshold')";
+
+        return $this->insertSQLStatement($stockInSQL, $this->DBConnection);
+    }
+
 }

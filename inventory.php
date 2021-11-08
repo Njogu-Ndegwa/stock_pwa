@@ -18,6 +18,8 @@ use app\Vendor;
 
 use app\Material;
 
+use app\Location;
+
 $Material = new Material();
 
 $getMaterialsResponse = $Material->getMaterials();
@@ -25,6 +27,10 @@ $getMaterialsResponse = $Material->getMaterials();
 $Vendor = new Vendor();
 
 $getVendorsResponse = $Vendor->getVendors();
+
+$Location = new Location();
+
+$getLocationsResponse = $Location->getLocations();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -145,6 +151,179 @@ $getVendorsResponse = $Vendor->getVendors();
         <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newMaterial')">
           ADD MATERIAL
         </button>
+
+        <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newStock')">
+          STOCK IN
+        </button>
+
+        <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newStock')">
+          INVENTORY ACQUISITION
+        </button>
+
+        <div class="modal" id="newStock">
+
+          <div class="modal-dialog">
+              <div class="modal-head">
+                <h2>Stock In An Item</h2>
+              </div>
+              <div class="modal-body">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/inventory/stockIn" method="post">
+                  <?php
+                      echo CSRF::createToken();
+                  ?>
+
+                  <label for="item_name">Item name</label>
+                  <select name="item_name" onchange="updateItemCode(this)">
+                    <?php
+                      if ($getMaterialsResponse['response'] == '204') {
+                    ?>
+                        <option disabled selected>No Items Present</option>
+                    <?php
+                    }elseif ($getMaterialsResponse['response'] == '500') {
+                    ?>
+                        <option disabled selected>Error in fetching the items</option>
+                    <?php
+                    }else {
+                      foreach ($getMaterialsResponse['data'] as $singleMaterialInfo) {
+                    ?>
+                        <option value="">Choose an item</option>
+                        <option data-code="<?php echo $singleMaterialInfo['material_code'] ?>" value="<?php echo $singleMaterialInfo['material_id'] ?>">
+                          <?php echo $singleMaterialInfo['item_name'] ?>
+                        </option>
+                    <?php
+                      }
+                    }
+                    ?>
+                  </select>
+
+                  <label for="item_code">Item code</label>
+                  <input type="text" id="itemCodeStockIn" required name="item_code" placeholder="Choose item first">
+
+                  <label for="vendor_id">Vendor</label>
+                  <select name="vendor_id">
+                    <?php
+                      if ($getVendorsResponse['response'] == '204') {
+                      ?>
+                        <option selected disabled value="">There are no vendors present in the system</option>
+                      <?php
+                      }else {
+                        foreach ($getVendorsResponse['data'] as $vendorInfo) {
+                      ?>
+                          <option value="<?php echo $vendorInfo['vendor_id'] ?>">
+                            <?php echo $vendorInfo['vendor_name'] ?>
+                          </option>
+                      <?php
+                        }
+                      }
+                    ?>
+                  </select>
+
+                  <label for="location_id">Location</label>
+                  <select name="location_id" onchange="getLocationWarehouses(this)">
+                    <?php
+                      if ($getLocationsResponse['response'] == '204') {
+                    ?>
+                        <option disabled selected>No locations present</option>
+                    <?php
+                  }elseif ($getLocationsResponse['response'] == '500') {
+                    ?>
+                        <option disabled selected>Error in fetching the locations</option>
+                    <?php
+                    }else {
+                      ?>
+                        <option disabled selected value="">Choose a location</option>
+                      <?php
+                      foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
+                    ?>
+
+                        <option value="<?php echo $singleLocationInfo['location_id'] ?>">
+                          <?php echo $singleLocationInfo['location_name'] ?>
+                        </option>
+                    <?php
+                      }
+                    }
+                    ?>
+                  </select>
+
+                  <label for="warehouse_id">Warehouse</label>
+                  <select name="warehouse_id" id="warehouseIDStockIn">
+                    <option disabled selected>Choose a location first</option>
+                  </select>
+
+                  <div class="grid">
+                    <div>
+                      <label for="lpo">LPO</label>
+                      <input type="number" required name="lpo" placeholder="LPO">
+                    </div>
+                    <div>
+                      <label for="invoice">Invoice</label>
+                      <input type="number" required name="invoice" placeholder="Invoice">
+                    </div>
+                  </div>
+
+                  <label for="delivery_note_no">Delivery Note Number</label>
+                  <input type="number" required name="delivery_note_no" placeholder="Delivery note number">
+
+                  <div class="grid">
+                    <div>
+                      <label for="price_per_item">Price per item</label>
+                      <input type="number" required name="price_per_item" placeholder="Price per item">
+                    </div>
+                    <div>
+                      <label for="cost_per_item">Cost per item</label>
+                      <input type="number" required name="cost_per_item" placeholder="Cost per item">
+                    </div>
+                  </div>
+
+                  <div class="grid">
+                    <div>
+                      <label for="minimum_threshold">Min threshold</label>
+                      <input type="number" required name="minimum_threshold" placeholder="Minimum threshold">
+                    </div>
+                    <div>
+                      <label for="maximum_threshold">Max threshold</label>
+                      <input type="number" required name="maximum_threshold" placeholder="Maximum threshold">
+                    </div>
+                  </div>
+
+                  <label for="vehicle_plate">Vehicle Plate Number</label>
+                  <input type="text" required name="vehicle_plate" placeholder="Vehicle plate number">
+
+                  <div class="grid">
+                    <div>
+                      <label for="start_mileage">Start mileage</label>
+                      <input type="number" required name="start_mileage" placeholder="Start mileage">
+                    </div>
+                    <div>
+                      <label for="stop_mileage">Stop mileage</label>
+                      <input type="number" required name="stop_mileage" placeholder="Stop mileage">
+                    </div>
+                  </div>
+
+                  <label for="quantity">Quantity</label>
+                  <input type="number" required name="quantity" placeholder="Quantity">
+
+                  <label for="powder">Powder</label>
+                  <input type="text" required name="powder" placeholder="Powder"/>
+
+                  <label for="color">Color</label>
+                  <input type="text" required name="color" placeholder="Powder"/>
+
+                  <label for="material">Material</label>
+                  <input type="text" name="material" placeholder="Material">
+
+                  <label for="image_url">Image URL</label>
+                  <input type="url" name="image_url" placeholder="Image URL">
+
+                  <input type="submit" name="submit" value="Stock In">
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="close-modal-btn" onclick="closeModal('#newStock')" name="button">Close &times;</button>
+              </div>
+          </div>
+
+        </div>
 
         <div class="modal" id="newMaterial">
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 08, 2021 at 03:48 PM
+-- Generation Time: Nov 08, 2021 at 05:48 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -113,6 +113,36 @@ CREATE TABLE `materials` (
   `max_threshold` int(11) NOT NULL,
   `pricing` int(11) NOT NULL,
   `quantity` char(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stock_in`
+--
+
+CREATE TABLE `stock_in` (
+  `stockin_entryid` int(11) NOT NULL,
+  `item_name` varchar(255) NOT NULL,
+  `item_code` varchar(255) NOT NULL,
+  `location_id` int(11) NOT NULL,
+  `warehouse_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `invoice` int(11) NOT NULL,
+  `lpo` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `delivery_note_number` int(11) NOT NULL,
+  `vehicle` varchar(255) NOT NULL,
+  `start_mileage` int(11) NOT NULL,
+  `stop_mileage` int(11) NOT NULL,
+  `powder` varchar(255) NOT NULL,
+  `color` varchar(255) NOT NULL,
+  `material` varchar(255) NOT NULL,
+  `price_per_item` int(11) NOT NULL,
+  `cost_per_item` int(11) NOT NULL,
+  `image_url` varchar(255) NOT NULL,
+  `minimum_threshold` int(11) NOT NULL,
+  `maximum_threshold` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -241,6 +271,12 @@ ALTER TABLE `materials`
   ADD PRIMARY KEY (`material_id`);
 
 --
+-- Indexes for table `stock_in`
+--
+ALTER TABLE `stock_in`
+  ADD PRIMARY KEY (`stockin_entryid`);
+
+--
 -- Indexes for table `subcategories`
 --
 ALTER TABLE `subcategories`
@@ -307,6 +343,12 @@ ALTER TABLE `locations`
 --
 ALTER TABLE `materials`
   MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `stock_in`
+--
+ALTER TABLE `stock_in`
+  MODIFY `stockin_entryid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `subcategories`
