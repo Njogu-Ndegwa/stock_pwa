@@ -16,9 +16,21 @@ use app\CSRF;
 
 use app\Customer;
 
+use app\Location;
+
+use app\Company;
+
 $Customer = new Customer();
 
 $getCustomersResponse = $Customer->getCustomers();
+
+$Location = new Location();
+
+$getLocationsResponse = $Location->getLocations();
+
+$Company = new Company();
+
+$getCompaniesResponse = $Company->getCompanies();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -159,6 +171,59 @@ $getCustomersResponse = $Customer->getCustomers();
                   <label for="contact_number">Contact Number</label>
                   <input type="tel" required name="contact_number" placeholder="Contact number">
 
+                  <label for="location_id">Location</label>
+                  <select name="location_id">
+                    <?php
+                      if ($getLocationsResponse['response'] == '204') {
+                    ?>
+                        <option selected disabled>There are no locations present</option>
+                    <?php
+                      }else if($getLocationsResponse['response'] == '500') {
+                    ?>
+                        <option selected disabled>There has been an error fetching the locations</option>
+                    <?php
+                      }else {
+                        foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
+                          ?>
+                            <option value="<?php echo $singleLocationInfo['location_id'] ?>">
+                              <?php echo $singleLocationInfo['location_name'] ?>
+                            </option>
+                          <?php
+                        }
+                      }
+                    ?>
+                  </select>
+
+                  <label for="company_id">Company</label>
+                  <select name="company_id">
+                    <?php
+                      if ($getCompaniesResponse['response'] == '204') {
+                    ?>
+                        <option selected disabled>There are no companies present</option>
+                    <?php
+                  }else if($getCompaniesResponse['response'] == '500') {
+                    ?>
+                        <option selected disabled>There has been an error fetching the companies</option>
+                    <?php
+                      }else {
+                        foreach ($getCompaniesResponse['data'] as $singleCompanyInfo) {
+                          ?>
+                            <option value="<?php echo $singleCompanyInfo['company_id'] ?>">
+                              <?php echo $singleCompanyInfo['company_name'] ?>
+                            </option>
+                          <?php
+                        }
+                      }
+                    ?>
+                  </select>
+
+
+                  <label for="contact_person_name">Contact Person Name</label>
+                  <input type="tel" required name="contact_person_name" placeholder="Contact person name">
+
+                  <label for="contact_person_email">Contact Person Email</label>
+                  <input type="email" required name="contact_person_email" placeholder="Contact person email">
+
                   <input type="submit" name="submit" value="Add Customer">
                 </form>
               </div>
@@ -193,6 +258,55 @@ $getCustomersResponse = $Customer->getCustomers();
 
                     <label for="contact_number">Contact Number</label>
                     <input type="tel" required name="contact_number" placeholder="Contact number" value="<?php echo $singleCustomerInfo['contact_number'] ?>">
+
+                    <label for="location_id">Location</label>
+                    <select name="location_id">
+                      <?php
+                          foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
+                            if ($singleCustomerInfo['location_id'] == $singleLocationInfo['location_id']) {
+                              ?>
+                                <option selected value="<?php echo $singleLocationInfo['location_id'] ?>">
+                                  <?php echo $singleLocationInfo['location_name'] ?> (CHOSEN)
+                                </option>
+                              <?php
+                            }else {
+                              ?>
+                                <option value="<?php echo $singleLocationInfo['location_id'] ?>">
+                                  <?php echo $singleLocationInfo['location_name'] ?>
+                                </option>
+                              <?php
+                            }
+                          }
+                      ?>
+                    </select>
+
+                    <label for="company_id">Company</label>
+                    <select name="company_id">
+                      <?php
+                          foreach ($getCompaniesResponse['data'] as $singleCompanyInfo) {
+                            if ($singleCustomerInfo['company_id'] == $singleCompanyInfo['company_id']) {
+                              ?>
+                                <option selected value="<?php echo $singleCompanyInfo['company_id'] ?>">
+                                  <?php echo $singleCompanyInfo['company_name'] ?> (CHOSEN)
+                                </option>
+                              <?php
+                            }else {
+                              ?>
+                                <option value="<?php echo $singleCompanyInfo['company_id'] ?>">
+                                  <?php echo $singleCompanyInfo['company_name'] ?>
+                                </option>
+                              <?php
+                            }
+                          }
+                      ?>
+                    </select>
+
+
+                    <label for="contact_person_name">Contact Person Name</label>
+                    <input type="tel" required name="contact_person_name" placeholder="Contact person name" value="<?php echo $singleCustomerInfo['contact_person_name'] ?>">
+
+                    <label for="contact_person_email">Contact Person Email</label>
+                    <input type="email" required name="contact_person_email" placeholder="Contact person email" value="<?php echo $singleCustomerInfo['contact_person_email'] ?>">
 
 
                     <input type="submit" name="submit" value="Submit Edits">
@@ -233,7 +347,7 @@ $getCustomersResponse = $Customer->getCustomers();
 
       <table class="table-data glassmorphic">
         <thead>
-          <th colspan="5">
+          <th colspan="10">
             <h2>Customers Present</h2>
           </th>
         </thead>
@@ -241,6 +355,10 @@ $getCustomersResponse = $Customer->getCustomers();
           <th>Customer Name</th>
           <th>Credit Limit</th>
           <th>Contact Number</th>
+          <th>Location</th>
+          <th>Contact Person Name</th>
+          <th>Contact Person Email</th>
+          <th>Company</th>
           <th>Actions</th>
         </thead>
         <tbody>
@@ -248,7 +366,7 @@ $getCustomersResponse = $Customer->getCustomers();
             if ($getCustomersResponse['response'] == '500') {
           ?>
             <tr>
-              <td colspan="5">
+              <td colspan="10">
                 <h3>There has been an error retrieving the records. It had been recorded</h3>
               </td>
             </tr>
@@ -256,7 +374,7 @@ $getCustomersResponse = $Customer->getCustomers();
         }else if($getCustomersResponse['response'] == '204') {
           ?>
             <tr>
-              <td colspan="5">
+              <td colspan="10">
                 <h3>No customers present in the system</h3>
               </td>
             </tr>
@@ -268,6 +386,10 @@ $getCustomersResponse = $Customer->getCustomers();
               <td><?php echo $singleCustomerInfo['customer_name'] ?></td>
               <td><?php echo $singleCustomerInfo['credit_limit'] ?></td>
               <td><?php echo $singleCustomerInfo['contact_number'] ?></td>
+              <td><?php echo $singleCustomerInfo['location_name'] ?></td>
+              <td><?php echo $singleCustomerInfo['contact_person_name'] ?></td>
+              <td><?php echo $singleCustomerInfo['contact_person_email'] ?></td>
+              <td><?php echo $singleCustomerInfo['company_name'] ?></td>
               <td>
                 <button class="action-edit-btn" onclick="openModal('#editCustomer<?php echo $singleCustomerInfo['customer_id']; ?>')">Edit</button>
                 <button class="action-delete-btn" onclick="openModal('#deleteCustomer<?php echo $singleCustomerInfo['customer_id']; ?>')">Delete</button>

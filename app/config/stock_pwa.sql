@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2021 at 03:58 PM
+-- Generation Time: Nov 08, 2021 at 03:48 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -46,9 +46,10 @@ CREATE TABLE `categories` (
 --
 
 CREATE TABLE `companies` (
-  `entry_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `company_name` varchar(255) NOT NULL,
+  `company_pin` varchar(255) NOT NULL,
   `activation_key` varchar(255) NOT NULL,
   `key_validity` tinyint(1) NOT NULL DEFAULT 1,
   `trial` tinyint(1) NOT NULL DEFAULT 0,
@@ -64,11 +65,28 @@ CREATE TABLE `companies` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `customer_id` int(11) NOT NULL,
+  `customer_name` char(255) NOT NULL,
+  `credit_limit` char(255) NOT NULL,
+  `contact_number` char(255) NOT NULL,
+  `location_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `contact_person_name` char(255) NOT NULL,
+  `contact_person_email` char(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `locations`
 --
 
 CREATE TABLE `locations` (
-  `entry_id` int(11) NOT NULL,
+  `location_id` int(11) NOT NULL,
   `location_name` varchar(255) NOT NULL,
   `location_description` char(255) NOT NULL,
   `location_status` char(255) NOT NULL,
@@ -76,6 +94,25 @@ CREATE TABLE `locations` (
   `updated_by` char(255) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `materials`
+--
+
+CREATE TABLE `materials` (
+  `material_id` int(11) NOT NULL,
+  `item_name` char(255) NOT NULL,
+  `material_type` enum('Hardware','Aluminum','Powder') NOT NULL,
+  `material_code` char(255) NOT NULL,
+  `serial_number` char(255) NOT NULL,
+  `image_url` char(255) NOT NULL,
+  `min_threshold` int(11) NOT NULL,
+  `max_threshold` int(11) NOT NULL,
+  `pricing` int(11) NOT NULL,
+  `quantity` char(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -182,14 +219,26 @@ ALTER TABLE `categories`
 -- Indexes for table `companies`
 --
 ALTER TABLE `companies`
-  ADD PRIMARY KEY (`entry_id`),
+  ADD PRIMARY KEY (`company_id`),
   ADD UNIQUE KEY `activation_key` (`activation_key`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`customer_id`);
 
 --
 -- Indexes for table `locations`
 --
 ALTER TABLE `locations`
-  ADD PRIMARY KEY (`entry_id`);
+  ADD PRIMARY KEY (`location_id`);
+
+--
+-- Indexes for table `materials`
+--
+ALTER TABLE `materials`
+  ADD PRIMARY KEY (`material_id`);
 
 --
 -- Indexes for table `subcategories`
@@ -239,13 +288,25 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `entry_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `materials`
+--
+ALTER TABLE `materials`
+  MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `subcategories`

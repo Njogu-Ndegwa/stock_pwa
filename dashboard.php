@@ -63,12 +63,12 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
           Subcategories
         </a>
 
-        <a href="users.html" class="navigation-item">
+        <a href="vendors" class="navigation-item">
           <img src="assets/images/people-carry-solid.svg" alt="people-carry-solid Font Awesome icon">
           Vendor/Supplier
         </a>
 
-        <a href="users.html" class="navigation-item">
+        <a href="customers" class="navigation-item">
           <img src="assets/images/user-friends-solid.svg" alt="user-friends-solid Font Awesome icon">
           Customers
         </a>

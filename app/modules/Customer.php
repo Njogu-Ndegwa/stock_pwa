@@ -36,7 +36,7 @@ class Customer extends Database
      */
     public function getCustomers()
     {
-        $getCustomersSQL = "SELECT * FROM `customers`";
+        $getCustomersSQL = "SELECT * FROM `customers` INNER JOIN locations ON locations.location_id  = customers.location_id INNER JOIN companies ON companies.company_id  = customers.company_id";
 
         return $this->selectSQLStatement($getCustomersSQL, $this->DBConnection);
     }
@@ -44,9 +44,9 @@ class Customer extends Database
     /**
      * Get all the companies present
      */
-    public function addCustomer(String $customerName, String $creditLimit, String $contactNumber)
+    public function addCustomer(String $customerName, String $creditLimit, String $contactNumber, String $locationID, String $companyID, String $contactPersonName, String $contactPersonEmail)
     {
-        $addCustomerSQL = "INSERT INTO `customers`(customer_name, credit_limit, contact_number) VALUES ('$customerName', '$creditLimit', '$contactNumber')";
+        $addCustomerSQL = "INSERT INTO `customers`(customer_name, credit_limit, contact_number, location_id, company_id, contact_person_name, contact_person_email) VALUES ('$customerName', '$creditLimit', '$contactNumber', '$locationID', '$companyID', '$contactPersonName', '$contactPersonEmail')";
 
         return $this->insertSQLStatement($addCustomerSQL, $this->DBConnection);
     }
@@ -54,9 +54,9 @@ class Customer extends Database
     /**
      * Get all the companies present
      */
-    public function editCustomer(String $customerID, String $customerName, String $creditLimit, String $contactNumber)
+    public function editCustomer(String $customerID, String $customerName, String $creditLimit, String $contactNumber, String $locationID, String $companyID, String $contactPersonName, String $contactPersonEmail)
     {
-        $updateCustomerSQL = "UPDATE `customers` SET customer_name = '$customerName', credit_limit = '$creditLimit', contact_number = '$contactNumber' WHERE customer_id = '$customerID'";
+        $updateCustomerSQL = "UPDATE `customers` SET customer_name = '$customerName', credit_limit = '$creditLimit', contact_number = '$contactNumber', location_id = '$locationID', company_id = '$companyID', contact_person_name = '$contactPersonName', contact_person_email = '$contactPersonEmail' WHERE customer_id = '$customerID'";
 
         return $this->updateSQLStatement($updateCustomerSQL, $this->DBConnection);
     }

@@ -56,7 +56,7 @@ class Location extends Database
      */
     public function editLocation(String $locationName, String $locationDescription, String $locationStatus, String $locationID, String $userID, String $updateTime)
     {
-        $updateLocationSQL = "UPDATE `locations` SET location_name = '$locationName', location_description = '$locationDescription', location_status = '$locationStatus', updated_by = '$userID', updated_at = '$updateTime' WHERE entry_id = '$locationID'";
+        $updateLocationSQL = "UPDATE `locations` SET location_name = '$locationName', location_description = '$locationDescription', location_status = '$locationStatus', updated_by = '$userID', updated_at = '$updateTime' WHERE location_id = '$locationID'";
 
         return $this->updateSQLStatement($updateLocationSQL, $this->DBConnection);
     }
@@ -66,7 +66,7 @@ class Location extends Database
      */
     public function deleteLocation(String $locationID)
     {
-        $deleteLocationSQL = "DELETE FROM `locations` WHERE entry_id = '$locationID'";
+        $deleteLocationSQL = "DELETE FROM `locations` WHERE location_id = '$locationID'";
 
         return $this->deleteSQLStatement($deleteLocationSQL, $this->DBConnection);
     }
