@@ -59,7 +59,7 @@ CREATE TABLE `companies` (
   `login_token` varchar(255) NOT NULL,
   `code` int(11) NOT NULL DEFAULT 0,
   `token_valid` tinyint(1) NOT NULL DEFAULT 1,
-  `date_created` date NOT NULL DEFAULT current_timestamp()
+  `date_created` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
