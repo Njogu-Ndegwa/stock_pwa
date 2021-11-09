@@ -255,9 +255,130 @@ CREATE TABLE `warehouses` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase order`
+--
+
+CREATE TABLE `purchase_order` (
+  `purchase_order_id` int(11) NOT NULL,
+  `vendor_name` varchar(255) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `narration` char(255) DEFAULT NULL,
+  `terms_and_conditions` char(255) DEFAULT NULL,
+  `status` char(255) NOT NULL,
+  `item` int(11) NOT NULL,
+  `description` char(255) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `unit_cost` int(11) NOT NULL,
+  `discount` int(11) DEFAULT NULL,
+  `tax` int(11) DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `created_by` char(255) DEFAULT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `due_date` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchases`
+--
+
+CREATE TABLE `purchases` (
+  `purchase_id` int(11) NOT NULL,
+  `vendor_name` varchar(255) NOT NULL,
+  `record_date` datetime DEFAULT NULL,
+  `due_date` datetime DEFAULT NULL,
+  `quotation_date` datetime DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `terms_and_conditions` char(255) DEFAULT NULL,
+  `quotation_reference` char(255) DEFAULT NULL,
+  `select_project` char(255) DEFAULT NULL,
+  `cash_purchase` tinyint(1) NOT NULL DEFAULT 1,
+  `tax_inclusive` tinyint(1) NOT NULL DEFAULT 0,
+  `status` char(255) NOT NULL,
+  `item` int(11) NOT NULL,
+  `description` char(255) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `unit_cost` int(11) NOT NULL,
+  `discount` int(11) DEFAULT NULL,
+  `tax` int(11) DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `created_by` char(255) DEFAULT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL,
+  `voucher_number` varchar(255) NOT NULL,
+  `payment_date` datetime DEFAULT NULL,
+  `payment_to` varchar(255) NOT NULL,
+  `payment_amount` int(11) NOT NULL,
+  `description` char(255) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `payment_mode` enum('Cash','Cheque','Credit/Debit Card', 'Internet Banking') NOT NULL,,
+  `pay_from` char(255) DEFAULT NULL,
+  `payment_type` enum('Against Purchases/Expenses','Adavance Payment','Other Payment') NOT NULL,,
+  `tds_deducted` int(11) NOT NULL,
+  `expense_id` int(11) NOT NULL,
+  `purchase_id` int(11) NOT NULL,
+  `created_by` char(255) DEFAULT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Table structure for table `expenses`
+--
+
+CREATE TABLE `expenses` (
+  `expense_id` int(11) NOT NULL,
+  `voucher_number` varchar(255) NOT NULL,
+  `expense` int(11) NOT NULL,
+  `expense_date` datetime DEFAULT NULL,
+  `paid_from` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `tax` int(11) NOT NULL,
+  `created_by` varchar(255) NOT NULL
+  `status` char(255) DEFAULT NULL,
+  `scanned_proof` char(255) DEFAULT NULL,
+  `narration` char(255) DEFAULT NULL,
+  `expense_type` int(11) NOT NULL,
+  `created_by` char(255) DEFAULT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `description` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`payment_id`);
+
+--
+-- Indexes for table `purchase_order`
+--
+ALTER TABLE `purchase_order`
+  ADD PRIMARY KEY (`purchase_order_id`);
 
 --
 -- Indexes for table `categories`
@@ -341,10 +462,22 @@ ALTER TABLE `warehouses`
 --
 
 --
--- AUTO_INCREMENT for table `categories`
+-- AUTO_INCREMENT for table `purchases`
 --
-ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `payments`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `purchases`
+--
+ALTER TABLE `purchase_order`
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `purchase_order`
+--
+ALTER TABLE `purchase_order`
+  MODIFY `purchase_order_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `companies`
