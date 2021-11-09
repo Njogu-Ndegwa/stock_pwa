@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 08, 2021 at 08:04 PM
+-- Generation Time: Nov 09, 2021 at 10:41 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -133,6 +133,36 @@ CREATE TABLE `materials` (
   `max_threshold` int(11) NOT NULL,
   `pricing` int(11) NOT NULL,
   `quantity` char(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `powdercoating_jobs`
+--
+
+CREATE TABLE `powdercoating_jobs` (
+  `powdercoating_id` int(11) NOT NULL,
+  `coating_job_number` varchar(255) NOT NULL,
+  `lpo_number` varchar(255) NOT NULL,
+  `delivery_no` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `material` varchar(255) NOT NULL,
+  `powder_estimate` int(11) NOT NULL,
+  `powder_used` int(11) NOT NULL,
+  `date_in` date NOT NULL,
+  `color` varchar(255) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `ready_date` date NOT NULL,
+  `belongs_to` varchar(255) NOT NULL,
+  `out_date` varchar(255) NOT NULL,
+  `prepared_by` varchar(255) NOT NULL,
+  `approved_by` varchar(255) NOT NULL,
+  `supervisor` varchar(255) NOT NULL,
+  `quality_by` varchar(255) NOT NULL,
+  `profile_type` varchar(255) NOT NULL,
+  `goods_in_weight` varchar(255) NOT NULL,
+  `items` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -297,6 +327,12 @@ ALTER TABLE `materials`
   ADD PRIMARY KEY (`material_id`);
 
 --
+-- Indexes for table `powdercoating_jobs`
+--
+ALTER TABLE `powdercoating_jobs`
+  ADD PRIMARY KEY (`powdercoating_id`);
+
+--
 -- Indexes for table `stock_in`
 --
 ALTER TABLE `stock_in`
@@ -375,6 +411,12 @@ ALTER TABLE `locations`
 --
 ALTER TABLE `materials`
   MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `powdercoating_jobs`
+--
+ALTER TABLE `powdercoating_jobs`
+  MODIFY `powdercoating_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `stock_in`

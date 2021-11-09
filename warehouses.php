@@ -80,7 +80,7 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
 
         <h3>Projects</h3>
 
-        <a href="#" class="navigation-item">
+        <a href="powdercoating" class="navigation-item">
           <img src="assets/images/industry-solid.svg" alt="industry-solid Font Awesome icon">
           Powder Coating
         </a>

@@ -183,10 +183,47 @@ function getLocationWarehouses(selectElement) {
         option.innerHTML = warehouseLocation.warehouse_name;
         option.value = warehouseLocation.warehouse_id;
         selectWarehouse.appendChild(option);
-        
+
       });
 
     }
   })
   .catch(err => alert(err));
+}
+function addSerialNumber () {
+    document.querySelectorAll('#itemsTable > tr').forEach((item, index) => {
+      item.querySelector('td:nth-child(1)').innerHTML = index + 2;
+    })
+};
+
+addSerialNumber();
+
+function addItemRow() {
+  const cloneChild = document.querySelector('#itemsTable').querySelector('tbody').querySelector('tr').cloneNode(true);
+  cloneChild.querySelectorAll('input').forEach((inputElement) => {
+    inputElement.value='';
+  })
+  document.querySelector('#itemsTable').appendChild(cloneChild);
+  addSerialNumber();
+}
+
+function calculateEstimate() {
+  let weight = parseFloat(document.querySelector('#weightInput').value);
+  const profile = document.querySelector('#profileType').value;
+  if (isNaN(weight)) {
+    weight = 0;
+  }
+
+  let result;
+  switch (profile) {
+    case 'Heavy':
+      result = weight/28;
+      break;
+      case 'Medium':
+        result = weight/24;
+        break;
+    default:
+      result = weight/20;
+  }
+  document.querySelector('#powderEstimate').value = result.toFixed(2);
 }
