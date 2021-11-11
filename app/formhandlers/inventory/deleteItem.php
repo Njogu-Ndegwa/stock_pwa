@@ -6,13 +6,13 @@ require_once '../postMiddleware.php';
 
 use app\Material;
 
-if (!empty($_POST['material_id'])) {
+if (!empty($_POST['item_id'])) {
 
   $Material = new Material();
 
-  $materialID = $Material->sanitiseInput($_POST['material_id']);
+  $itemID = $Material->sanitiseInput($_POST['item_id']);
 
-  $deleteMaterialResponse = $Material->deleteMaterial($materialID);
+  $deleteMaterialResponse = $Material->deleteMaterial($itemID);
 
   if ($deleteMaterialResponse['response'] == '200') {
 

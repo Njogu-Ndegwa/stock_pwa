@@ -151,12 +151,21 @@ abstract class Database extends Utility
         // attempt the query
         $queryResult = mysqli_query($DBConnection, $SQLQueryString);
 
-        if ($queryResult) {
+        $rowCount = $DBConnection->affected_rows;
 
-    // add array to return
+        if ($queryResult) {
+          if ($rowCount > 0) {
             $responseArray['response'] = '200';
             $responseArray['message'] = 'Success';
-            $responseArray['data'] = "The record was deleted";
+            $responseArray['data'] = "The Delete was perfomed ok";
+          }else {
+
+            $responseArray['response'] = '204';
+            $responseArray['message'] = 'The delete Didn\'t Affect Any Record';
+            $responseArray['data'] = [];
+            Logger::logToFile('Error', $responseArray['message']." SQL Statement: ". $SQLQueryString );
+
+          }
         } else {
             $responseArray['response'] = '500';
             $responseArray['message'] = mysqli_error($DBConnection);

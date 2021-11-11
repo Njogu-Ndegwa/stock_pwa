@@ -227,3 +227,15 @@ function calculateEstimate() {
   }
   document.querySelector('#powderEstimate').value = result.toFixed(2);
 }
+
+function fieldUpdate(selectElement) {
+  if (selectElement.value == 'Powder') {
+    document.querySelector('#itemCode').disabled = false;
+    document.querySelector('#vendorName').disabled = false;
+    document.querySelector('#unit').innerHTML = '(in KG)';
+  }else {
+    document.querySelector('#itemCode').disabled = true;
+    document.querySelector('#vendorName').disabled = true;
+    document.querySelector('#unit').innerHTML = '(in Units)';
+  }
+}

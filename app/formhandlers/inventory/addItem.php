@@ -1,15 +1,13 @@
 <?php
-
 require_once '../../vendor/autoload.php';
 
 require_once '../postMiddleware.php';
 
 use app\Material;
 
-if (isset($_POST['item_id']) && isset($_POST['item_name']) && isset($_POST['quantity']) && isset($_POST['minimum_threshold'])  && isset($_POST['maximum_threshold']) && isset($_POST['standard_cost'])) {
-  $Material = new Material();
+if (!empty($_POST['item_name']) && !empty($_POST['item_description']) && !empty($_POST['serial_number'])){
 
-  $itemID = $Material->sanitiseInput($_POST['item_id']);
+  $Material = new Material();
 
   $itemName = $Material->sanitiseInput($_POST['item_name']);
 
@@ -29,43 +27,52 @@ if (isset($_POST['item_id']) && isset($_POST['item_name']) && isset($_POST['quan
 
   $unitCost = 0;
 
+  $unitPrice = 0;
+
   if (isset($_POST['item_code'])) {
     if (isset($_post['vendor_company'])) {
       $_SESSION['error'] = "Required input to add 'Powder' item is missing";
       header("Location:". $_SERVER['HTTP_REFERER']);
       exit();
     }
-    $itemCode =  $Material->sanitiseInput($_POST['item_code']);
+    $itemCode =  $Material->sanitiseInput($_POST['item_code'])." ".$Material->sanitiseInput($_POST['vendor_company']);
   }
 
-  if (!isset($_POST['quantity'])) {
+  if (!empty($_POST['quantity'])) {
     $itemQuantity = $Material->sanitiseInput($_POST['quantity']);
   }
 
 
-  if (!isset($_POST['minimum_threshold'])) {
+  if (!empty($_POST['minimum_threshold'])) {
     $minThreshold = $Material->sanitiseInput($_POST['minimum_threshold']);
   }
 
-  if (!isset($_POST['maximum_threshold'])) {
+  if (!empty($_POST['maximum_threshold'])) {
     $maxThreshold = $Material->sanitiseInput($_POST['maximum_threshold']);
   }
 
-  $standardCost = $Material->sanitiseInput($_POST['standard_cost']);
+  if (!empty($_POST['unit_cost'])) {
+    $unitCost = $Material->sanitiseInput($_POST['unit_cost']);
+  }
 
-  $editItemResponse = $Material->editItem($itemID, $itemType, $itemName, $itemCode, $itemDescription, $itemQuantity, $maxThreshold, $minThreshold, $standardCost, $serialNumber);
+  if (!empty($_POST['unit_price'])) {
+    $unitPrice = $Material->sanitiseInput($_POST['unit_price']);
+  }
 
-  if ($editItemResponse['response'] == '200') {
-    $_SESSION['success'] = "Item has been edited successfuly";
+  $addItemResponse = $Material->addItem($itemType, $itemName, $itemCode, $itemDescription, $itemQuantity, $maxThreshold, $minThreshold, $unitCost, $unitCost, $unitPrice, $serialNumber);
+
+  if ($addItemResponse['response'] == '200') {
+    $_SESSION['success'] = "Item has been added to inventory";
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }else {
-    $_SESSION['error'] = "Failed to edit item";
+    $_SESSION['error'] = "Failed to add item to inventory";
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }
+
 }else {
-  $_SESSION['error'] = "Required input to edit an item missing";
+  $_SESSION['error'] = "Required input to add an item is missing";
   header("Location:". $_SERVER['HTTP_REFERER']);
   exit();
 }

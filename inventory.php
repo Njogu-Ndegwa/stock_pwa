@@ -154,8 +154,8 @@ $getCustomersResponse = $Customer->getCustomers();
 
       </div>
 
-        <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newMaterial')">
-          ADD MATERIAL
+        <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newItem')">
+          ADD ITEM
         </button>
 
         <button type="button" name="button" class="new-subscription-btn" onclick="openModal('#newStock')">
@@ -278,10 +278,12 @@ $getCustomersResponse = $Customer->getCustomers();
                         <option disabled selected>Error in fetching the items</option>
                     <?php
                     }else {
+                      ?>
+                        <option disabled selected>Choose an item</option>
+                      <?php
                       foreach ($getMaterialsResponse['data'] as $singleMaterialInfo) {
                     ?>
-                        <option value="">Choose an item</option>
-                        <option data-code="<?php echo $singleMaterialInfo['material_code'] ?>" value="<?php echo $singleMaterialInfo['material_id'] ?>">
+                        <option data-code="<?php echo $singleMaterialInfo['material_code'] ?>" value="<?php echo $singleMaterialInfo['item_id'] ?>">
                           <?php echo $singleMaterialInfo['item_name'] ?>
                         </option>
                     <?php
@@ -419,14 +421,14 @@ $getCustomersResponse = $Customer->getCustomers();
 
         </div>
 
-        <div class="modal" id="newMaterial">
+        <div class="modal" id="newItem">
 
           <div class="modal-dialog">
               <div class="modal-head">
-                <h2>Add a Material</h2>
+                <h2>Add an Item</h2>
               </div>
               <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/inventory/addMaterial" method="post">
+                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/inventory/addItem" method="post">
                   <?php
                       echo CSRF::createToken();
                   ?>
@@ -434,14 +436,35 @@ $getCustomersResponse = $Customer->getCustomers();
                   <label for="item_name">Item name</label>
                   <input type="text" required name="item_name" placeholder="Item name">
 
+                  <label for="item_description">Item description</label>
+                  <textarea name="item_description" rows="3"></textarea>
+
+
+                  <label for="serial_number">Serial</label>
+                  <input type="text" required name="serial_number" placeholder="Serial number">
+
+                  <label for="item_type">Item type</label>
+                  <select name="item_type" onchange="fieldUpdate(this)">
+                    <option value="Aluminium">Aluminium</option>
+                    <option value="Hardware">Hardware</option>
+                    <option value="Powder">Powder</option>
+                  </select>
+                  <small>
+                    <b>
+                      *Some fields will deactivate/activate on choosing
+                    </b>
+                  </small>
+
+                  <hr>
+
                   <div class="grid">
                     <div class="">
                       <label for="item_code">Item code</label>
-                      <input type="text" required name="item_code" placeholder="Item code">
+                      <input type="text" id="itemCode" disabled name="item_code" placeholder="Item code">
                     </div>
                     <div class="">
                       <label for="vendor_company">Vendor</label>
-                      <select name="vendor_company">
+                      <select id="vendorName" disabled name="vendor_company">
                         <?php
                           if ($getVendorsResponse['response'] == '204') {
                           ?>
@@ -461,41 +484,31 @@ $getCustomersResponse = $Customer->getCustomers();
                     </div>
                   </div>
 
-                  <label for="serial_number">Serial</label>
-                  <input type="text" required name="serial_number" placeholder="Serial number">
-
-                  <label for="item_type">Item type</label>
-                  <select name="item_type" onchange="changeUnit(this)">
-                    <option value="Hardware">Hardware</option>
-                    <option value="Aluminum">Aluminum</option>
-                    <option value="Powder">Powder</option>
-                  </select>
-
-                  <label for="quantity">Quantity<span id="unit">(Units)</span> </label>
-                  <input type="number" required name="quantity" placeholder="Category status">
-
-                  <label for="image_url">Image URL</label>
-                  <input type="url" name="image_url" placeholder="Image URL">
+                  <label for="quantity">Quantity<span id="unit">(Units)</span> (Optional) </label>
+                  <input type="number" id="itemQuantity" min="0" name="quantity" placeholder="Quantity">
 
                   <div class="grid">
                     <div>
-                      <label for="minimum_threshold">Min threshold</label>
-                      <input type="number" required name="minimum_threshold" placeholder="Minimum threshold">
+                      <label for="minimum_threshold">Min threshold</br>(Optional)</label>
+                      <input type="number" name="minimum_threshold" placeholder="Minimum threshold">
                     </div>
                     <div>
-                      <label for="maximum_threshold">Max threshold</label>
-                      <input type="number" required name="maximum_threshold" placeholder="Maximum threshold">
+                      <label for="maximum_threshold">Max threshold</br>(Optional)</label>
+                      <input type="number" name="maximum_threshold" placeholder="Maximum threshold">
                     </div>
                   </div>
 
-                  <label for="pricing">Pricing</label>
-                  <input type="number" required name="pricing" placeholder="Pricing">
+                  <label for="pricing">Unit Cost (Optional)</label>
+                  <input type="number" name="unit_cost" placeholder="Cost">
+
+                  <label for="pricing">Unit Price (Optional)</label>
+                  <input type="number" name="unit_price" placeholder="Pricing">
 
                   <input type="submit" name="submit" value="Add Item">
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="close-modal-btn" onclick="closeModal('#newMaterial')" name="button">Close &times;</button>
+                <button type="button" class="close-modal-btn" onclick="closeModal('#newItem')" name="button">Close &times;</button>
               </div>
           </div>
 
@@ -504,7 +517,7 @@ $getCustomersResponse = $Customer->getCustomers();
         <?php
           foreach ($getMaterialsResponse['data'] as $singleMaterialInfo) {
         ?>
-          <div class="modal" id="editMaterial<?php echo $singleMaterialInfo['material_id']; ?>">
+          <div class="modal" id="editMaterial<?php echo $singleMaterialInfo['item_id']; ?>">
 
             <div class="modal-dialog">
                 <div class="modal-head">
@@ -515,70 +528,71 @@ $getCustomersResponse = $Customer->getCustomers();
                     <?php
                         echo CSRF::createToken();
                     ?>
-                    <input type="hidden" name="material_id" value="<?php echo $singleMaterialInfo['material_id'] ?>">
+                    <input type="hidden" name="item_id" value="<?php echo $singleMaterialInfo['item_id'] ?>">
 
                     <label for="item_name">Item name</label>
                     <input type="text" required name="item_name" placeholder="Item name" value="<?php echo $singleMaterialInfo['item_name']; ?>">
 
+                    <label for="item_description">Item description</label>
+                    <textarea name="item_description" rows="3"><?php echo $singleMaterialInfo['description'] ?></textarea>
+
+
+                    <label for="item_type">Item type</label>
+                    <select name="item_type" onchange="fieldUpdate(this)">
+                      <?php
+                        $itemTypeOptions = ['Aluminium', 'Hardware', 'Powder'];
+
+                        for ($i=0; $i < 3; $i++) {
+                          if ($singleMaterialInfo['inventory_type'] == $itemTypeOptions[$i]) {
+                      ?>
+                            <option selected value="<?php echo $singleMaterialInfo['inventory_type'] ?>">
+                              <?php echo $singleMaterialInfo['inventory_type'] ?>(CHOSEN)
+                            </option>
+                      <?php
+                          }else {
+                            ?>
+                                  <option value="<?php echo $itemTypeOptions[$i] ?>">
+                                    <?php echo $itemTypeOptions[$i] ?>
+                                  </option>
+                            <?php
+                          }
+                        }
+                      ?>
+                    </select>
+
                     <label for="item_code">Item code</label>
-                    <input type="text" required name="item_code" placeholder="Item code" value="<?php echo $singleMaterialInfo['material_code'] ?>">
+                    <input type="text" required name="item_code" placeholder="Item code" value="<?php echo $singleMaterialInfo['item_code'] ?>">
 
                     <label for="serial_number">Serial</label>
                     <input type="text" required name="serial_number" placeholder="Serial number" value="<?php echo $singleMaterialInfo['serial_number'] ?>">
 
-                    <label for="item_type">Item type</label>
-                    <select name="item_type" onchange="changeUnit(this)">
-                      <?php
-                        $itemType = ['Hardware', 'Aluminum', 'Powder'];
-
-                        for ($i=0; $i < 3; $i++) {
-                          if ($singleMaterialInfo['material_type'] == $itemType[$i]) {
-                      ?>
-                          <option selected value="<?php echo $singleMaterialInfo['material_type'] ?>">
-                            <?php echo $itemType[$i] ?>(CHOSEN)
-                          </option>
-                      <?php
-                        }else {
-                      ?>
-                          <option value="<?php echo $itemType[$i] ?>">
-                            <?php echo $itemType[$i]; ?>
-                          </option>
-                      <?php
-                        }
-                      }
-                      ?>
-                    </select>
+                    <div class="grid">
+                      <div>
+                        <label for="minimum_threshold">Min threshold</label>
+                        <input type="number" name="minimum_threshold" placeholder="Minimum threshold" value="<?php echo $singleMaterialInfo['minimum_threshold'] ?>">
+                      </div>
+                      <div>
+                        <label for="maximum_threshold">Max threshold</label>
+                        <input type="number" name="maximum_threshold" placeholder="Maximum threshold" value="<?php echo $singleMaterialInfo['maximum_threshold'] ?>">
+                      </div>
+                    </div>
 
                     <label for="quantity">Quantity<span id="unit">(Units)</span> </label>
                     <input type="number" required name="quantity" placeholder="Category status" value="<?php echo $singleMaterialInfo['quantity']; ?>">
 
-                    <label for="image_url">Image URL</label>
-                    <input type="url" name="image_url" placeholder="Image URL" value="<?php echo $singleMaterialInfo['image_url']; ?>">
-
-                    <div class="grid">
-                      <div>
-                        <label for="minimum_threshold">Min threshold</label>
-                        <input type="number" required name="minimum_threshold" placeholder="Minimum threshold" value="<?php echo $singleMaterialInfo['min_threshold']; ?>">
-                      </div>
-                      <div>
-                        <label for="maximum_threshold">Max threshold</label>
-                        <input type="number" required name="maximum_threshold" placeholder="Maximum threshold" value="<?php echo $singleMaterialInfo['max_threshold']; ?>">
-                      </div>
-                    </div>
-
-                    <label for="pricing">Pricing</label>
-                    <input type="number" required name="pricing" placeholder="Pricing" value="<?php echo $singleMaterialInfo['pricing']; ?>">
+                    <label for="pricing">Standard cost</label>
+                    <input type="number" required name="standard_cost" placeholder="Pricing" value="<?php echo $singleMaterialInfo['standard_cost']; ?>">
 
                     <input type="submit" name="submit" value="Edit Item">
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="close-modal-btn" onclick="closeModal('#editMaterial<?php echo $singleMaterialInfo['material_id']; ?>')" name="button">Close &times;</button>
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#editMaterial<?php echo $singleMaterialInfo['item_id']; ?>')" name="button">Close &times;</button>
                 </div>
             </div>
 
           </div>
-          <div class="modal" id="deleteMaterial<?php echo $singleMaterialInfo['material_id']; ?>">
+          <div class="modal" id="deleteMaterial<?php echo $singleMaterialInfo['item_id']; ?>">
 
             <div class="modal-dialog">
                 <div class="modal-head">
@@ -590,13 +604,13 @@ $getCustomersResponse = $Customer->getCustomers();
                         echo CSRF::createToken();
                     ?>
                     <p>Are you sure you want to delete this item?</p>
-                    <input type="hidden" name="material_id" value="<?php echo $singleMaterialInfo['material_id'] ?>">
+                    <input type="hidden" name="item_id" value="<?php echo $singleMaterialInfo['item_id'] ?>">
 
                     <input type="submit" name="submit" value="Yes I am">
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="close-modal-btn" onclick="closeModal('#deleteMaterial<?php echo $singleMaterialInfo['material_id']; ?>')" name="button">No &times;</button>
+                  <button type="button" class="close-modal-btn" onclick="closeModal('#deleteMaterial<?php echo $singleMaterialInfo['item_id']; ?>')" name="button">No &times;</button>
                 </div>
             </div>
 
@@ -610,10 +624,9 @@ $getCustomersResponse = $Customer->getCustomers();
           <th>Item Name</th>
           <th>Item Code</th>
           <th>Item Type</th>
-          <th>Image URL</th>
           <th>Min. Threshold</th>
           <th>Max. Threshold</th>
-          <th>Pricing</th>
+          <th>Standard Cost</th>
           <th>Quantity</th>
           <th>Actions</th>
         </thead>
@@ -640,20 +653,15 @@ $getCustomersResponse = $Customer->getCustomers();
             ?>
             <tr>
               <td><?php echo $singleMaterialInfo['item_name'] ?></td>
-              <td><?php echo $singleMaterialInfo['material_code'] ?></td>
-              <td><?php echo $singleMaterialInfo['material_type'] ?></td>
-              <td>
-                <a href="<?php echo $singleMaterialInfo['image_url'] ?>" target="_blank">
-                  View Image
-                </a>
-              </td>
-              <td><?php echo $singleMaterialInfo['min_threshold'] ?></td>
-              <td><?php echo $singleMaterialInfo['max_threshold'] ?></td>
-              <td><?php echo $singleMaterialInfo['pricing'] ?></td>
+              <td><?php echo $itemCode = ($singleMaterialInfo['item_code'] == NULL) ? '-' : $singleMaterialInfo['item_code'] ; ?></td>
+              <td><?php echo $singleMaterialInfo['inventory_type'] ?></td>
+              <td><?php echo $singleMaterialInfo['minimum_threshold'] ?></td>
+              <td><?php echo $singleMaterialInfo['maximum_threshold'] ?></td>
+              <td><?php echo $singleMaterialInfo['standard_cost'] ?></td>
               <td><?php echo $singleMaterialInfo['quantity'] ?></td>
               <td>
-                <button class="action-edit-btn" onclick="openModal('#editMaterial<?php echo $singleMaterialInfo['material_id']; ?>')">Edit</button>
-                <button class="action-delete-btn" onclick="openModal('#deleteMaterial<?php echo $singleMaterialInfo['material_id']; ?>')">Delete</button>
+                <button class="action-edit-btn" onclick="openModal('#editMaterial<?php echo $singleMaterialInfo['item_id']; ?>')">Edit</button>
+                <button class="action-delete-btn" onclick="openModal('#deleteMaterial<?php echo $singleMaterialInfo['item_id']; ?>')">Delete</button>
               </td>
             </tr>
             <?php

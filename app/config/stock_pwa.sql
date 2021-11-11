@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 09, 2021 at 10:41 AM
+-- Generation Time: Nov 11, 2021 at 05:26 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -97,6 +97,27 @@ CREATE TABLE `inventory_acquisition` (
   `customer_name` varchar(255) DEFAULT NULL,
   `removed_by` varchar(255) DEFAULT NULL,
   `date` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `items`
+--
+
+CREATE TABLE `items` (
+  `item_id` int(11) NOT NULL,
+  `inventory_type` varchar(255) NOT NULL,
+  `item_name` varchar(255) NOT NULL,
+  `item_code` varchar(255) DEFAULT NULL,
+  `description` mediumtext NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `maximum_threshold` int(11) NOT NULL,
+  `minimum_threshold` int(11) NOT NULL,
+  `standard_cost` int(11) NOT NULL,
+  `unit_cost` int(11) NOT NULL,
+  `unit_price` int(11) NOT NULL,
+  `serial_number` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -315,6 +336,12 @@ ALTER TABLE `inventory_acquisition`
   ADD PRIMARY KEY (`acquisition_id`);
 
 --
+-- Indexes for table `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`item_id`);
+
+--
 -- Indexes for table `locations`
 --
 ALTER TABLE `locations`
@@ -399,6 +426,12 @@ ALTER TABLE `customers`
 --
 ALTER TABLE `inventory_acquisition`
   MODIFY `acquisition_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `locations`

@@ -36,13 +36,22 @@ class Material extends Database
      */
     public function getMaterials()
     {
-        $getMaterialsSQL = "SELECT * FROM `materials`";
+        $getMaterialsSQL = "SELECT * FROM `items`";
 
         return $this->selectSQLStatement($getMaterialsSQL, $this->DBConnection);
     }
 
     /**
-     * Get all the companies present
+     * Add an item to the system
+     */
+    public function addItem(String $itemType, String $itemName, $itemCode, String $itemDescription, String $itemQuantity, String $maxThreshold, String $minThreshold, String $standardCost, String $unitCost, String $unitPrice, String $serialNumber)
+    {
+        $addItemSQL = "INSERT INTO `items`(inventory_type, item_name, item_code, description, quantity, maximum_threshold, minimum_threshold, standard_cost, unit_cost, unit_price, serial_number) VALUES ('$itemType', '$itemName', '$itemCode', '$itemDescription', '$itemQuantity', '$maxThreshold', '$minThreshold', '$standardCost', '$unitCost', '$unitPrice', '$serialNumber')";
+
+        return $this->insertSQLStatement($addItemSQL, $this->DBConnection);
+    }
+    /**
+     * Add material to the system
      */
     public function addMaterial(String $itemName, String $itemCode, String $itemQuantity, String $itemImage, String $itemMinThreshold, String $itemMaxThreshold, String $itemType, String $serialNumber, String $itemPricing)
     {
@@ -54,9 +63,9 @@ class Material extends Database
     /**
      * Get all the companies present
      */
-    public function editMaterial(String $materialID, String $itemName, String $itemCode, String $itemQuantity, String $itemImage, String $itemMinThreshold, String $itemMaxThreshold, String $itemType, String $serialNumber, String $itemPricing)
+    public function editItem(String $itemID, String $itemType, String $itemName, String $itemCode, String $itemDescription, String $itemQuantity, String $maxThreshold, String $minThreshold,  String $standardCost, String $serialNumber)
     {
-        $updateMaterialSQL = "UPDATE `materials` SET item_name = '$itemName', material_type = '$itemType', material_code = '$itemCode',serial_number = '$serialNumber', image_url = '$itemImage', min_threshold = '$itemMinThreshold', max_threshold = '$itemMaxThreshold', pricing = '$itemPricing', quantity = '$itemQuantity'  WHERE material_id = '$materialID'";
+        $updateMaterialSQL = "UPDATE `items` SET inventory_type = '$itemType', item_name = '$itemName', item_code = '$itemCode', description = '$itemDescription', quantity = '$itemQuantity', maximum_threshold = '$maxThreshold', minimum_threshold = '$minThreshold', standard_cost = '$standardCost', serial_number = '$serialNumber' WHERE item_id = '$itemID'";
 
         return $this->updateSQLStatement($updateMaterialSQL, $this->DBConnection);
     }
@@ -64,11 +73,11 @@ class Material extends Database
     /**
      * Get all the companies present
      */
-    public function deleteMaterial(String $materialID)
+    public function deleteMaterial(String $itemID)
     {
-        $deleteMaterialSQL = "DELETE FROM `materials` WHERE material_id = '$materialID'";
+        $deleteItemSQL = "DELETE FROM `items` WHERE item_id = '$itemID'";
 
-        return $this->deleteSQLStatement($deleteMaterialSQL, $this->DBConnection);
+        return $this->deleteSQLStatement($deleteItemSQL, $this->DBConnection);
     }
 
     /**
