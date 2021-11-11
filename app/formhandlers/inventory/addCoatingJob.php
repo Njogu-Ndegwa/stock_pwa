@@ -5,6 +5,8 @@ require_once '../postMiddleware.php';
 
 use app\Material;
 
+use app\PDFGenerator;
+
 if (!empty($_POST['customer_name']) && !empty($_POST['coating_job_no']) && !empty($_POST['quotation_no']) && !empty($_POST['lpo_no'])  && !empty($_POST['delivery_number'])  && !empty($_POST['date']) && !empty($_POST['material']) && !empty($_POST['weight']) && !empty($_POST['profile_type']) && !empty($_POST['powder_estimate'])) {
   $Material = new Material();
 
@@ -41,7 +43,7 @@ if (!empty($_POST['customer_name']) && !empty($_POST['coating_job_no']) && !empt
   for ($i=0; $i < count($_POST['item_code']) ; $i++) {
     $rowItem = array(
       'item_code' => $_POST['item_code'][$i],
-      'item_code' => $_POST['item_code'][$i],
+      'item_description' => $_POST['item_description'][$i],
       'item_quantity' => $_POST['item_quantity'][$i],
       'item_kg' => $_POST['item_kg'][$i]
     );
@@ -65,6 +67,19 @@ if (!empty($_POST['customer_name']) && !empty($_POST['coating_job_no']) && !empt
   $readyDate = $_POST['ready_date'];
 
   $addJobResponse = $Material->addCoatingJob( $customerID, $coatingJobNumber, $lpoNo, $deliveryNo, $date, $material, $weight, $profileType, $powderEstimate, $powderUsed, $ral, $color, $code, $owner, $itemsSectionData, $preparedBy, $approvedBy, $supervisor, $qualityBy, $inDate, $outDate, $readyDate);
+
+  // Column headings
+  $header = array('Item Code', 'Item Quantity', 'Quantity', 'KG');
+
+  $pdf = new pdfGenerator();
+
+  $pdf->SetFont('Arial','',14);
+
+  $pdf->AddPage();
+
+  $pdf->makePDF($header,$items);
+
+  $pdf->Output('D', 'quotation.pdf');
 
   if ($addJobResponse['response'] == '200') {
     $_SESSION['success'] = "New coating job has been added to the system successfuly";

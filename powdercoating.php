@@ -237,7 +237,7 @@ $coatingNumber = $Customer->generateToken(5, 1, 'numbers')[0];
           <div class="input-wrapper" style="text-align:left">
             <label>Belongs to:</label>
             <div>
-              <input type="radio" name="owner" value="clients"><label for="owner">Owners/Clients</label>
+              <input type="radio" name="owner" checked value="clients"><label for="owner">Owners/Clients</label>
             </div>
             <div>
               <input type="radio" name="owner" value="maruti"><label for="owner">Maruti</label>
