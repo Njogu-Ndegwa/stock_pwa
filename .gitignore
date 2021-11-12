@@ -4,3 +4,4 @@ error_log.txt
 try.php
 node_modules
 yarn.lock
+app/uploads/*

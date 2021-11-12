@@ -121,11 +121,21 @@ class Material extends Database
     /**
      * Add a coating job
      */
-    public function addCoatingJob( String $customerID, String $coatingJobNumber, String $lpoNo, String $deliveryNo, String $date, String $material, String $weight, String $profileType, String $powderEstimate, String $powderUsed, String $ral, String $color, String $code, String $owner, String $itemsSectionData, String $preparedBy, String $approvedBy, String $supervisor, String $qualityBy, String $inDate, String $outDate, String $readyDate)
+    public function addCoatingJob( String $customerID, String $coatingJobNumber, String $lpoNo, String $deliveryNo, String $date, String $material, String $weight, String $profileType, String $powderEstimate, String $powderUsed, String $ral, String $color, String $code, String $owner, String $itemsSectionData, String $preparedBy, String $approvedBy, String $supervisor, String $qualityBy, String $inDate, String $outDate, String $readyDate, String $fileName)
     {
-        $adCoatingJobSQL = "INSERT INTO `powdercoating_jobs`(coating_job_number, lpo_number, delivery_no, date, material, powder_estimate, powder_used, date_in, color, code, ready_date, belongs_to, out_date, prepared_by, approved_by, supervisor, quality_by, profile_type, goods_in_weight, items) VALUES('$coatingJobNumber', '$lpoNo', '$deliveryNo', '$date', '$material', '$powderEstimate', '$powderUsed', '$inDate', '$color', '$code', '$readyDate', '$owner', '$outDate', '$preparedBy', '$approvedBy', '$supervisor', '$qualityBy', '$profileType', '$weight', '$itemsSectionData')";
+        $addCoatingJobSQL = "INSERT INTO `powdercoating_jobs`(coating_job_number, lpo_number, delivery_no, date, material, powder_estimate, powder_used, date_in, color, code, ready_date, belongs_to, out_date, prepared_by, approved_by, supervisor, quality_by, profile_type, goods_in_weight, items, filename) VALUES('$coatingJobNumber', '$lpoNo', '$deliveryNo', '$date', '$material', '$powderEstimate', '$powderUsed', '$inDate', '$color', '$code', '$readyDate', '$owner', '$outDate', '$preparedBy', '$approvedBy', '$supervisor', '$qualityBy', '$profileType', '$weight', '$itemsSectionData', '$fileName')";
 
-        return $this->insertSQLStatement($adCoatingJobSQL, $this->DBConnection);
+        return $this->insertSQLStatement($addCoatingJobSQL, $this->DBConnection);
+    }
+
+    /**
+     * Get the coating jobs
+     */
+    public function getCoatingJobs()
+    {
+        $getCoatingJobsSQL = "SELECT * FROM `powdercoating_jobs`";
+
+        return $this->selectSQLStatement($getCoatingJobsSQL, $this->DBConnection);
     }
 
 

@@ -23,7 +23,7 @@ class PDFGenerator extends FPDF
       // Data
       foreach($data as $row)
       {
-          $this->Cell($w[0],6,$row['item_code'],1);
+          $this->Cell($w[0],6,$row['item_name'],1);
           $this->Cell($w[1],6,$row['item_description'],1);
           $this->Cell($w[2],6,$row['item_quantity'],1);
           $this->Cell($w[3],6,$row['item_kg'],1);

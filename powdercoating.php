@@ -16,11 +16,20 @@ use app\CSRF;
 
 use app\Customer;
 
+use app\Material;
+
 $Customer = new Customer();
 
 $getCustomersResponse = $Customer->getCustomers();
 
 $coatingNumber = $Customer->generateToken(5, 1, 'numbers')[0];
+
+$Material = new Material();
+
+$getMaterialsResponse = $Material->getMaterials();
+
+$getCoatingJobsResponse = $Material->getCoatingJobs();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -248,7 +257,7 @@ $coatingNumber = $Customer->generateToken(5, 1, 'numbers')[0];
             <table id="itemsTable">
               <thead>
                 <th>No</th>
-                <th>Code</th>
+                <th>Item</th>
                 <th>Description</th>
                 <th>Qty</th>
                 <th>KG</th>
@@ -256,7 +265,25 @@ $coatingNumber = $Customer->generateToken(5, 1, 'numbers')[0];
               <tbody>
                 <tr>
                   <td>1</td>
-                  <td><input type="text" name="item_code[]" value=""></td>
+                  <td>
+                    <select class="" name="item_name[]">
+                      <?php
+                        if ($getMaterialsResponse['response'] == '204') {
+                      ?>
+                          <option value="" disabled selected>No items present in inventory</option>
+                      <?php
+                        }else {
+                          foreach ($getMaterialsResponse['data'] as $itemInfo) {
+                            ?>
+                              <option value="<?php echo $itemInfo['item_name'] ?>">
+                                <?php echo $itemInfo['item_name'] ?>
+                              </option>
+                            <?php
+                          }
+                        }
+                      ?>
+                    </select>
+                  </td>
                   <td><input type="text" name="item_description[]" value=""></td>
                   <td><input type="text" name="item_quantity[]" value=""></td>
                   <td><input type="text" name="item_kg[]" value=""></td>
@@ -317,6 +344,58 @@ $coatingNumber = $Customer->generateToken(5, 1, 'numbers')[0];
           </div>
 
         </form>
+
+        <table class="table-data glassmorphic" style="margin-bottom:100px;">
+          <thead>
+            <th colspan="7">
+              <h2>Coating Jobs Present</h2>
+            </th>
+          </thead>
+          <thead>
+            <th>Coating Job ID</th>
+            <th>Coating Job PDF</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
+            <?php
+              if ($getCoatingJobsResponse['response'] == '500') {
+            ?>
+              <tr>
+                <td colspan="7">
+                  <h3>There has been an error retrieving the records. It has been recorded</h3>
+                </td>
+              </tr>
+            <?php
+            }else if($getCoatingJobsResponse['response'] == '204') {
+            ?>
+              <tr>
+                <td colspan="7">
+                  <h3>No coating jobs present in the system</h3>
+                </td>
+              </tr>
+            <?php
+            }else {
+              foreach ($getCoatingJobsResponse['data'] as $coatingJobInfo) {
+              ?>
+              <tr>
+                <td><?php echo $coatingJobInfo['powdercoating_id'] ?></td>
+                <td>
+                  <a href="<?php echo $_ENV['APP_URL']."/app/formhandlers/inventory/".$coatingJobInfo['filename'] ?>" target="_blank">
+                    SEE PDF
+                  </a>
+
+                </td>
+                <td>
+
+                </td>
+              </tr>
+              <?php
+              }
+            }
+            ?>
+          </tbody>
+        </table>
+
 
     </div>
 

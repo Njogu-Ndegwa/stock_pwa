@@ -40,9 +40,9 @@ if (!empty($_POST['customer_name']) && !empty($_POST['coating_job_no']) && !empt
 
   $items = array();
 
-  for ($i=0; $i < count($_POST['item_code']) ; $i++) {
+  for ($i=0; $i < count($_POST['item_name']) ; $i++) {
     $rowItem = array(
-      'item_code' => $_POST['item_code'][$i],
+      'item_name' => $_POST['item_name'][$i],
       'item_description' => $_POST['item_description'][$i],
       'item_quantity' => $_POST['item_quantity'][$i],
       'item_kg' => $_POST['item_kg'][$i]
@@ -66,11 +66,13 @@ if (!empty($_POST['customer_name']) && !empty($_POST['coating_job_no']) && !empt
 
   $readyDate = $_POST['ready_date'];
 
-  $addJobResponse = $Material->addCoatingJob( $customerID, $coatingJobNumber, $lpoNo, $deliveryNo, $date, $material, $weight, $profileType, $powderEstimate, $powderUsed, $ral, $color, $code, $owner, $itemsSectionData, $preparedBy, $approvedBy, $supervisor, $qualityBy, $inDate, $outDate, $readyDate);
+  $fileName = "../../uploads/".time()."-coatingJOB.pdf";
+
+  $addJobResponse = $Material->addCoatingJob( $customerID, $coatingJobNumber, $lpoNo, $deliveryNo, $date, $material, $weight, $profileType, $powderEstimate, $powderUsed, $ral, $color, $code, $owner, $itemsSectionData, $preparedBy, $approvedBy, $supervisor, $qualityBy, $inDate, $outDate, $readyDate, $fileName);
 
   // Column headings
-  $header = array('Item Code', 'Item Description', 'Quantity', 'KG');
-  
+  $header = array('Item Name', 'Item Description', 'Quantity', 'KG');
+
   $pdf = new pdfGenerator();
 
   $pdf->SetFont('Arial','',14);
@@ -79,7 +81,7 @@ if (!empty($_POST['customer_name']) && !empty($_POST['coating_job_no']) && !empt
 
   $pdf->makePDF($header,$items);
 
-  $pdf->Output('D', 'quotation.pdf');
+  $pdf->Output('F', $fileName);
 
   if ($addJobResponse['response'] == '200') {
     $_SESSION['success'] = "New coating job has been added to the system successfuly";
