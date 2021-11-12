@@ -25,8 +25,7 @@ $Vendor = new Vendor();
 $Material = new Material();
 
 $getVendorsResponse = $Vendor->getVendors();
-$getMaterialResponse = $Material->getMaterials();
-
+$getMaterialsResponse = $Material->getMaterials();
 $getPurchaseOrderResponse = $PurchaseOrder->getPurchaseOrders();
 ?>
 <!DOCTYPE html>
@@ -39,6 +38,8 @@ $getPurchaseOrderResponse = $PurchaseOrder->getPurchaseOrders();
   <link rel="stylesheet" href="assets/css/casual.min.css">
   <link rel="stylesheet" href="assets/css/table.min.css">
   <link rel="stylesheet" href="assets/css/alert.min.css">
+  <link rel="stylesheet" href="assets/css/dropdown.min.css">
+  <link rel="stylesheet" href="assets/css/select2.min.css" />
   <title>Purchase Order</title>
 </head>
 <body>
@@ -170,8 +171,22 @@ $getPurchaseOrderResponse = $PurchaseOrder->getPurchaseOrders();
 
                 <input type="hidden" name="purchase_order_id" value="">
 
+                <div>
                 <label for="vendor_name">Vendor Name</label>
-                <select name="vendor_name">
+                <div class="dropdown">
+                      <a onclick="openDropdown(this)" class="dropbtn">+ Add a vendor</a>
+                      <div class="dropdown-content">
+                        <button type="button" onclick="closeDropdown(this)" name="button">Close&#10005;</button>
+                        <input type="text" placeholder="Vendor name">
+                        <input type="email" placeholder="Vendor email">
+                        <input type="tel" placeholder="Vendor mobile">
+                        <input type="text" placeholder="Vendor description">
+                        <button type="button" name="button" onclick="addVendor(this)">
+                          Add the Vendor
+                        </button>
+                      </div>
+                    </div>
+                <select name="vendor_name" class="vendor-option">
                     <?php
                       if ($getVendorsResponse['response'] == '204') {
                       ?>
@@ -188,30 +203,52 @@ $getPurchaseOrderResponse = $PurchaseOrder->getPurchaseOrders();
                       }
                     ?>
                   </select>
-
+                  </div>
+                      <div>
                 <label for="record_date">Record Date</label>
                 <input type="date" required name="record_date" placeholder="Record Date" value="">
-
+                </div>
+                      <div>
                 <label for="due_date">Due Date</label>
                 <input type="date" required name="due_date" placeholder="Due Date" value="">
-
+                </div>
+                      <div>
                 <label for="quotation_reference">Quotation Reference</label>
                 <input type="text" required name="quotation_reference" placeholder="Quotation Reference" value="">
-
+                </div>
+                <div>
                 <label for="quotation_date">Quotation Date</label>
                 <input type="date" required name="quotation_date" placeholder="Quotation Date" value="">
-
-                <label for="item">Item</label>
-                <select name="item">
+                </div>
+                <div class="full-grid table">
+            <table id="itemsTable">
+              <thead>
+                <th>No</th>
+                <th>Item</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>KG</th>
+                <th>Unit Cost</th>
+                <th>Amount</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>
+                  <select name="item_name[]" onchange="populateItemList(this)">
                     <?php
-                      if ($getMaterialResponse['response'] == '204') {
+                      if ($getMaterialsResponse['response'] == '204') {
                       ?>
                         <option selected disabled value="">There are no materials present in the system</option>
                       <?php
                       }else {
-                        foreach ($getMaterialResponse['data'] as $materialInfo) {
+                        ?>
+                        <option selected disabled value="">Choose an item</option>
+                      <?php
+                        foreach ($getMaterialsResponse['data'] as $materialInfo) {
+                          
                       ?>
-                          <option value="<?php echo $materialInfo['material_id'] ?>">
+                          <option data-description="<?php echo $materialInfo['description'] ?>" data-item-type="<?php echo $materialInfo['inventory_type']?>" data-unit-cost="<?php echo $materialInfo['unit_cost']?>" value="<?php echo $materialInfo['item_id'] ?>">
                             <?php echo $materialInfo['item_name'] ?>
                           </option>
                       <?php
@@ -219,33 +256,38 @@ $getPurchaseOrderResponse = $PurchaseOrder->getPurchaseOrders();
                       }
                     ?>
                   </select>
-
-                <label for="description">Description</label>
-                <textarea name="item_description" rows="3"></textarea>
-
-                <label for="unit_cost">Unit Cost</label>
-                <input type="number" required name="unit_cost" placeholder="Unit Cost" value="">
-
-                <label for="qty">Qty</label>
-                <input type="number" required name="qty" placeholder="Qty" value="">
-
-                <label for="amount">Amount</label>
-                <input type="number" required name="amount" placeholder="Amount" value="">
-
-
+                  </td>
+                  <td><input type="text" name="item_description[]" value=""></td>
+                  <td><input type="text" name="item_quantity[]" value=""></td>
+                  <td><input type="text" name="item_kg[]" value=""></td>
+                  <td><input type="text" name="item_unit_cost[]" value=""></td>
+                  <td><input type="text" name="item_amount[]" value=""></td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- <div> -->
+            <button type="button" name="button" style="
+    width: 100%; class="full-grid" onclick="addItemRow()">ADD ONE MORE ITEM</button>
+            <!-- </div> -->
+          </div>
+                <div>
                 <label for="status">Status</label>
                 <input name="po_status" placeholder="Status" />
-
+                </div>
+                <div>
                 <label for="document">Document</label>
                 <input type="file" name="document" placeholder="Document" />
-
+                </div>
+                <div>
                 <label for="memo">Memo</label>
                 <input name="text" placeholder="memo" />
-
+                </div>
+                <div>
                 <label for="terms_and_conditions">Terms and Conditions</label>
                 <textarea name="terms_and_conditions" rows="3"></textarea>
+                </div>
 
-                  <input type="submit" name="submit" value="Add Purchase Order">
+                  <input type="submit" class="full-grid" name="submit" value="Add Purchase Order">
                 </form>
               </div>
               <div class="modal-footer">
@@ -406,6 +448,15 @@ $getPurchaseOrderResponse = $PurchaseOrder->getPurchaseOrders();
     </div>
 
   </div>
-  <script src="assets/js/app.min.js" charset="utf-8"></script>
+  <script src="assets/js/app.js" charset="utf-8"></script>
+  <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/js/select2.min.js"></script>
+  <script>
+  $(document).ready(function(){
+    $(function () {
+        $("select").select2();
+      });
+  })
+  </script>
 </body>
 </html>

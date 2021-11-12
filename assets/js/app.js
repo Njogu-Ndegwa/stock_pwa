@@ -367,3 +367,28 @@ function addVendor(submitBtn) {
     submitBtn.disabled = false;
   }, 1000);
 }
+
+function populateItemList(selectElement) {
+  const itemDescription = selectElement.selectedOptions[0].getAttribute('data-description');
+  const unitCost = selectElement.selectedOptions[0].getAttribute('data-unit-cost');
+
+  const itemType = selectElement.selectedOptions[0].getAttribute('data-item-type');
+
+  if(itemType == 'Aluminium' || $itemType == 'Hardware'){
+    selectElement.parentElement.parentElement.querySelectorAll('td')[4].querySelector('input').disabled = true;
+    selectElement.parentElement.parentElement.querySelectorAll('td')[4].querySelector('input').value ='';
+    selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').disabled = false;
+    selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').value = 1;
+    const amount = selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').value * unitCost
+    selectElement.parentElement.parentElement.querySelectorAll('td')[6].querySelector('input').value = amount;
+
+  }else{
+    selectElement.parentElement.parentElement.querySelectorAll('td')[4].querySelector('input').disabled = false;
+    selectElement.parentElement.parentElement.querySelectorAll('td')[4].querySelector('input').value = 1;
+    selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').disabled = true;
+    selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').value = '';
+  }
+
+  selectElement.parentElement.parentElement.querySelectorAll('td')[2].querySelector('input').value = itemDescription;
+  selectElement.parentElement.parentElement.querySelectorAll('td')[5].querySelector('input').value = unitCost;
+}

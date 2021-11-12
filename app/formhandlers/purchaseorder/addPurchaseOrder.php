@@ -6,7 +6,7 @@ require_once '../postMiddleware.php';
 
 use app\PurchaseOrder;
 
-if (!empty($_POST['vendor_name']) && !empty($_POST['item']) && !empty($_POST['po_status'])) {
+if (!empty($_POST['vendor_name']) && !empty($_POST['item_name']) && !empty($_POST['po_status'])) {
   $PurchaseOrder = new PurchaseOrder();
 
   $vendorName = $PurchaseOrder->sanitiseInput($_POST['vendor_name']);
@@ -19,23 +19,32 @@ if (!empty($_POST['vendor_name']) && !empty($_POST['item']) && !empty($_POST['po
 
   $quotationDate = $PurchaseOrder->sanitiseInput($_POST['quotation_date']);
 
-  $itemDescription = $PurchaseOrder->sanitiseInput($_POST['item_description']);
+
+  $items = array();
+
+  for ($i=0; $i < count($_POST['item_name']) ; $i++) {
+    $rowItem = array(
+      'item_name' => $_POST['item_name'][$i],
+      'item_description' => $_POST['item_description'][$i],
+      'item_quantity' => $_POST['item_quantity'][$i],
+      'item_kg' => $_POST['item_kg'][$i],
+      'item_unit_cost' => $_POST['item_unit_cost'][$i],
+      'item_amount' => $_POST['item_amount'][$i]
+    );
+    array_push($items, $rowItem);
+  }
+
+  $itemsSectionData = json_encode($items);
+
+  // $totalAmount = sanitiseInput($_POST['amount']);
 
   $poStatus = $PurchaseOrder->sanitiseInput($_POST['po_status']);
-
-  $item = $PurchaseOrder->sanitiseInput($_POST['item']);
-
-  $unitCost = $PurchaseOrder->sanitiseInput($_POST['unit_cost']);
-
-  $qty = $PurchaseOrder->sanitiseInput($_POST['qty']);
-
-  $amount = $PurchaseOrder->sanitiseInput($_POST['amount']);
 
   $termsConditions = $PurchaseOrder->sanitiseInput($_POST['terms_and_conditions']);
 
   $userID  = (!empty($_SESSION['auth_uid'])) ? $_SESSION['auth_uid'] : "0" ;
 
-  $addPurchaseOrderResponse = $PurchaseOrder->addPurchaseOrder($vendorName, $item, $recordDate, $dueDate, $quotationReference, $quotationDate, $itemDescription, $qty, $amount, $termsConditions, $unitCost,   $poStatus, $userID);
+  $addPurchaseOrderResponse = $PurchaseOrder->addPurchaseOrder($vendorName, $itemsSectionData, $recordDate, $dueDate, $quotationReference, $quotationDate, $termsConditions,  $poStatus, $userID);
 
   if ($addPurchaseOrderResponse['response'] == '200') {
     $_SESSION['success'] = "New purchase Order has been added to the system successfuly";

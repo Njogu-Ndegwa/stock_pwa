@@ -44,9 +44,9 @@ class PurchaseOrder extends Database
     /**
      * Add Purchase Order
      */
-    public function addPurchaseOrder(String $vendorName, String $item, String $recordDate, String $dueDate, String $quotationReference, String $quotationDate, String $itemDescription, int $qty, int $amount, String $termsConditions, int $unitCost,   $poStatus, String $createdBy)
+    public function addPurchaseOrder(String $vendorName, String $itemsSectionData, String $recordDate, String $dueDate, String $quotationReference, String $quotationDate,  String $termsConditions,   $poStatus, String $createdBy)
     {
-        $addPurchaseOrderSQL = "INSERT INTO `purchase_order`(vendor_name, item, record_date, due_date, quotation_reference, quotation_date, item_description, qty, amount, terms_and_conditions, unit_cost, po_status, created_by) VALUES ('$vendorName', '$item', '$recordDate', '$dueDate', '$quotationReference', '$quotationDate', '$purchaseDescription', '$qty', '$amount', '$termsConditions', '$unitCost', '  $poStatus', '$createdBy')";
+        $addPurchaseOrderSQL = "INSERT INTO `purchase_order`(vendor_name, item, record_date, due_date, quotation_reference, quotation_date, terms_and_conditions, po_status, created_by) VALUES ('$vendorName', '$itemsSectionData,', '$recordDate', '$dueDate', '$quotationReference', '$quotationDate', '$termsConditions', '  $poStatus', '$createdBy')";
 
         return $this->insertSQLStatement($addPurchaseOrderSQL, $this->DBConnection);
     }
