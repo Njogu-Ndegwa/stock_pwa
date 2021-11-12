@@ -36,7 +36,7 @@ if (!empty($_POST['vendor_name']) && !empty($_POST['item_name']) && !empty($_POS
 
   $itemsSectionData = json_encode($items);
 
-  // $totalAmount = sanitiseInput($_POST['amount']);
+  $totalAmount = sanitiseInput($_POST['amount']);
 
   $poStatus = $PurchaseOrder->sanitiseInput($_POST['po_status']);
 

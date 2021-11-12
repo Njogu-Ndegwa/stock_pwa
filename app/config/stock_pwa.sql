@@ -295,6 +295,7 @@ CREATE TABLE `purchase_order` (
   `select_project` char(255) DEFAULT NULL,
   `po_status` char(255) NOT NULL,
   `item` longtext NOT NULL,
+  `amount` int(11) NOT NULL,
   `document` char(255) DEFAULT NULL,
   `memo` char(255) DEFAULT NULL,
   `created_by` char(255) DEFAULT NULL,

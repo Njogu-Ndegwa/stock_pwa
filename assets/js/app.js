@@ -387,6 +387,9 @@ function populateItemList(selectElement) {
     selectElement.parentElement.parentElement.querySelectorAll('td')[4].querySelector('input').value = 1;
     selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').disabled = true;
     selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').value = '';
+    selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').value = 1;
+    const amount = selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').value * unitCost
+    selectElement.parentElement.parentElement.querySelectorAll('td')[6].querySelector('input').value = amount;
   }
 
   selectElement.parentElement.parentElement.querySelectorAll('td')[2].querySelector('input').value = itemDescription;

@@ -220,6 +220,10 @@ $getPurchaseOrderResponse = $PurchaseOrder->getPurchaseOrders();
                 <label for="quotation_date">Quotation Date</label>
                 <input type="date" required name="quotation_date" placeholder="Quotation Date" value="">
                 </div>
+                <div>
+                <label for="quotation_date">Quotation Date</label>
+                <input type="date" required name="quotation_date" placeholder="Quotation Date" value="">
+                </div>
                 <div class="full-grid table">
             <table id="itemsTable">
               <thead>
@@ -426,6 +430,7 @@ $getPurchaseOrderResponse = $PurchaseOrder->getPurchaseOrders();
           <?php
           }else {
             foreach ($getPurchaseOrderResponse['data'] as $singlePurchaseOrderInfo) {
+              print_r($singlePurchaseOrderInfo)
             ?>
             <tr>
             <td><?php echo $singlePurchaseOrderInfo['created_at'] ?></td>
