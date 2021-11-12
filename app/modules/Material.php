@@ -42,6 +42,16 @@ class Material extends Database
     }
 
     /**
+     * Get an item based on ID
+     */
+    public function getItemById($itemID)
+    {
+        $getItemSQL = "SELECT * FROM `items` WHERE item_id = '$itemID'";
+
+        return $this->selectSQLStatement($getItemSQL, $this->DBConnection);
+    }
+
+    /**
      * Add an item to the system
      */
     public function addItem(String $itemType, String $itemName, $itemCode, String $itemDescription, String $itemQuantity, String $maxThreshold, String $minThreshold, String $standardCost, String $unitCost, String $unitPrice, String $serialNumber)
@@ -83,9 +93,13 @@ class Material extends Database
     /**
      * Stock in an item
      */
-    public function stockIn(String $itemName, String $itemCode, String $locationID, String $warehouseID, String $vendorID, String $invoice, String $lpo, String $quantity, String $deliveryNoteNo, String $vehiclePlate, String $startMileage, String $stopMileage, String $powder, String $color , String $material,  String $pricePerItem, String $costPerItem, String $imageURL)
+    public function stockIn(String $itemName, String $locationID, String $warehouseID, String $vendorID, String $invoice, String $lpo, String $quantity, String $deliveryNoteNo, String $vehiclePlate, String $startMileage, String $stopMileage, String $powder, String $color , String $material,  String $pricePerItem, String $costPerItem, String $imageURL)
     {
-        $stockInSQL = "INSERT INTO `stock_in`(item_name, item_code, location_id, warehouse_id, vendor_id, invoice, lpo, quantity, delivery_note_number, vehicle, start_mileage, stop_mileage, powder, color, material, price_per_item, cost_per_item, image_url) VALUES('$itemName', '$itemCode', '$locationID', '$warehouseID', '$vendorID' , '$invoice', '$lpo', '$quantity' , '$deliveryNoteNo', '$vehiclePlate', '$startMileage', '$stopMileage', '$powder', '$color', '$material', '$pricePerItem', '$costPerItem', '$imageURL')";
+        $updateQuantitySQL = "UPDATE `items` SET quantity = quantity + '$quantity' WHERE item_id = '$itemName'";
+
+        $this->updateSQLStatement($updateQuantitySQL, $this->DBConnection);
+
+        $stockInSQL = "INSERT INTO `stock_in`(item_name, location_id, warehouse_id, vendor_id, invoice, lpo, quantity, delivery_note_number, vehicle, start_mileage, stop_mileage, powder, color, material, price_per_item, cost_per_item, image_url) VALUES('$itemName', '$locationID', '$warehouseID', '$vendorID' , '$invoice', '$lpo', '$quantity' , '$deliveryNoteNo', '$vehiclePlate', '$startMileage', '$stopMileage', '$powder', '$color', '$material', '$pricePerItem', '$costPerItem', '$imageURL')";
 
         return $this->insertSQLStatement($stockInSQL, $this->DBConnection);
     }
@@ -95,6 +109,10 @@ class Material extends Database
      */
     public function itemAcquisition(String $vendorID, String $customerID, String $item, String $quantity, String $description, String $date)
     {
+        $updateQuantitySQL = "UPDATE `items` SET quantity = quantity - '$quantity' WHERE item_id = '$item'";
+
+        $this->updateSQLStatement($updateQuantitySQL, $this->DBConnection);
+
         $stockInSQL = "INSERT INTO `inventory_acquisition`(vendor_id, item_id, customer_name, quantity, description, stock_subtracted, date) VALUES('$vendorID', '$item', '$customerID', '$quantity', '$description', '$quantity', '$date')";
 
         return $this->insertSQLStatement($stockInSQL, $this->DBConnection);

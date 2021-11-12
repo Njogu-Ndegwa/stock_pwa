@@ -174,35 +174,45 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
                     echo CSRF::createToken();
                 ?>
 
-                <label for="warehouse_name">Warehouse Name</label>
-                <input type="text" required name="warehouse_name" placeholder="Warehouse name">
+                <div>
+                  <label for="warehouse_name">Warehouse Name</label>
+                  <input type="text" required name="warehouse_name" placeholder="Warehouse name">
+                </div>
 
-                <label for="warehouse_description">Warehouse Description</label>
-                <textarea name="warehouse_description" rows="3" placeholder="Warehouse description"></textarea>
+                <div>
+                  <label for="warehouse_description">Warehouse Description</label>
+                  <textarea name="warehouse_description" rows="3" placeholder="Warehouse description"></textarea>
+                </div>
 
-                <label for="warehouse_status">Warehouse Status</label>
-                <input type="text" required name="warehouse_status" placeholder="Warehouse status">
+                <div>
+                  <label for="warehouse_status">Warehouse Status</label>
+                  <input type="text" required name="warehouse_status" placeholder="Warehouse status">
+                </div>
 
-                <select name="location_id">
-                  <?php
-                    if (count($getLocationsResponse['data'])<1) {
-                      ?>
-                        <option disabled selected value="">
-                          No locations to pick from
-                        </option>
-                      <?php
-                    }else {
-                      foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
-                    ?>
-                        <option value="<?php echo $singleLocationInfo['entry_id'] ?>">
-                          <?php echo $singleLocationInfo['location_name'] ?>
-                        </option>
+                <div>
+                  <label for="location_id">Choose a location</label>
+                  <select name="location_id">
                     <?php
+                      if (count($getLocationsResponse['data'])<1) {
+                        ?>
+                          <option disabled selected value="">
+                            No locations to pick from
+                          </option>
+                        <?php
+                      }else {
+                        foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
+                      ?>
+                          <option value="<?php echo $singleLocationInfo['location_id'] ?>">
+                            <?php echo $singleLocationInfo['location_name'] ?>
+                          </option>
+                      <?php
+                        }
                       }
-                    }
-                  ?>
-                </select>
-                <input type="submit" name="submit" value="Add Warehouse">
+                    ?>
+                  </select>
+                </div>
+
+                <input type="submit" name="submit" class="full-grid" value="Add Warehouse">
               </form>
             </div>
             <div class="modal-footer">
@@ -230,36 +240,45 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
                   ?>
                   <input type="hidden" name="warehouse_id" value="<?php echo $singleWarehouseInfo['warehouse_id'] ?>">
 
-                  <label for="location_name">Warehouse Name</label>
-                  <input type="text" required name="warehouse_name" placeholder="Warehouse name" value="<?php echo $singleWarehouseInfo['warehouse_name'] ?>">
+                  <div>
+                    <label for="location_name">Warehouse Name</label>
+                    <input type="text" required name="warehouse_name" placeholder="Warehouse name" value="<?php echo $singleWarehouseInfo['warehouse_name'] ?>">
+                  </div>
 
-                  <label for="warehouse_description">Warehouse Description</label>
-                  <textarea name="warehouse_description" rows="3" placeholder="Warehouse description"><?php echo $singleWarehouseInfo['warehouse_description']; ?></textarea>
+                  <div>
+                    <label for="warehouse_description">Warehouse Description</label>
+                    <textarea name="warehouse_description" rows="3" placeholder="Warehouse description"><?php echo $singleWarehouseInfo['warehouse_description']; ?></textarea>
+                  </div>
 
-                  <label for="warehouse_status">Warehouse Status</label>
-                  <input type="text" required name="warehouse_status" placeholder="Warehouse status" value="<?php echo $singleWarehouseInfo['warehouse_status']; ?>">
+                  <div>
+                    <label for="warehouse_status">Warehouse Status</label>
+                    <input type="text" required name="warehouse_status" placeholder="Warehouse status" value="<?php echo $singleWarehouseInfo['warehouse_status']; ?>">
+                  </div>
 
-                  <select name="location_id">
-                      <?php
-                        foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
-                          if ( $singleLocationInfo['entry_id'] == $singleWarehouseInfo['warehouse_id'] ) {
-                            ?>
-                                <option selected value="<?php echo $singleLocationInfo['entry_id'] ?>">
-                                  <?php echo $singleLocationInfo['location_name']; ?>(CHOSEN)
-                                </option>
-                            <?php
-                            } else {
-                            ?>
-                                <option value="<?php echo $singleLocationInfo['entry_id'] ?>">
-                                  <?php echo $singleLocationInfo['location_name'] ?>
-                                </option>
-                            <?php
+                  <div class="">
+                    <select name="location_id">
+                        <?php
+                          foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
+                            if ( $singleLocationInfo['location_id'] == $singleWarehouseInfo['location_id'] ) {
+                              ?>
+                                  <option selected value="<?php echo $singleLocationInfo['location_id'] ?>">
+                                    <?php echo $singleLocationInfo['location_name']; ?>(CHOSEN)
+                                  </option>
+                              <?php
+                              } else {
+                              ?>
+                                  <option value="<?php echo $singleLocationInfo['location_id'] ?>">
+                                    <?php echo $singleLocationInfo['location_name'] ?>
+                                  </option>
+                              <?php
+                            }
                           }
-                        }
-                      ?>
-                  </select>
+                        ?>
+                    </select>
+                  </div>
 
-                  <input type="submit" name="submit" value="Submit Edits Warehouse">
+
+                  <input type="submit" class="full-grid" name="submit" value="Submit Edit Warehouse">
                 </form>
               </div>
               <div class="modal-footer">
@@ -279,10 +298,10 @@ $getWarehousesResponse = $Warehouse->getWarehouses();
                   <?php
                       echo CSRF::createToken();
                   ?>
-                  <p>Are you sure you want to delete this warehouse?</p>
+                  <p class="full-grid">Are you sure you want to delete this warehouse?</p>
                   <input type="hidden" name="warehouse_id" value="<?php echo $singleWarehouseInfo['warehouse_id'] ?>">
 
-                  <input type="submit" name="submit" value="Yes I am">
+                  <input type="submit" class="full-grid" name="submit" value="Yes I am">
                 </form>
               </div>
               <div class="modal-footer">

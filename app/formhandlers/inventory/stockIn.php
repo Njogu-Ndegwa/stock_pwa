@@ -6,14 +6,10 @@ require_once '../postMiddleware.php';
 
 use app\Material;
 
-if (!empty($_POST['item_name']) && !empty($_POST['item_code'])) {
+if (!empty($_POST['item_name'])) {
   $Material = new Material();
 
-  $itemName = $Material->sanitiseInput($_POST['item_name']);
-
-  $itemCode = $Material->sanitiseInput($_POST['item_code']);
-
-  $itemName = $Material->sanitiseInput($_POST['item_name']);
+  $itemID = $Material->sanitiseInput($_POST['item_name']);
 
   $vendorID = $Material->sanitiseInput($_POST['vendor_id']);
 
@@ -47,7 +43,7 @@ if (!empty($_POST['item_name']) && !empty($_POST['item_code'])) {
 
   $imageURL = $Material->sanitiseInput($_POST['image_url']);
 
-  $stockInItemResponse = $Material->stockIn( $itemName,  $itemCode,  $locationID,  $warehouseID,  $vendorID,  $invoice,  $lpo,  $quantity,  $deliveryNoteNo,  $vehiclePlate,  $startMileage,  $stopMileage,  $powder,  $color ,  $material,   $pricePerItem,  $costPerItem,  $imageURL);
+  $stockInItemResponse = $Material->stockIn( $itemID,  $locationID,  $warehouseID,  $vendorID,  $invoice,  $lpo,  $quantity,  $deliveryNoteNo,  $vehiclePlate,  $startMileage,  $stopMileage,  $powder,  $color ,  $material,   $pricePerItem,  $costPerItem,  $imageURL);
 
   if ($stockInItemResponse['response'] == '200') {
     $_SESSION['success'] = "Stock in recorded";

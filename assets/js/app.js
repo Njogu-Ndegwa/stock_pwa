@@ -152,11 +152,6 @@ function changeUnit(selectElement) {
   }
 }
 
-
-function updateItemCode(selectElement) {
-  document.querySelector('#itemCodeStockIn').value = selectElement.options[selectElement.options.selectedIndex].getAttribute('data-code')
-}
-
 function getLocationWarehouses(selectElement) {
 
   fetch('app/formhandlers/warehouse/getLocationWarehouse', {
@@ -238,4 +233,63 @@ function fieldUpdate(selectElement) {
     document.querySelector('#vendorName').disabled = true;
     document.querySelector('#unit').innerHTML = '(in Units)';
   }
+}
+
+
+function checkStockIn(buttonElement) {
+    const form = buttonElement.form;
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return false;
+    }
+    const itemID = form.elements[3].value;
+    const itemQuantity = form.elements[4].value;
+
+    fetch('app/formhandlers/inventory/checkLowerLevel', {
+        method: 'POST',
+        body: JSON.stringify({item_id: itemID, quantity: itemQuantity})
+    })
+    .then(res => res.json())
+    .then(json => {
+      if (json.message == 'Less') {
+        const result = confirm("Exceed maximum threshold continue stocking in?");
+        if (!result) {
+          console.log('form submission cancelled');
+        }else {
+          form.submit();
+        }
+      }else {
+        form.submit();
+      }
+    })
+    .catch(err => alert(err));
+}
+
+function checkInventoryAcquisition(buttonElement) {
+    const form = buttonElement.form;
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return false;
+    }
+    const itemID = form.elements[3].value;
+    const itemQuantity = form.elements[4].value;
+
+    fetch('app/formhandlers/inventory/checkInventoryLevels', {
+        method: 'POST',
+        body: JSON.stringify({item_id: itemID, quantity: itemQuantity})
+    })
+    .then(res => res.json())
+    .then(json => {
+      if (json.message == 'Less') {
+        form.submit();
+      }else {
+        const result = confirm("Lower than minimum threshold continue acquisition?");
+        if (!result) {
+          console.log('form submission cancelled');
+        }else {
+          form.submit();
+        }
+      }
+    })
+    .catch(err => alert(err));
 }

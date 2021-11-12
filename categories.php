@@ -118,7 +118,7 @@ $getCategoriesResponse = $Category->getCategories();
           Purchases
         </a>
 
-        
+
         <a href="purchaseorder" class="navigation-item">
           <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
           Purchase Order
@@ -165,17 +165,22 @@ $getCategoriesResponse = $Category->getCategories();
                   <?php
                       echo CSRF::createToken();
                   ?>
+                  <div>
+                    <label for="category_name">Category Name</label>
+                    <input type="text" required name="category_name" placeholder="Category name">
+                  </div>
 
-                  <label for="category_name">Category Name</label>
-                  <input type="text" required name="category_name" placeholder="Category name">
+                  <div>
+                    <label for="category_name">Category Description</label>
+                    <textarea name="category_description" rows="3"></textarea>
+                  </div>
 
-                  <label for="category_name">Category Description</label>
-                  <textarea name="category_description" rows="3"></textarea>
+                  <div>
+                    <label for="category_status">Category Status</label>
+                    <input type="text" required name="category_status" placeholder="Category status">
+                  </div>
 
-                  <label for="category_status">Category Status</label>
-                  <input type="text" required name="category_status" placeholder="Category status">
-
-                  <input type="submit" name="submit" value="Add Category">
+                  <input type="submit" class="full-grid" name="submit" value="Add Category">
                 </form>
               </div>
               <div class="modal-footer">
@@ -201,18 +206,22 @@ $getCategoriesResponse = $Category->getCategories();
                     ?>
                     <input type="hidden" name="category_id" value="<?php echo $singleCategoryInfo['category_id'] ?>">
 
-                    <label for="location_name">Category Name</label>
-                    <input type="text" required name="category_name" placeholder="Location name" value="<?php echo $singleCategoryInfo['category_name'] ?>">
+                    <div>
+                      <label for="location_name">Category Name</label>
+                      <input type="text" required name="category_name" placeholder="Location name" value="<?php echo $singleCategoryInfo['category_name'] ?>">
+                    </div>
 
-                    <label for="category_name">Category Description</label>
-                    <textarea name="category_description" rows="3"><?php echo $singleCategoryInfo['category_description'] ?></textarea>
+                    <div>
+                      <label for="category_name">Category Description</label>
+                      <textarea name="category_description" rows="3"><?php echo $singleCategoryInfo['category_description'] ?></textarea>
+                    </div>
 
-                    <label for="category_status">Category Status</label>
-                    <input type="text" required name="category_status" placeholder="Category status" value="<?php echo $singleCategoryInfo['category_status'] ?>">
+                    <div>
+                      <label for="category_status">Category Status</label>
+                      <input type="text" required name="category_status" placeholder="Category status" value="<?php echo $singleCategoryInfo['category_status'] ?>">
+                    </div>
 
-
-
-                    <input type="submit" name="submit" value="Submit Edits Category">
+                    <input type="submit" name="submit" class="full-grid" value="Submit Edits Category">
                   </form>
                 </div>
                 <div class="modal-footer">

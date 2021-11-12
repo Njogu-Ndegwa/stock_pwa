@@ -131,7 +131,7 @@ $getCustomersResponse = $Customer->getCustomers();
           Inventory
         </a>
 
-        
+
         <a href="purchase" class="navigation-item">
           <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
           Purchases
@@ -194,73 +194,85 @@ $getCustomersResponse = $Customer->getCustomers();
                       echo CSRF::createToken();
                   ?>
 
-                  <label for="vendor_id">Vendor</label>
-                  <select name="vendor_id">
-                    <?php
-                      if ($getVendorsResponse['response'] == '204') {
-                      ?>
-                        <option selected disabled value="">There are no vendors present in the system</option>
+                  <div>
+                    <label for="vendor_id">Vendor</label>
+                    <select name="vendor_id">
                       <?php
-                      }else {
-                        foreach ($getVendorsResponse['data'] as $vendorInfo) {
-                      ?>
-                          <option value="<?php echo $vendorInfo['vendor_id'] ?>">
-                            <?php echo $vendorInfo['vendor_name'] ?>
-                          </option>
-                      <?php
+                        if ($getVendorsResponse['response'] == '204') {
+                        ?>
+                          <option selected disabled value="">There are no vendors present in the system</option>
+                        <?php
+                        }else {
+                          foreach ($getVendorsResponse['data'] as $vendorInfo) {
+                        ?>
+                            <option value="<?php echo $vendorInfo['vendor_id'] ?>">
+                              <?php echo $vendorInfo['vendor_name'] ?>
+                            </option>
+                        <?php
+                          }
                         }
-                      }
-                    ?>
-                  </select>
+                      ?>
+                    </select>
+                  </div>
 
-                  <label for="customer_id">Customer</label>
-                  <select name="customer_id">
-                    <?php
-                      if ($getCustomersResponse['response'] == '204') {
-                      ?>
-                        <option selected disabled value="">There are no customers present in the system</option>
+                  <div>
+                    <label for="customer_id">Customer</label>
+                    <select name="customer_id">
                       <?php
-                      }else {
-                        foreach ($getCustomersResponse['data'] as $customerInfo) {
-                      ?>
-                          <option value="<?php echo $customerInfo['customer_id'] ?>">
-                            <?php echo $customerInfo['customer_name'] ?>
-                          </option>
-                      <?php
+                        if ($getCustomersResponse['response'] == '204') {
+                        ?>
+                          <option selected disabled value="">There are no customers present in the system</option>
+                        <?php
+                        }else {
+                          foreach ($getCustomersResponse['data'] as $customerInfo) {
+                        ?>
+                            <option value="<?php echo $customerInfo['customer_id'] ?>">
+                              <?php echo $customerInfo['customer_name'] ?>
+                            </option>
+                        <?php
+                          }
                         }
-                      }
-                    ?>
-                  </select>
+                      ?>
+                    </select>
+                  </div>
 
-                  <label for="item">Item</label>
-                  <select name="item">
-                    <?php
-                      if ($getMaterialsResponse['response'] == '204') {
-                      ?>
-                        <option selected disabled value="">There are no items present in the system</option>
+                  <div>
+                    <label for="item">Item</label>
+                    <select name="item">
                       <?php
-                      }else {
-                        foreach ($getMaterialsResponse['data'] as $materialInfo) {
-                      ?>
-                          <option value="<?php echo $materialInfo['item_id'] ?>">
-                            <?php echo $materialInfo['item_name'] ?> (<?php echo $materialInfo['item_code'] ?>)
-                          </option>
-                      <?php
+                        if ($getMaterialsResponse['response'] == '204') {
+                        ?>
+                          <option selected disabled value="">There are no items present in the system</option>
+                        <?php
+                        }else {
+                          foreach ($getMaterialsResponse['data'] as $materialInfo) {
+                        ?>
+                            <option value="<?php echo $materialInfo['item_id'] ?>">
+                              <?php echo $materialInfo['item_name'] ?>
+                            </option>
+                        <?php
+                          }
                         }
-                      }
-                    ?>
-                  </select>
+                      ?>
+                    </select>
+                  </div>
 
-                  <label for="quantity">Quantity</label>
-                  <input type="number" required name="quantity" placeholder="Quantity">
+                  <div>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" required name="quantity" placeholder="Quantity">
+                  </div>
 
-                  <label for="description">Description</label>
-                  <textarea name="description" rows="3"></textarea>
+                  <div>
+                    <label for="description">Description</label>
+                    <textarea name="description" rows="3"></textarea>
+                  </div>
 
-                  <label for="date">Date</label>
-                  <input type="date" name="date"/>
+                  <div>
+                    <label for="date">Date</label>
+                    <input type="date" name="date"/>
+                  </div>
 
-                  <input type="submit" name="submit" value="Proceed">
+                  <button type="button" onclick="checkInventoryAcquisition(this)" name="button" class="full-grid">Proceed</button>
                 </form>
               </div>
               <div class="modal-footer">
@@ -277,146 +289,161 @@ $getCustomersResponse = $Customer->getCustomers();
                 <h2>Stock In An Item</h2>
               </div>
               <div class="modal-body">
-                <form class="" action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/inventory/stockIn" method="post">
+                <form action="<?php echo $_ENV['APP_URL'] ?>/app/formhandlers/inventory/stockIn" method="post">
                   <?php
                       echo CSRF::createToken();
                   ?>
 
-                  <label for="item_name">Item name</label>
-                  <select name="item_name" onchange="updateItemCode(this)">
-                    <?php
-                      if ($getMaterialsResponse['response'] == '204') {
-                    ?>
-                        <option disabled selected>No Items Present</option>
-                    <?php
-                    }elseif ($getMaterialsResponse['response'] == '500') {
-                    ?>
-                        <option disabled selected>Error in fetching the items</option>
-                    <?php
-                    }else {
-                      ?>
-                        <option disabled selected>Choose an item</option>
+                  <div>
+                    <label for="item_name">Item name</label>
+                    <select name="item_name">
                       <?php
-                      foreach ($getMaterialsResponse['data'] as $singleMaterialInfo) {
-                    ?>
-                        <option data-code="<?php echo $singleMaterialInfo['item_code'] ?>" value="<?php echo $singleMaterialInfo['item_id'] ?>">
-                          <?php echo $singleMaterialInfo['item_name'] ?>
-                        </option>
-                    <?php
-                      }
-                    }
-                    ?>
-                  </select>
-
-                  <label for="item_code">Item code</label>
-                  <input type="text" id="itemCodeStockIn" required name="item_code" placeholder="Choose item first">
-
-                  <label for="vendor_id">Vendor</label>
-                  <select name="vendor_id">
-                    <?php
-                      if ($getVendorsResponse['response'] == '204') {
+                        if ($getMaterialsResponse['response'] == '204') {
                       ?>
-                        <option selected disabled value="">There are no vendors present in the system</option>
+                          <option disabled selected>No Items Present</option>
+                      <?php
+                      }elseif ($getMaterialsResponse['response'] == '500') {
+                      ?>
+                          <option disabled selected>Error in fetching the items</option>
                       <?php
                       }else {
-                        foreach ($getVendorsResponse['data'] as $vendorInfo) {
+                        ?>
+                          <option disabled selected>Choose an item</option>
+                        <?php
+                        foreach ($getMaterialsResponse['data'] as $singleMaterialInfo) {
                       ?>
-                          <option value="<?php echo $vendorInfo['vendor_id'] ?>">
-                            <?php echo $vendorInfo['vendor_name'] ?>
+                          <option data-code="<?php echo $singleMaterialInfo['item_code'] ?>" value="<?php echo $singleMaterialInfo['item_id'] ?>">
+                            <?php echo $singleMaterialInfo['item_name'] ?>
                           </option>
                       <?php
                         }
                       }
-                    ?>
-                  </select>
-
-                  <label for="location_id">Location</label>
-                  <select name="location_id" onchange="getLocationWarehouses(this)">
-                    <?php
-                      if ($getLocationsResponse['response'] == '204') {
-                    ?>
-                        <option disabled selected>No locations present</option>
-                    <?php
-                  }elseif ($getLocationsResponse['response'] == '500') {
-                    ?>
-                        <option disabled selected>Error in fetching the locations</option>
-                    <?php
-                    }else {
                       ?>
-                        <option disabled selected value="">Choose a location</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label for="vendor_id">Vendor</label>
+                    <select name="vendor_id">
                       <?php
-                      foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
-                    ?>
+                        if ($getVendorsResponse['response'] == '204') {
+                        ?>
+                          <option selected disabled value="">There are no vendors present in the system</option>
+                        <?php
+                        }else {
+                          foreach ($getVendorsResponse['data'] as $vendorInfo) {
+                        ?>
+                            <option value="<?php echo $vendorInfo['vendor_id'] ?>">
+                              <?php echo $vendorInfo['vendor_name'] ?>
+                            </option>
+                        <?php
+                          }
+                        }
+                      ?>
+                    </select>
+                  </div>
 
-                        <option value="<?php echo $singleLocationInfo['location_id'] ?>">
-                          <?php echo $singleLocationInfo['location_name'] ?>
-                        </option>
-                    <?php
+                  <div>
+                    <label for="location_id">Location</label>
+                    <select name="location_id" onchange="getLocationWarehouses(this)">
+                      <?php
+                        if ($getLocationsResponse['response'] == '204') {
+                      ?>
+                          <option disabled selected>No locations present</option>
+                      <?php
+                    }elseif ($getLocationsResponse['response'] == '500') {
+                      ?>
+                          <option disabled selected>Error in fetching the locations</option>
+                      <?php
+                      }else {
+                        ?>
+                          <option disabled selected value="">Choose a location</option>
+                        <?php
+                        foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
+                      ?>
+
+                          <option value="<?php echo $singleLocationInfo['location_id'] ?>">
+                            <?php echo $singleLocationInfo['location_name'] ?>
+                          </option>
+                      <?php
+                        }
                       }
-                    }
-                    ?>
-                  </select>
-
-                  <label for="warehouse_id">Warehouse</label>
-                  <select name="warehouse_id" id="warehouseIDStockIn">
-                    <option disabled selected>Choose a location first</option>
-                  </select>
-
-                  <div class="grid">
-                    <div>
-                      <label for="lpo">LPO</label>
-                      <input type="number" required name="lpo" placeholder="LPO">
-                    </div>
-                    <div>
-                      <label for="invoice">Invoice</label>
-                      <input type="number" required name="invoice" placeholder="Invoice">
-                    </div>
+                      ?>
+                    </select>
                   </div>
 
-                  <label for="delivery_note_no">Delivery Note Number</label>
-                  <input type="number" required name="delivery_note_no" placeholder="Delivery note number">
-
-                  <div class="grid">
-                    <div>
-                      <label for="price_per_item">Price per item</label>
-                      <input type="number" required name="price_per_item" placeholder="Price per item">
-                    </div>
-                    <div>
-                      <label for="cost_per_item">Cost per item</label>
-                      <input type="number" required name="cost_per_item" placeholder="Cost per item">
-                    </div>
+                  <div>
+                    <label for="warehouse_id">Warehouse</label>
+                    <select name="warehouse_id" id="warehouseIDStockIn">
+                      <option disabled selected>Choose a location first</option>
+                    </select>
                   </div>
 
-                  <label for="vehicle_plate">Vehicle Plate Number</label>
-                  <input type="text" required name="vehicle_plate" placeholder="Vehicle plate number">
-
-                  <div class="grid">
-                    <div>
-                      <label for="start_mileage">Start mileage</label>
-                      <input type="number" required name="start_mileage" placeholder="Start mileage">
-                    </div>
-                    <div>
-                      <label for="stop_mileage">Stop mileage</label>
-                      <input type="number" required name="stop_mileage" placeholder="Stop mileage">
-                    </div>
+                  <div>
+                    <label for="lpo">LPO</label>
+                    <input type="number" required name="lpo" placeholder="LPO">
                   </div>
 
-                  <label for="quantity">Quantity</label>
-                  <input type="number" required name="quantity" placeholder="Quantity">
+                  <div>
+                    <label for="invoice">Invoice</label>
+                    <input type="number" required name="invoice" placeholder="Invoice">
+                  </div>
 
-                  <label for="powder">Powder</label>
-                  <input type="text" required name="powder" placeholder="Powder"/>
+                  <div>
+                    <label for="delivery_note_no">Delivery Note Number</label>
+                    <input type="number" required name="delivery_note_no" placeholder="Delivery note number">
+                  </div>
 
-                  <label for="color">Color</label>
-                  <input type="text" required name="color" placeholder="Powder"/>
+                  <div>
+                    <label for="price_per_item">Price per item</label>
+                    <input type="number" required name="price_per_item" placeholder="Price per item">
+                  </div>
+                  <div>
+                    <label for="cost_per_item">Cost per item</label>
+                    <input type="number" required name="cost_per_item" placeholder="Cost per item">
+                  </div>
 
-                  <label for="material">Material</label>
-                  <input type="text" name="material" placeholder="Material">
+                  <div>
+                    <label for="vehicle_plate">Vehicle Plate Number</label>
+                    <input type="text" required name="vehicle_plate" placeholder="Vehicle plate number">
+                  </div>
 
-                  <label for="image_url">Image URL</label>
-                  <input type="url" name="image_url" placeholder="Image URL">
+                  <div>
+                    <label for="start_mileage">Start mileage</label>
+                    <input type="number" required name="start_mileage" placeholder="Start mileage">
+                  </div>
+                  <div>
+                    <label for="stop_mileage">Stop mileage</label>
+                    <input type="number" required name="stop_mileage" placeholder="Stop mileage">
+                  </div>
 
-                  <input type="submit" name="submit" value="Stock In">
+                  <div>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" required name="quantity" placeholder="Quantity">
+                  </div>
+
+                  <div>
+                    <label for="powder">Powder</label>
+                    <input type="text" required name="powder" placeholder="Powder"/>
+                  </div>
+
+                  <div>
+                    <label for="color">Color</label>
+                    <input type="text" required name="color" placeholder="Powder"/>
+                  </div>
+
+                  <div>
+                    <label for="material">Material</label>
+                    <input type="text" name="material" placeholder="Material">
+                  </div>
+
+                  <div>
+                    <label for="image_url">Image URL</label>
+                    <input type="url" name="image_url" placeholder="Image URL">
+                  </div>
+
+                  <button type="button" name="button" onclick="checkStockIn(this)" class="full-grid">Stock In</button>
+
                 </form>
               </div>
               <div class="modal-footer">
@@ -438,33 +465,40 @@ $getCustomersResponse = $Customer->getCustomers();
                       echo CSRF::createToken();
                   ?>
 
-                  <label for="item_name">Item name</label>
-                  <input type="text" required name="item_name" placeholder="Item name">
+                  <div>
+                    <label for="item_name">Item name</label>
+                    <input type="text" required name="item_name" placeholder="Item name">
+                  </div>
 
-                  <label for="item_description">Item description</label>
-                  <textarea name="item_description" rows="3"></textarea>
+                  <div>
+                    <label for="item_description">Item description</label>
+                    <textarea name="item_description" rows="3"></textarea>
+                  </div>
 
+                  <div>
+                    <label for="serial_number">Serial</label>
+                    <input type="text" required name="serial_number" placeholder="Serial number">
+                  </div>
 
-                  <label for="serial_number">Serial</label>
-                  <input type="text" required name="serial_number" placeholder="Serial number">
+                  <div>
+                    <label for="item_type">Item type</label>
+                    <br>
+                    <small>
+                      <b>
+                        *Some fields will deactivate/activate on choosing
+                      </b>
+                    </small><br>
+                    <select name="item_type" onchange="fieldUpdate(this)">
+                      <option value="Aluminium">Aluminium</option>
+                      <option value="Hardware">Hardware</option>
+                      <option value="Powder">Powder</option>
+                    </select>
 
-                  <label for="item_type">Item type</label>
-                  <select name="item_type" onchange="fieldUpdate(this)">
-                    <option value="Aluminium">Aluminium</option>
-                    <option value="Hardware">Hardware</option>
-                    <option value="Powder">Powder</option>
-                  </select>
-                  <small>
-                    <b>
-                      *Some fields will deactivate/activate on choosing
-                    </b>
-                  </small>
-
-                  <hr>
+                  </div>
 
                   <div class="grid">
                     <div class="">
-                      <label for="item_code">Item code/RAL</label>
+                      <label for="item_code">Code/RAL</label>
                       <input type="text" id="itemCode" disabled name="item_code" placeholder="Item code">
                     </div>
                     <div class="">
@@ -489,27 +523,31 @@ $getCustomersResponse = $Customer->getCustomers();
                     </div>
                   </div>
 
-                  <label for="quantity">Quantity<span id="unit">(Units)</span> (Optional) </label>
-                  <input type="number" id="itemQuantity" min="0" name="quantity" placeholder="Quantity">
-
-                  <div class="grid">
-                    <div>
-                      <label for="minimum_threshold">Min threshold</label>
-                      <input type="number" required name="minimum_threshold" placeholder="Minimum threshold">
-                    </div>
-                    <div>
-                      <label for="maximum_threshold">Max threshold</label>
-                      <input type="number" required name="maximum_threshold" placeholder="Maximum threshold">
-                    </div>
+                  <div>
+                    <label for="quantity">Quantity<span id="unit">(Units)</span> (Optional) </label>
+                    <input type="number" id="itemQuantity" min="0" name="quantity" placeholder="Quantity">
                   </div>
 
-                  <label for="pricing">Unit Cost (Optional)</label>
-                  <input type="number" name="unit_cost" placeholder="Cost">
+                  <div>
+                    <label for="minimum_threshold">Min threshold</label>
+                    <input type="number" required name="minimum_threshold" placeholder="Minimum threshold">
+                  </div>
+                  <div>
+                    <label for="maximum_threshold">Max threshold</label>
+                    <input type="number" required name="maximum_threshold" placeholder="Maximum threshold">
+                  </div>
 
-                  <label for="pricing">Unit Price (Optional)</label>
-                  <input type="number" name="unit_price" placeholder="Pricing">
+                  <div>
+                    <label for="pricing">Unit Cost (Optional)</label>
+                    <input type="number" name="unit_cost" placeholder="Cost">
+                  </div>
 
-                  <input type="submit" name="submit" value="Add Item">
+                  <div>
+                    <label for="pricing">Unit Price (Optional)</label>
+                    <input type="number" name="unit_price" placeholder="Pricing">
+                  </div>
+
+                  <input type="submit" name="submit" class="full-grid" value="Add Item">
                 </form>
               </div>
               <div class="modal-footer">
@@ -535,60 +573,71 @@ $getCustomersResponse = $Customer->getCustomers();
                     ?>
                     <input type="hidden" name="item_id" value="<?php echo $singleMaterialInfo['item_id'] ?>">
 
-                    <label for="item_name">Item name</label>
-                    <input type="text" required name="item_name" placeholder="Item name" value="<?php echo $singleMaterialInfo['item_name']; ?>">
-
-                    <label for="item_description">Item description</label>
-                    <textarea name="item_description" rows="3"><?php echo $singleMaterialInfo['description'] ?></textarea>
-
-
-                    <label for="item_type">Item type</label>
-                    <select name="item_type" onchange="fieldUpdate(this)">
-                      <?php
-                        $itemTypeOptions = ['Aluminium', 'Hardware', 'Powder'];
-
-                        for ($i=0; $i < 3; $i++) {
-                          if ($singleMaterialInfo['inventory_type'] == $itemTypeOptions[$i]) {
-                      ?>
-                            <option selected value="<?php echo $singleMaterialInfo['inventory_type'] ?>">
-                              <?php echo $singleMaterialInfo['inventory_type'] ?>(CHOSEN)
-                            </option>
-                      <?php
-                          }else {
-                            ?>
-                                  <option value="<?php echo $itemTypeOptions[$i] ?>">
-                                    <?php echo $itemTypeOptions[$i] ?>
-                                  </option>
-                            <?php
-                          }
-                        }
-                      ?>
-                    </select>
-
-                    <label for="item_code">Item code</label>
-                    <input type="text" required name="item_code" placeholder="Item code" value="<?php echo $singleMaterialInfo['item_code'] ?>">
-
-                    <label for="serial_number">Serial</label>
-                    <input type="text" required name="serial_number" placeholder="Serial number" value="<?php echo $singleMaterialInfo['serial_number'] ?>">
-
-                    <div class="grid">
-                      <div>
-                        <label for="minimum_threshold">Min threshold</label>
-                        <input type="number" name="minimum_threshold" placeholder="Minimum threshold" value="<?php echo $singleMaterialInfo['minimum_threshold'] ?>">
-                      </div>
-                      <div>
-                        <label for="maximum_threshold">Max threshold</label>
-                        <input type="number" name="maximum_threshold" placeholder="Maximum threshold" value="<?php echo $singleMaterialInfo['maximum_threshold'] ?>">
-                      </div>
+                    <div>
+                      <label for="item_name">Item name</label>
+                      <input type="text" required name="item_name" placeholder="Item name" value="<?php echo $singleMaterialInfo['item_name']; ?>">
                     </div>
 
-                    <label for="quantity">Quantity<span id="unit">(Units)</span> </label>
-                    <input type="number" required name="quantity" placeholder="Category status" value="<?php echo $singleMaterialInfo['quantity']; ?>">
+                    <div>
+                      <label for="item_description">Item description</label>
+                      <textarea name="item_description" rows="3"><?php echo $singleMaterialInfo['description'] ?></textarea>
+                    </div>
 
-                    <label for="pricing">Standard cost</label>
-                    <input type="number" required name="standard_cost" placeholder="Pricing" value="<?php echo $singleMaterialInfo['standard_cost']; ?>">
+                    <div>
+                      <label for="item_type">Item type</label>
+                      <select name="item_type" onchange="fieldUpdate(this)">
+                        <?php
+                          $itemTypeOptions = ['Aluminium', 'Hardware', 'Powder'];
 
-                    <input type="submit" name="submit" value="Edit Item">
+                          for ($i=0; $i < 3; $i++) {
+                            if ($singleMaterialInfo['inventory_type'] == $itemTypeOptions[$i]) {
+                        ?>
+                              <option selected value="<?php echo $singleMaterialInfo['inventory_type'] ?>">
+                                <?php echo $singleMaterialInfo['inventory_type'] ?>(CHOSEN)
+                              </option>
+                        <?php
+                            }else {
+                              ?>
+                                    <option value="<?php echo $itemTypeOptions[$i] ?>">
+                                      <?php echo $itemTypeOptions[$i] ?>
+                                    </option>
+                              <?php
+                            }
+                          }
+                        ?>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label for="item_code">Code - Vendor</label>
+                      <input type="text" required name="item_code" placeholder="Item code" value="<?php echo $singleMaterialInfo['item_code'] ?>">
+                    </div>
+
+                    <div>
+                      <label for="serial_number">Serial</label>
+                      <input type="text" required name="serial_number" placeholder="Serial number" value="<?php echo $singleMaterialInfo['serial_number'] ?>">
+                    </div>
+
+                    <div>
+                      <label for="minimum_threshold">Min threshold</label>
+                      <input type="number" name="minimum_threshold" placeholder="Minimum threshold" value="<?php echo $singleMaterialInfo['minimum_threshold'] ?>">
+                    </div>
+                    <div>
+                      <label for="maximum_threshold">Max threshold</label>
+                      <input type="number" name="maximum_threshold" placeholder="Maximum threshold" value="<?php echo $singleMaterialInfo['maximum_threshold'] ?>">
+                    </div>
+
+                    <div>
+                      <label for="quantity">Quantity<span id="unit">(Units)</span> </label>
+                      <input type="number" required name="quantity" placeholder="Category status" value="<?php echo $singleMaterialInfo['quantity']; ?>">
+                    </div>
+
+                    <div>
+                      <label for="pricing">Standard cost</label>
+                      <input type="number" required name="standard_cost" placeholder="Pricing" value="<?php echo $singleMaterialInfo['standard_cost']; ?>">
+                    </div>
+
+                    <input type="submit" name="submit" class="full-grid" value="Edit Item">
                   </form>
                 </div>
                 <div class="modal-footer">
@@ -627,7 +676,7 @@ $getCustomersResponse = $Customer->getCustomers();
       <table class="table-data glassmorphic">
         <thead>
           <th>Item Name</th>
-          <th>Item Code</th>
+          <th>Code - Vendor</th>
           <th>Item Type</th>
           <th>Min. Threshold</th>
           <th>Max. Threshold</th>

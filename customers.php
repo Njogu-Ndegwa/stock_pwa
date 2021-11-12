@@ -130,7 +130,7 @@ $getCompaniesResponse = $Company->getCompanies();
           Purchases
         </a>
 
-        
+
         <a href="purchaseorder" class="navigation-item">
           <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
           Purchase Order
@@ -178,69 +178,82 @@ $getCompaniesResponse = $Company->getCompanies();
                       echo CSRF::createToken();
                   ?>
 
-                  <label for="customer_name">Customer Name</label>
-                  <input type="text" required name="customer_name" placeholder="Customer name">
+                  <div>
+                    <label for="customer_name">Customer Name</label>
+                    <input type="text" required name="customer_name" placeholder="Customer name">
+                  </div>
 
-                  <label for="credit_limit">Credit Limit</label>
-                  <input type="text" required name="credit_limit" placeholder="Credit limit">
+                  <div>
+                    <label for="credit_limit">Credit Limit</label>
+                    <input type="text" required name="credit_limit" placeholder="Credit limit">
+                  </div>
 
-                  <label for="contact_number">Contact Number</label>
-                  <input type="tel" required name="contact_number" placeholder="Contact number">
+                  <div>
+                    <label for="contact_number">Contact Number</label>
+                    <input type="tel" required name="contact_number" placeholder="Contact number">
+                  </div>
 
-                  <label for="location_id">Location</label>
-                  <select name="location_id">
-                    <?php
-                      if ($getLocationsResponse['response'] == '204') {
-                    ?>
-                        <option selected disabled>There are no locations present</option>
-                    <?php
-                      }else if($getLocationsResponse['response'] == '500') {
-                    ?>
-                        <option selected disabled>There has been an error fetching the locations</option>
-                    <?php
-                      }else {
-                        foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
-                          ?>
-                            <option value="<?php echo $singleLocationInfo['location_id'] ?>">
-                              <?php echo $singleLocationInfo['location_name'] ?>
-                            </option>
-                          <?php
+                  <div>
+                    <label for="location_id">Location</label>
+                    <select name="location_id">
+                      <?php
+                        if ($getLocationsResponse['response'] == '204') {
+                      ?>
+                          <option selected disabled>There are no locations present</option>
+                      <?php
+                        }else if($getLocationsResponse['response'] == '500') {
+                      ?>
+                          <option selected disabled>There has been an error fetching the locations</option>
+                      <?php
+                        }else {
+                          foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
+                            ?>
+                              <option value="<?php echo $singleLocationInfo['location_id'] ?>">
+                                <?php echo $singleLocationInfo['location_name'] ?>
+                              </option>
+                            <?php
+                          }
                         }
-                      }
-                    ?>
-                  </select>
+                      ?>
+                    </select>
+                  </div>
 
-                  <label for="company_id">Company</label>
-                  <select name="company_id">
-                    <?php
-                      if ($getCompaniesResponse['response'] == '204') {
-                    ?>
-                        <option selected disabled>There are no companies present</option>
-                    <?php
-                  }else if($getCompaniesResponse['response'] == '500') {
-                    ?>
-                        <option selected disabled>There has been an error fetching the companies</option>
-                    <?php
-                      }else {
-                        foreach ($getCompaniesResponse['data'] as $singleCompanyInfo) {
-                          ?>
-                            <option value="<?php echo $singleCompanyInfo['company_id'] ?>">
-                              <?php echo $singleCompanyInfo['company_name'] ?>
-                            </option>
-                          <?php
+                  <div>
+                    <label for="company_id">Company</label>
+                    <select name="company_id">
+                      <?php
+                        if ($getCompaniesResponse['response'] == '204') {
+                      ?>
+                          <option selected disabled>There are no companies present</option>
+                      <?php
+                    }else if($getCompaniesResponse['response'] == '500') {
+                      ?>
+                          <option selected disabled>There has been an error fetching the companies</option>
+                      <?php
+                        }else {
+                          foreach ($getCompaniesResponse['data'] as $singleCompanyInfo) {
+                            ?>
+                              <option value="<?php echo $singleCompanyInfo['company_id'] ?>">
+                                <?php echo $singleCompanyInfo['company_name'] ?>
+                              </option>
+                            <?php
+                          }
                         }
-                      }
-                    ?>
-                  </select>
+                      ?>
+                    </select>
+                  </div>
 
+                  <div class="">
+                    <label for="contact_person_name">Contact Person Name</label>
+                    <input type="tel" required name="contact_person_name" placeholder="Contact person name">
+                  </div>
 
-                  <label for="contact_person_name">Contact Person Name</label>
-                  <input type="tel" required name="contact_person_name" placeholder="Contact person name">
+                  <div>
+                    <label for="contact_person_email">Contact Person Email</label>
+                    <input type="email" required name="contact_person_email" placeholder="Contact person email">
+                  </div>
 
-                  <label for="contact_person_email">Contact Person Email</label>
-                  <input type="email" required name="contact_person_email" placeholder="Contact person email">
-
-                  <input type="submit" name="submit" value="Add Customer">
+                  <input type="submit" class="full-grid" name="submit" value="Add Customer">
                 </form>
               </div>
               <div class="modal-footer">
@@ -266,66 +279,78 @@ $getCompaniesResponse = $Company->getCompanies();
                     ?>
                     <input type="hidden" name="customer_id" value="<?php echo $singleCustomerInfo['customer_id'] ?>">
 
-                    <label for="customer_name">Customer Name</label>
-                    <input type="text" required name="customer_name" placeholder="Customer name" value="<?php echo $singleCustomerInfo['customer_name'] ?>">
+                    <div>
+                      <label for="customer_name">Customer Name</label>
+                      <input type="text" required name="customer_name" placeholder="Customer name" value="<?php echo $singleCustomerInfo['customer_name'] ?>">
+                    </div>
 
-                    <label for="credit_limit">Credit Limit</label>
-                    <input type="text" required name="credit_limit" placeholder="Credit limit" value="<?php echo $singleCustomerInfo['credit_limit'] ?>">
+                    <div>
+                      <label for="credit_limit">Credit Limit</label>
+                      <input type="text" required name="credit_limit" placeholder="Credit limit" value="<?php echo $singleCustomerInfo['credit_limit'] ?>">
+                    </div>
 
-                    <label for="contact_number">Contact Number</label>
-                    <input type="tel" required name="contact_number" placeholder="Contact number" value="<?php echo $singleCustomerInfo['contact_number'] ?>">
+                    <div>
+                      <label for="contact_number">Contact Number</label>
+                      <input type="tel" required name="contact_number" placeholder="Contact number" value="<?php echo $singleCustomerInfo['contact_number'] ?>">
+                    </div>
 
-                    <label for="location_id">Location</label>
-                    <select name="location_id">
-                      <?php
-                          foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
-                            if ($singleCustomerInfo['location_id'] == $singleLocationInfo['location_id']) {
-                              ?>
-                                <option selected value="<?php echo $singleLocationInfo['location_id'] ?>">
-                                  <?php echo $singleLocationInfo['location_name'] ?> (CHOSEN)
-                                </option>
-                              <?php
-                            }else {
-                              ?>
-                                <option value="<?php echo $singleLocationInfo['location_id'] ?>">
-                                  <?php echo $singleLocationInfo['location_name'] ?>
-                                </option>
-                              <?php
+                    <div>
+                      <label for="location_id">Location</label>
+                      <select name="location_id">
+                        <?php
+                            foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
+                              if ($singleCustomerInfo['location_id'] == $singleLocationInfo['location_id']) {
+                                ?>
+                                  <option selected value="<?php echo $singleLocationInfo['location_id'] ?>">
+                                    <?php echo $singleLocationInfo['location_name'] ?> (CHOSEN)
+                                  </option>
+                                <?php
+                              }else {
+                                ?>
+                                  <option value="<?php echo $singleLocationInfo['location_id'] ?>">
+                                    <?php echo $singleLocationInfo['location_name'] ?>
+                                  </option>
+                                <?php
+                              }
                             }
-                          }
-                      ?>
-                    </select>
+                        ?>
+                      </select>
+                    </div>
 
-                    <label for="company_id">Company</label>
-                    <select name="company_id">
-                      <?php
-                          foreach ($getCompaniesResponse['data'] as $singleCompanyInfo) {
-                            if ($singleCustomerInfo['company_id'] == $singleCompanyInfo['company_id']) {
-                              ?>
-                                <option selected value="<?php echo $singleCompanyInfo['company_id'] ?>">
-                                  <?php echo $singleCompanyInfo['company_name'] ?> (CHOSEN)
-                                </option>
-                              <?php
-                            }else {
-                              ?>
-                                <option value="<?php echo $singleCompanyInfo['company_id'] ?>">
-                                  <?php echo $singleCompanyInfo['company_name'] ?>
-                                </option>
-                              <?php
+                    <div>
+                      <label for="company_id">Company</label>
+                      <select name="company_id">
+                        <?php
+                            foreach ($getCompaniesResponse['data'] as $singleCompanyInfo) {
+                              if ($singleCustomerInfo['company_id'] == $singleCompanyInfo['company_id']) {
+                                ?>
+                                  <option selected value="<?php echo $singleCompanyInfo['company_id'] ?>">
+                                    <?php echo $singleCompanyInfo['company_name'] ?> (CHOSEN)
+                                  </option>
+                                <?php
+                              }else {
+                                ?>
+                                  <option value="<?php echo $singleCompanyInfo['company_id'] ?>">
+                                    <?php echo $singleCompanyInfo['company_name'] ?>
+                                  </option>
+                                <?php
+                              }
                             }
-                          }
-                      ?>
-                    </select>
+                        ?>
+                      </select>
+                    </div>
 
+                    <div>
+                      <label for="contact_person_name">Contact Person Name</label>
+                      <input type="tel" required name="contact_person_name" placeholder="Contact person name" value="<?php echo $singleCustomerInfo['contact_person_name'] ?>">
+                    </div>
 
-                    <label for="contact_person_name">Contact Person Name</label>
-                    <input type="tel" required name="contact_person_name" placeholder="Contact person name" value="<?php echo $singleCustomerInfo['contact_person_name'] ?>">
+                    <div>
+                      <label for="contact_person_email">Contact Person Email</label>
+                      <input type="email" required name="contact_person_email" placeholder="Contact person email" value="<?php echo $singleCustomerInfo['contact_person_email'] ?>">
+                    </div>
 
-                    <label for="contact_person_email">Contact Person Email</label>
-                    <input type="email" required name="contact_person_email" placeholder="Contact person email" value="<?php echo $singleCustomerInfo['contact_person_email'] ?>">
-
-
-                    <input type="submit" name="submit" value="Submit Edits">
+                    <input type="submit" name="submit" class="full-grid" value="Submit Edits">
                   </form>
                 </div>
                 <div class="modal-footer">
@@ -345,10 +370,10 @@ $getCompaniesResponse = $Company->getCompanies();
                     <?php
                         echo CSRF::createToken();
                     ?>
-                    <p>Are you sure you want to delete this category?</p>
+                    <p class="full-grid">Are you sure you want to delete this customer?</p>
                     <input type="hidden" name="customer_id" value="<?php echo $singleCustomerInfo['customer_id'] ?>">
 
-                    <input type="submit" name="submit" value="Yes I am">
+                    <input type="submit" name="submit" class="full-grid" value="Yes I am">
                   </form>
                 </div>
                 <div class="modal-footer">

@@ -112,7 +112,7 @@ $getVendorsResponse = $Vendor->getVendors();
           <img src="assets/images/money-check-alt-solid.svg" alt="money-check-alt-solid Font Awesome icon">
           Inventory
         </a>
-        
+
         <a href="purchase" class="navigation-item">
           <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
           Purchases
@@ -165,20 +165,27 @@ $getVendorsResponse = $Vendor->getVendors();
                       echo CSRF::createToken();
                   ?>
 
-                  <label for="vendor_name">Vendor Name</label>
-                  <input type="text" required name="vendor_name" placeholder="Vendor name">
+                  <div>
+                    <label for="vendor_name">Vendor Name</label>
+                    <input type="text" required name="vendor_name" placeholder="Vendor name">
+                  </div>
 
-                  <label for="vendor_email">Vendor Email</label>
-                  <input type="email" required name="vendor_email" placeholder="Vendor email">
+                  <div>
+                    <label for="vendor_email">Vendor Email</label>
+                    <input type="email" required name="vendor_email" placeholder="Vendor email">
+                  </div>
 
-                  <label for="vendor_email">Vendor Mobile</label>
-                  <input type="tel" required name="vendor_mobile" placeholder="Vendor mobile">
+                  <div>
+                    <label for="vendor_email">Vendor Mobile</label>
+                    <input type="tel" required name="vendor_mobile" placeholder="Vendor mobile">
+                  </div>
 
-                  <label for="vendor_email">Vendor Description</label>
-                  <textarea name="vendor_description" rows="3" placeholder="Vendor description"></textarea>
+                  <div class="full-grid">
+                    <label for="vendor_email">Vendor Description</label>
+                    <textarea name="vendor_description" rows="3" placeholder="Vendor description"></textarea>
+                  </div>
 
-
-                  <input type="submit" name="submit" value="Add Vendor">
+                  <input type="submit" name="submit" class="full-grid" value="Add Vendor">
                 </form>
               </div>
               <div class="modal-footer">
@@ -204,20 +211,27 @@ $getVendorsResponse = $Vendor->getVendors();
                     ?>
                     <input type="hidden" name="vendor_id" value="<?php echo $singleVendorInfo['vendor_id'] ?>">
 
-                    <label for="vendor_name">Vendor Name</label>
-                    <input type="text" required name="vendor_name" placeholder="Vendor name" value="<?php echo $singleVendorInfo['vendor_name'] ?>">
+                    <div>
+                      <label for="vendor_name">Vendor Name</label>
+                      <input type="text" required name="vendor_name" placeholder="Vendor name" value="<?php echo $singleVendorInfo['vendor_name'] ?>">
+                    </div>
 
-                    <label for="vendor_email">Vendor Email</label>
-                    <input type="email" required name="vendor_email" placeholder="Vendor email" value="<?php echo $singleVendorInfo['vendor_email'] ?>">
+                    <div>
+                      <label for="vendor_email">Vendor Email</label>
+                      <input type="email" required name="vendor_email" placeholder="Vendor email" value="<?php echo $singleVendorInfo['vendor_email'] ?>">
+                    </div>
 
-                    <label for="vendor_email">Vendor Mobile</label>
-                    <input type="tel" required name="vendor_mobile" placeholder="Vendor mobile" value="<?php echo $singleVendorInfo['vendor_mobile'] ?>">
+                    <div>
+                      <label for="vendor_email">Vendor Mobile</label>
+                      <input type="tel" required name="vendor_mobile" placeholder="Vendor mobile" value="<?php echo $singleVendorInfo['vendor_mobile'] ?>">
+                    </div>
 
-                    <label for="vendor_email">Vendor Description</label>
-                    <textarea name="vendor_description" rows="3" placeholder="Vendor description"><?php echo $singleVendorInfo['vendor_description'] ?></textarea>
+                    <div class="full-grid">
+                      <label for="vendor_email">Vendor Description</label>
+                      <textarea name="vendor_description" rows="3" placeholder="Vendor description"><?php echo $singleVendorInfo['vendor_description'] ?></textarea>
+                    </div>
 
-
-                    <input type="submit" name="submit" value="Submit Edits Vendor">
+                    <input type="submit" name="submit" class="full-grid" value="Submit Edits Vendor">
                   </form>
                 </div>
                 <div class="modal-footer">
@@ -237,10 +251,10 @@ $getVendorsResponse = $Vendor->getVendors();
                     <?php
                         echo CSRF::createToken();
                     ?>
-                    <p>Are you sure you want to delete this vendor?</p>
+                    <p class="full-grid">Are you sure you want to delete this vendor?</p>
                     <input type="hidden" name="vendor_id" value="<?php echo $singleVendorInfo['vendor_id'] ?>">
 
-                    <input type="submit" name="submit" value="Yes I am">
+                    <input type="submit" name="submit" class="full-grid" value="Yes I am">
                   </form>
                 </div>
                 <div class="modal-footer">

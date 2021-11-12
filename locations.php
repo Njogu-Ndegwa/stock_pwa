@@ -213,17 +213,22 @@ $getLocationsResponse = $Location->getLocations();
                   ?>
                   <input type="hidden" name="location_id" value="<?php echo $singleLocationInfo['location_id'] ?>">
 
-                  <label for="location_name">Location Name</label>
-                  <input type="text" required name="location_name" placeholder="Location name" value="<?php echo $singleLocationInfo['location_name'] ?>">
+                  <div>
+                    <label for="location_name">Location Name</label>
+                    <input type="text" required name="location_name" placeholder="Location name" value="<?php echo $singleLocationInfo['location_name'] ?>">
+                  </div>
 
-                  <label for="location_description">Location Description</label>
-                  <textarea name="location_description" rows="3" placeholder="Location description"><?php echo $singleLocationInfo['location_description'] ?></textarea>
+                  <div>
+                    <label for="location_description">Location Description</label>
+                    <textarea name="location_description" rows="3" placeholder="Location description"><?php echo $singleLocationInfo['location_description'] ?></textarea>
+                  </div>
 
-                  <label for="location_status">Location Status</label>
-                  <input type="text" required name="location_status" placeholder="Location status" value="<?php echo $singleLocationInfo['location_status'] ?>">
+                  <div>
+                    <label for="location_status">Location Status</label>
+                    <input type="text" required name="location_status" placeholder="Location status" value="<?php echo $singleLocationInfo['location_status'] ?>">
+                  </div>
 
-
-                  <input type="submit" name="submit" value="Edit Location">
+                  <input type="submit" class="full-grid" name="submit" value="Edit Location">
                 </form>
               </div>
               <div class="modal-footer">
@@ -244,10 +249,10 @@ $getLocationsResponse = $Location->getLocations();
                   <?php
                       echo CSRF::createToken();
                   ?>
-                  <p>Are you sure you want to delete this location?</p>
+                  <p class="full-grid">Are you sure you want to delete this location?</p>
                   <input type="hidden" name="location_id" value="<?php echo $singleLocationInfo['location_id'] ?>">
 
-                  <input type="submit" name="submit" value="Yes I am">
+                  <input type="submit" class="full-grid" name="submit" value="Yes I am">
                 </form>
               </div>
               <div class="modal-footer">

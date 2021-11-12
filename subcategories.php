@@ -118,7 +118,7 @@ $getSubcategoriesResponse = $Subcategory->getSubcategories();
           <img src="assets/images/money-check-alt-solid.svg" alt="money-check-alt-solid Font Awesome icon">
           Inventory
         </a>
-        
+
         <a href="purchase" class="navigation-item">
           <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
           Purchases
@@ -171,37 +171,45 @@ $getSubcategoriesResponse = $Subcategory->getSubcategories();
                       echo CSRF::createToken();
                   ?>
 
-                  <label for="subcategory_name">Subcategory Name</label>
-                  <input type="text" required name="subcategory_name" placeholder="Subcategory name">
+                  <div>
+                    <label for="subcategory_name">Subcategory Name</label>
+                    <input type="text" required name="subcategory_name" placeholder="Subcategory name">
+                  </div>
 
-                  <label for="subcategory_description">Subcategory Description</label>
-                  <textarea required name="subcategory_description" placeholder="Subcategory description"></textarea>
+                  <div>
+                    <label for="subcategory_description">Subcategory Description</label>
+                    <textarea required name="subcategory_description" placeholder="Subcategory description"></textarea>
+                  </div>
 
-                  <label for="subcategory_status">Subcategory Status</label>
-                  <input type="text" required name="subcategory_status" placeholder="Subcategory status">
+                  <div>
+                    <label for="subcategory_status">Subcategory Status</label>
+                    <input type="text" required name="subcategory_status" placeholder="Subcategory status">
+                  </div>
 
-                  <label for="category_id">Select a category to link to</label>
-                  <select name="category_id">
-                    <?php
-                      if (count($getCategoriesResponse['data'])<1) {
-                        ?>
-                          <option disabled selected value="">
-                            No categories to pick from
-                          </option>
-                        <?php
-                      }else {
-                        foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
-                      ?>
-                          <option value="<?php echo $singleCategoryInfo['category_id'] ?>">
-                            <?php echo $singleCategoryInfo['category_name'] ?>
-                          </option>
+                  <div>
+                    <label for="category_id">Select a category to link to</label>
+                    <select name="category_id">
                       <?php
+                        if (count($getCategoriesResponse['data'])<1) {
+                          ?>
+                            <option disabled selected value="">
+                              No categories to pick from
+                            </option>
+                          <?php
+                        }else {
+                          foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
+                        ?>
+                            <option value="<?php echo $singleCategoryInfo['category_id'] ?>">
+                              <?php echo $singleCategoryInfo['category_name'] ?>
+                            </option>
+                        <?php
+                          }
                         }
-                      }
-                    ?>
-                  </select>
+                      ?>
+                    </select>
+                  </div>
 
-                  <input type="submit" name="submit" value="Add Subcategory">
+                  <input type="submit" name="submit" class="full-grid" value="Add Subcategory">
                 </form>
               </div>
               <div class="modal-footer">
@@ -227,38 +235,45 @@ $getSubcategoriesResponse = $Subcategory->getSubcategories();
                     ?>
                     <input type="hidden" name="subcategory_id" value="<?php echo $singleSubcategoryInfo['subcategory_id'] ?>">
 
-                    <label for="location_name">Subcategory Name</label>
-                    <input type="text" required name="subcategory_name" placeholder="Subcategory name" value="<?php echo $singleSubcategoryInfo['subcategory_name'] ?>">
+                    <div>
+                      <label for="location_name">Subcategory Name</label>
+                      <input type="text" required name="subcategory_name" placeholder="Subcategory name" value="<?php echo $singleSubcategoryInfo['subcategory_name'] ?>">
+                    </div>
 
-                    <label for="subcategory_description">Subcategory Description</label>
-                    <textarea required name="subcategory_description" placeholder="Subcategory description"><?php echo $singleSubcategoryInfo['subcategory_description'] ?></textarea>
+                    <div>
+                      <label for="subcategory_description">Subcategory Description</label>
+                      <textarea required name="subcategory_description" placeholder="Subcategory description"><?php echo $singleSubcategoryInfo['subcategory_description'] ?></textarea>
+                    </div>
 
-                    <label for="subcategory_status">Subcategory Status</label>
-                    <input type="text" required name="subcategory_status" placeholder="Subcategory status" value="<?php echo $singleSubcategoryInfo['subcategory_status'] ?>">
+                    <div>
+                      <label for="subcategory_status">Subcategory Status</label>
+                      <input type="text" required name="subcategory_status" placeholder="Subcategory status" value="<?php echo $singleSubcategoryInfo['subcategory_status'] ?>">
+                    </div>
 
-                    <label for="category_id">Choose Category</label>
-                    <select name="category_id">
-                        <?php
-                          foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
-                            if ( $singleCategoryInfo['category_id'] == $singleSubcategoryInfo['category_id'] ) {
-                              ?>
-                                  <option selected value="<?php echo $singleCategoryInfo['category_id'] ?>">
-                                    <?php echo $singleCategoryInfo['category_name']; ?>(CHOSEN)
-                                  </option>
-                              <?php
-                              } else {
-                              ?>
-                                  <option value="<?php echo $singleCategoryInfo['category_id'] ?>">
-                                    <?php echo $singleCategoryInfo['category_name']; ?>
-                                  </option>
-                              <?php
+                    <div>
+                      <label for="category_id">Choose Category</label>
+                      <select name="category_id">
+                          <?php
+                            foreach ($getCategoriesResponse['data'] as $singleCategoryInfo) {
+                              if ( $singleCategoryInfo['category_id'] == $singleSubcategoryInfo['category_id'] ) {
+                                ?>
+                                    <option selected value="<?php echo $singleCategoryInfo['category_id'] ?>">
+                                      <?php echo $singleCategoryInfo['category_name']; ?>(CHOSEN)
+                                    </option>
+                                <?php
+                                } else {
+                                ?>
+                                    <option value="<?php echo $singleCategoryInfo['category_id'] ?>">
+                                      <?php echo $singleCategoryInfo['category_name']; ?>
+                                    </option>
+                                <?php
+                              }
                             }
-                          }
-                        ?>
-                    </select>
+                          ?>
+                      </select>
+                    </div>
 
-
-                    <input type="submit" name="submit" value="Submit Edits Category">
+                    <input type="submit" name="submit" class="full-grid" value="Submit Edits Subcategory">
                   </form>
                 </div>
                 <div class="modal-footer">
