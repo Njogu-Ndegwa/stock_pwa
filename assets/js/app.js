@@ -293,3 +293,75 @@ function checkInventoryAcquisition(buttonElement) {
     })
     .catch(err => alert(err));
 }
+
+function openDropdown(dropDownTrigger) {
+  dropDownTrigger.nextElementSibling.classList.toggle("show");
+}
+function closeDropdown(dropDownTrigger) {
+  dropDownTrigger.parentElement.classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    const dropdowns = document.getElementsByClassName("dropdown-content");
+    let i;
+    for (i = 0; i < dropdowns.length; i++) {
+      let openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+function addVendor(submitBtn) {
+  const inputTags = submitBtn.parentElement.querySelectorAll('input');
+
+  const vendorName = inputTags[0];
+  const vendorEmail = inputTags[1];
+  const vendorMobile = inputTags[2];
+  const vendorDescription = inputTags[3];
+
+  submitBtn.disabled = true;
+
+  submitBtn.innerHTML = 'Please Wait';
+
+  fetch('app/formhandlers/vendor/addVendorAPI', {
+      method: 'POST',
+      body: JSON.stringify({
+        vendorName: vendorName.value,
+        vendorEmail: vendorEmail.value,
+        vendorMobile: vendorMobile.value,
+        vendorDescription: vendorDescription.value
+      })
+  })
+  .then(res => res.json())
+  .then(json => {
+    if (json.response == '200') {
+
+      submitBtn.innerHTML = 'Success';
+      let newOption = document.createElement('option');
+      newOption.value = json.data[1];
+      newOption.innerHTML = vendorName.value;
+
+      document.querySelectorAll('.vendor-option').forEach((vendorSelect) => {
+        vendorSelect.appendChild(newOption);
+      });
+
+      inputTags[0].innerHTML = '';
+      inputTags[1].innerHTML = '';
+      inputTags[2].innerHTML = '';
+      inputTags[3].innerHTML = '';
+
+    }else {
+      submitBtn.innerHTML = 'Error'
+    }
+
+  })
+  .catch(err => alert(err));
+  setTimeout(function(){
+    submitBtn.innerHTML = 'Add a Vendor';
+    submitBtn.disabled = false;
+  }, 1000);
+}

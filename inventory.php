@@ -48,10 +48,12 @@ $getCustomersResponse = $Customer->getCustomers();
   <link rel="stylesheet" href="assets/css/casual.min.css">
   <link rel="stylesheet" href="assets/css/table.min.css">
   <link rel="stylesheet" href="assets/css/alert.min.css">
+  <link rel="stylesheet" href="assets/css/dropdown.min.css">
   <link rel="stylesheet" href="assets/css/select2.min.css" />
   <title>Inventory</title>
 </head>
 <body>
+
   <?php
     if (isset($_SESSION['error'])) {
   ?>
@@ -197,6 +199,19 @@ $getCustomersResponse = $Customer->getCustomers();
 
                   <div>
                     <label for="vendor_id">Vendor</label>
+                    <div class="dropdown">
+                      <a onclick="openDropdown(this)" class="dropbtn">+ Add a vendor</a>
+                      <div class="dropdown-content">
+                        <button type="button" onclick="closeDropdown(this)" name="button">Close&#10005;</button>
+                        <input type="text" placeholder="Vendor name">
+                        <input type="email" placeholder="Vendor email">
+                        <input type="tel" placeholder="Vendor mobile">
+                        <input type="text" placeholder="Vendor description">
+                        <button type="button" name="button" onclick="addVendor(this)">
+                          Add the Vendor
+                        </button>
+                      </div>
+                    </div>
                     <select name="vendor_id">
                       <?php
                         if ($getVendorsResponse['response'] == '204') {
@@ -325,6 +340,21 @@ $getCustomersResponse = $Customer->getCustomers();
 
                   <div>
                     <label for="vendor_id">Vendor</label>
+
+                    <div class="dropdown">
+                      <a onclick="openDropdown(this)" class="dropbtn">+ Add a vendor</a>
+                      <div class="dropdown-content">
+                        <button type="button" onclick="closeDropdown(this)" name="button">Close&#10005;</button>
+                        <input type="text" placeholder="Vendor name">
+                        <input type="email" placeholder="Vendor email">
+                        <input type="tel" placeholder="Vendor mobile">
+                        <input type="text" placeholder="Vendor description">
+                        <button type="button" name="button" onclick="addVendor(this)">
+                          Add the Vendor
+                        </button>
+                      </div>
+                    </div>
+
                     <select name="vendor_id">
                       <?php
                         if ($getVendorsResponse['response'] == '204') {
@@ -497,31 +527,45 @@ $getCustomersResponse = $Customer->getCustomers();
 
                   </div>
 
-                  <div class="grid">
-                    <div class="">
-                      <label for="item_code">Code/RAL</label>
-                      <input type="text" id="itemCode" disabled name="item_code" placeholder="Item code">
+                  <div class="">
+                    <label for="item_code">Code/RAL</label>
+                    <input type="text" id="itemCode" disabled name="item_code" placeholder="Item code">
+                  </div>
+
+                  <div class="">
+                    <label for="vendor_company">Vendor</label>
+
+                    <div class="dropdown">
+                      <a onclick="openDropdown(this)" class="dropbtn">+ Add a vendor</a>
+                      <div class="dropdown-content">
+                        <button type="button" onclick="closeDropdown(this)" name="button">Close&#10005;</button>
+                        <input type="text" placeholder="Vendor name">
+                        <input type="email" placeholder="Vendor email">
+                        <input type="tel" placeholder="Vendor mobile">
+                        <input type="text" placeholder="Vendor description">
+                        <button type="button" name="button" onclick="addVendor(this)">
+                          Add the Vendor
+                        </button>
+                      </div>
                     </div>
-                    <div class="">
-                      <label for="vendor_company">Vendor</label>
-                      <select id="vendorName" disabled name="vendor_company">
-                        <?php
-                          if ($getVendorsResponse['response'] == '204') {
-                          ?>
-                            <option selected disabled value="">There are no vendors present in the system</option>
-                          <?php
-                          }else {
-                            foreach ($getVendorsResponse['data'] as $vendorInfo) {
-                          ?>
-                              <option value="<?php echo $vendorInfo['vendor_name'] ?>">
-                                <?php echo $vendorInfo['vendor_name'] ?>
-                              </option>
-                          <?php
-                            }
-                          }
+
+                    <select id="vendorName" disabled class="vendor-option" name="vendor_company">
+                      <?php
+                        if ($getVendorsResponse['response'] == '204') {
                         ?>
-                      </select>
-                    </div>
+                          <option selected disabled value="">There are no vendors present in the system</option>
+                        <?php
+                        }else {
+                          foreach ($getVendorsResponse['data'] as $vendorInfo) {
+                        ?>
+                            <option value="<?php echo $vendorInfo['vendor_name'] ?>">
+                              <?php echo $vendorInfo['vendor_name'] ?>
+                            </option>
+                        <?php
+                          }
+                        }
+                      ?>
+                    </select>
                   </div>
 
                   <div>
