@@ -42,9 +42,33 @@ $getCoatingJobsResponse = $Material->getCoatingJobs();
   <link rel="stylesheet" href="assets/css/table.min.css">
   <link rel="stylesheet" href="assets/css/alert.min.css">
   <link rel="stylesheet" href="assets/css/powdercoating.min.css">
+  <link rel="stylesheet" href="assets/css/select2.min.css" />
   <title>Powder Coating</title>
 </head>
 <body>
+  <?php
+    if (isset($_SESSION['error'])) {
+  ?>
+  <div class="alert error">
+    <span><?php echo $_SESSION['error'] ?></span>
+    <span onclick="closeAlert(this)">&times;</span>
+  </div>
+  <?php
+    unset($_SESSION['error']);
+    }
+  ?>
+
+  <?php
+    if (isset($_SESSION['success'])) {
+  ?>
+  <div class="alert success">
+    <span><?php echo $_SESSION['success'] ?></span>
+    <span onclick="closeAlert(this)">&times;</span>
+  </div>
+  <?php
+    unset($_SESSION['success']);
+    }
+  ?>
   <div class="main">
 
     <div class="navigation-bar glassmorphic">
@@ -401,5 +425,14 @@ $getCoatingJobsResponse = $Material->getCoatingJobs();
 
   </div>
   <script src="assets/js/app.min.js" charset="utf-8"></script>
+  <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/js/select2.min.js"></script>
+  <script>
+  $(document).ready(function(){
+    $(function () {
+        $("select").select2();
+      });
+  })
+  </script>
 </body>
 </html>

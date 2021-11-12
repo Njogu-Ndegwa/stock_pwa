@@ -48,6 +48,7 @@ $getCustomersResponse = $Customer->getCustomers();
   <link rel="stylesheet" href="assets/css/casual.min.css">
   <link rel="stylesheet" href="assets/css/table.min.css">
   <link rel="stylesheet" href="assets/css/alert.min.css">
+  <link rel="stylesheet" href="assets/css/select2.min.css" />
   <title>Inventory</title>
 </head>
 <body>
@@ -729,5 +730,14 @@ $getCustomersResponse = $Customer->getCustomers();
 
   </div>
   <script src="assets/js/app.min.js" charset="utf-8"></script>
+  <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/js/select2.min.js"></script>
+  <script>
+  $(document).ready(function(){
+    $(function () {
+        $("select").select2();
+      });
+  })
+  </script>
 </body>
 </html>
