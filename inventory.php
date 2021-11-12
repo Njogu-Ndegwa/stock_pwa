@@ -212,7 +212,7 @@ $getCustomersResponse = $Customer->getCustomers();
                         </button>
                       </div>
                     </div>
-                    <select name="vendor_id">
+                    <select name="vendor_id" class="vendor-option">
                       <?php
                         if ($getVendorsResponse['response'] == '204') {
                         ?>
@@ -355,7 +355,7 @@ $getCustomersResponse = $Customer->getCustomers();
                       </div>
                     </div>
 
-                    <select name="vendor_id">
+                    <select name="vendor_id" class="vendor-option">
                       <?php
                         if ($getVendorsResponse['response'] == '204') {
                         ?>

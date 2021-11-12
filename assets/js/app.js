@@ -345,14 +345,16 @@ function addVendor(submitBtn) {
       newOption.value = json.data[1];
       newOption.innerHTML = vendorName.value;
 
-      document.querySelectorAll('.vendor-option').forEach((vendorSelect) => {
-        vendorSelect.appendChild(newOption);
-      });
+      const vendorSelectElements = document.querySelectorAll('.vendor-option');
 
-      inputTags[0].innerHTML = '';
-      inputTags[1].innerHTML = '';
-      inputTags[2].innerHTML = '';
-      inputTags[3].innerHTML = '';
+      vendorSelectElements.forEach((selectElement) => {
+        selectElement.appendChild(newOption);
+      })
+
+      inputTags[0].value = '';
+      inputTags[1].value = '';
+      inputTags[2].value = '';
+      inputTags[3].value = '';
 
     }else {
       submitBtn.innerHTML = 'Error'
