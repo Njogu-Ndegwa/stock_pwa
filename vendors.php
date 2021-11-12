@@ -112,6 +112,21 @@ $getVendorsResponse = $Vendor->getVendors();
           <img src="assets/images/money-check-alt-solid.svg" alt="money-check-alt-solid Font Awesome icon">
           Inventory
         </a>
+        
+        <a href="purchase" class="navigation-item">
+          <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
+          Purchases
+        </a>
+
+        <a href="purchaseorder" class="navigation-item">
+          <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
+          Purchase Order
+        </a>
+
+        <a href="expense" class="navigation-item">
+          <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
+          Expenses
+        </a>
 
       </div>
     </div>

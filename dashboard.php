@@ -78,10 +78,26 @@ if (empty($_SESSION['auth_token']) || empty($_SESSION['auth_uid']) || empty($_SE
           Inventory
         </a>
 
+        <a href="purchase" class="navigation-item">
+          <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
+          Purchases
+        </a>
+
+        <a href="expense" class="navigation-item">
+          <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
+          Expenses
+        </a>
+
+        <a href="purchaseorder" class="navigation-item">
+          <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
+          Purchase Order
+        </a>
+
         <a href="users.html" class="navigation-item">
           <img src="assets/images/cog-solid.svg" alt="cog-solid Font Awesome icon">
           Setting
         </a>
+
 
       </div>
     </div>
