@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 11, 2021 at 05:26 PM
+-- Generation Time: Nov 12, 2021 at 10:04 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -62,6 +62,13 @@ CREATE TABLE `companies` (
   `date_created` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `companies`
+--
+
+INSERT INTO `companies` (`company_id`, `email`, `company_name`, `company_pin`, `activation_key`, `key_validity`, `trial`, `subscription_uuid`, `subscription_expiry`, `password`, `login_token`, `code`, `token_valid`, `date_created`) VALUES
+(1, 'pop@gmail.com', 'POP', '1234', '1234', 1, 0, '12345', '12345', '00', '1234', 123, 1, '2021-11-12 08:55:45');
+
 -- --------------------------------------------------------
 
 --
@@ -77,6 +84,31 @@ CREATE TABLE `customers` (
   `company_id` int(11) NOT NULL,
   `contact_person_name` char(255) NOT NULL,
   `contact_person_email` char(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expenses`
+--
+
+CREATE TABLE `expenses` (
+  `expense_id` int(11) NOT NULL,
+  `voucher_number` varchar(255) NOT NULL,
+  `expense_amount` int(11) NOT NULL,
+  `expense_date` datetime DEFAULT NULL,
+  `paid_from` varchar(255) DEFAULT NULL,
+  `tax` int(11) NOT NULL,
+  `expense_status` char(255) DEFAULT NULL,
+  `document` char(255) DEFAULT NULL,
+  `memo` char(255) DEFAULT NULL,
+  `narration` char(255) DEFAULT NULL,
+  `expense_type` varchar(255) NOT NULL,
+  `created_by` char(255) DEFAULT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `expense_description` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -159,6 +191,30 @@ CREATE TABLE `materials` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL,
+  `voucher_number` varchar(255) NOT NULL,
+  `payment_date` datetime DEFAULT NULL,
+  `payment_to` varchar(255) NOT NULL,
+  `payment_amount` int(11) NOT NULL,
+  `payment_description` char(255) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `payment_mode` enum('Cash','Cheque','Credit/Debit Card','Internet Banking') NOT NULL,
+  `payment_from` char(255) DEFAULT NULL,
+  `payment_type` enum('Against Purchases/Expenses','Adavance Payment','Other Payment') NOT NULL,
+  `tds_deducted` int(11) NOT NULL,
+  `created_by` char(255) DEFAULT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `powdercoating_jobs`
 --
 
@@ -183,7 +239,76 @@ CREATE TABLE `powdercoating_jobs` (
   `quality_by` varchar(255) NOT NULL,
   `profile_type` varchar(255) NOT NULL,
   `goods_in_weight` varchar(255) NOT NULL,
-  `items` longtext NOT NULL
+  `items` longtext NOT NULL,
+  `filename` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchases`
+--
+
+CREATE TABLE `purchases` (
+  `purchase_id` int(11) NOT NULL,
+  `vendor_name` varchar(255) NOT NULL,
+  `record_date` datetime DEFAULT NULL,
+  `due_date` datetime DEFAULT NULL,
+  `quotation_date` datetime DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `terms_and_conditions` char(255) DEFAULT NULL,
+  `quotation_reference` char(255) DEFAULT NULL,
+  `select_project` char(255) DEFAULT NULL,
+  `cash_purchase` tinyint(1) NOT NULL DEFAULT 1,
+  `tax_inclusive` tinyint(1) NOT NULL DEFAULT 0,
+  `purchase_status` char(255) NOT NULL,
+  `item` int(11) NOT NULL,
+  `purchase_description` char(255) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `unit_cost` int(11) NOT NULL,
+  `discount` int(11) DEFAULT NULL,
+  `document` char(255) DEFAULT NULL,
+  `memo` char(255) DEFAULT NULL,
+  `tax` int(11) DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `created_by` char(255) DEFAULT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_order`
+--
+
+CREATE TABLE `purchase_order` (
+  `purchase_order_id` int(11) NOT NULL,
+  `vendor_name` varchar(255) NOT NULL,
+  `record_date` datetime DEFAULT NULL,
+  `due_date` datetime DEFAULT NULL,
+  `quotation_date` datetime DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `terms_and_conditions` char(255) DEFAULT NULL,
+  `quotation_reference` char(255) DEFAULT NULL,
+  `select_project` char(255) DEFAULT NULL,
+  `cash_purchase` tinyint(1) NOT NULL DEFAULT 1,
+  `tax_inclusive` tinyint(1) NOT NULL DEFAULT 0,
+  `po_status` char(255) NOT NULL,
+  `item` int(11) NOT NULL,
+  `item_description` char(255) NOT NULL,
+  `document` char(255) DEFAULT NULL,
+  `memo` char(255) DEFAULT NULL,
+  `qty` int(11) NOT NULL,
+  `unit_cost` int(11) NOT NULL,
+  `discount` int(11) DEFAULT NULL,
+  `tax` int(11) DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `created_by` char(255) DEFAULT NULL,
+  `updated_by` char(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -195,7 +320,6 @@ CREATE TABLE `powdercoating_jobs` (
 CREATE TABLE `stock_in` (
   `stockin_entryid` int(11) NOT NULL,
   `item_name` varchar(255) NOT NULL,
-  `item_code` varchar(255) NOT NULL,
   `location_id` int(11) NOT NULL,
   `warehouse_id` int(11) NOT NULL,
   `vendor_id` int(11) NOT NULL,
@@ -211,9 +335,7 @@ CREATE TABLE `stock_in` (
   `material` varchar(255) NOT NULL,
   `price_per_item` int(11) NOT NULL,
   `cost_per_item` int(11) NOT NULL,
-  `image_url` varchar(255) NOT NULL,
-  `minimum_threshold` int(11) NOT NULL,
-  `maximum_threshold` int(11) NOT NULL
+  `image_url` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -268,7 +390,6 @@ CREATE TABLE `users` (
   `token` varchar(255) NOT NULL,
   `code` varchar(20) NOT NULL,
   `super_admin` tinyint(1) NOT NULL DEFAULT 0
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -306,148 +427,9 @@ CREATE TABLE `warehouses` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `purchase order`
---
-
-CREATE TABLE `purchase_order` (
-  `purchase_order_id` int(11) NOT NULL,
-  `vendor_name` varchar(255) NOT NULL,
-  `record_date` datetime DEFAULT NULL,
-  `due_date` datetime DEFAULT NULL,
-  `quotation_date` datetime DEFAULT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
-  `terms_and_conditions` char(255) DEFAULT NULL,
-  `quotation_reference` char(255) DEFAULT NULL,
-  `select_project` char(255) DEFAULT NULL,
-  `cash_purchase` tinyint(1) NOT NULL DEFAULT 1,
-  `tax_inclusive` tinyint(1) NOT NULL DEFAULT 0,
-  `po_status` char(255) NOT NULL,
-  `item` int(11) NOT NULL,
-  `item_description` char(255) NOT NULL,
-  `document` char(255) DEFAULT NULL,
-  `memo` char(255) DEFAULT NULL,
-  `qty` int(11) NOT NULL,
-  `unit_cost` int(11) NOT NULL,
-  `discount` int(11) DEFAULT NULL,
-  `tax` int(11) DEFAULT NULL,
-  `amount` int(11) DEFAULT NULL,
-  `created_by` char(255) DEFAULT NULL,
-  `updated_by` char(255) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchases`
---
-
-CREATE TABLE `purchases` (
-  `purchase_id` int(11) NOT NULL,
-  `vendor_name` varchar(255) NOT NULL,
-  `record_date` datetime DEFAULT NULL,
-  `due_date` datetime DEFAULT NULL,
-  `quotation_date` datetime DEFAULT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
-  `terms_and_conditions` char(255) DEFAULT NULL,
-  `quotation_reference` char(255) DEFAULT NULL,
-  `select_project` char(255) DEFAULT NULL,
-  `cash_purchase` tinyint(1) NOT NULL DEFAULT 1,
-  `tax_inclusive` tinyint(1) NOT NULL DEFAULT 0,
-  `purchase_status` char(255) NOT NULL,
-  `item` int(11) NOT NULL,
-  `purchase_description` char(255) NOT NULL,
-  `qty` int(11) NOT NULL,
-  `unit_cost` int(11) NOT NULL,
-  `discount` int(11) DEFAULT NULL,
-  `document` char(255) DEFAULT NULL,
-  `memo` char(255) DEFAULT NULL,
-  `tax` int(11) DEFAULT NULL,
-  `amount` int(11) DEFAULT NULL,
-  `created_by` char(255) DEFAULT NULL,
-  `updated_by` char(255) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Table structure for table `payments`
---
-
-CREATE TABLE `payments` (
-  `payment_id` int(11) NOT NULL,
-  `voucher_number` varchar(255) NOT NULL,
-  `payment_date` datetime DEFAULT NULL,
-  `payment_to` varchar(255) NOT NULL,
-  `payment_amount` int(11) NOT NULL,
-  `payment_description` char(255) DEFAULT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
-  `payment_mode` enum('Cash','Cheque','Credit/Debit Card', 'Internet Banking') NOT NULL,
-  `payment_from` char(255) DEFAULT NULL,
-  `payment_type` enum('Against Purchases/Expenses','Adavance Payment','Other Payment') NOT NULL,
-  `tds_deducted` int(11) NOT NULL,
-  `created_by` char(255) DEFAULT NULL,
-  `updated_by` char(255) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
---
--- Table structure for table `expenses`
---
-
-CREATE TABLE `expenses` (
-  `expense_id` int(11) NOT NULL,
-  `voucher_number` varchar(255) NOT NULL,
-  `expense_amount` int(11) NOT NULL,
-  `expense_date` datetime DEFAULT NULL,
-  `paid_from` varchar(255) DEFAULT NULL,
-  `tax` int(11) NOT NULL,
-  `expense_status` char(255) DEFAULT NULL,
-  `document` char(255) DEFAULT NULL,
-  `memo` char(255) DEFAULT NULL,
-  `narration` char(255) DEFAULT NULL,
-  `expense_type` varchar(255) NOT NULL,
-  `created_by` char(255) DEFAULT NULL,
-  `updated_by` char(255) DEFAULT NULL,
-  `expense_description` char(255) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `expenses`
---
-ALTER TABLE `expenses`
-  ADD PRIMARY KEY (`expense_id`);
-
---
--- Indexes for table `purchases`
---
-ALTER TABLE `purchases`
-  ADD PRIMARY KEY (`purchase_id`);
-
-
---
--- Indexes for table `payments`
---
-ALTER TABLE `payments`
-  ADD PRIMARY KEY (`payment_id`);
-
---
--- Indexes for table `purchase_order`
---
-ALTER TABLE `purchase_order`
-  ADD PRIMARY KEY (`purchase_order_id`);
 
 --
 -- Indexes for table `categories`
@@ -467,6 +449,12 @@ ALTER TABLE `companies`
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`);
+
+--
+-- Indexes for table `expenses`
+--
+ALTER TABLE `expenses`
+  ADD PRIMARY KEY (`expense_id`);
 
 --
 -- Indexes for table `inventory_acquisition`
@@ -493,10 +481,28 @@ ALTER TABLE `materials`
   ADD PRIMARY KEY (`material_id`);
 
 --
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`payment_id`);
+
+--
 -- Indexes for table `powdercoating_jobs`
 --
 ALTER TABLE `powdercoating_jobs`
   ADD PRIMARY KEY (`powdercoating_id`);
+
+--
+-- Indexes for table `purchases`
+--
+ALTER TABLE `purchases`
+  ADD PRIMARY KEY (`purchase_id`);
+
+--
+-- Indexes for table `purchase_order`
+--
+ALTER TABLE `purchase_order`
+  ADD PRIMARY KEY (`purchase_order_id`);
 
 --
 -- Indexes for table `stock_in`
@@ -543,40 +549,28 @@ ALTER TABLE `warehouses`
 --
 
 --
--- AUTO_INCREMENT for table `expenses`
+-- AUTO_INCREMENT for table `categories`
 --
-ALTER TABLE `expenses`
-  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `purchases`
---
-ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `purchases`
---
-ALTER TABLE `purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `purchase_order`
---
-ALTER TABLE `purchase_order`
-  MODIFY `purchase_order_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `categories`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
   MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `expenses`
+--
+ALTER TABLE `expenses`
+  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `inventory_acquisition`
@@ -603,10 +597,28 @@ ALTER TABLE `materials`
   MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `powdercoating_jobs`
 --
 ALTER TABLE `powdercoating_jobs`
   MODIFY `powdercoating_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `purchases`
+--
+ALTER TABLE `purchases`
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `purchase_order`
+--
+ALTER TABLE `purchase_order`
+  MODIFY `purchase_order_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `stock_in`
