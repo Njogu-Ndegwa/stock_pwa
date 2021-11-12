@@ -36,7 +36,7 @@ class Warehouse extends Database
      */
     public function getWarehouses()
     {
-      $getWarehousesSQL = "SELECT * FROM `warehouses` INNER JOIN locations ON locations.entry_id = warehouses.location_id WHERE is_deleted = 0";
+      $getWarehousesSQL = "SELECT * FROM `warehouses` INNER JOIN locations ON locations.location_id = warehouses.location_id WHERE is_deleted = 0";
 
       return $this->selectSQLStatement($getWarehousesSQL, $this->DBConnection);
     }

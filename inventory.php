@@ -226,8 +226,8 @@ $getCustomersResponse = $Customer->getCustomers();
                       }else {
                         foreach ($getMaterialsResponse['data'] as $materialInfo) {
                       ?>
-                          <option value="<?php echo $materialInfo['material_id'] ?>">
-                            <?php echo $materialInfo['item_name'] ?> (<?php echo $materialInfo['material_code'] ?>)
+                          <option value="<?php echo $materialInfo['item_id'] ?>">
+                            <?php echo $materialInfo['item_name'] ?> (<?php echo $materialInfo['item_code'] ?>)
                           </option>
                       <?php
                         }
@@ -283,7 +283,7 @@ $getCustomersResponse = $Customer->getCustomers();
                       <?php
                       foreach ($getMaterialsResponse['data'] as $singleMaterialInfo) {
                     ?>
-                        <option data-code="<?php echo $singleMaterialInfo['material_code'] ?>" value="<?php echo $singleMaterialInfo['item_id'] ?>">
+                        <option data-code="<?php echo $singleMaterialInfo['item_code'] ?>" value="<?php echo $singleMaterialInfo['item_id'] ?>">
                           <?php echo $singleMaterialInfo['item_name'] ?>
                         </option>
                     <?php
@@ -371,17 +371,6 @@ $getCustomersResponse = $Customer->getCustomers();
                     </div>
                   </div>
 
-                  <div class="grid">
-                    <div>
-                      <label for="minimum_threshold">Min threshold</label>
-                      <input type="number" required name="minimum_threshold" placeholder="Minimum threshold">
-                    </div>
-                    <div>
-                      <label for="maximum_threshold">Max threshold</label>
-                      <input type="number" required name="maximum_threshold" placeholder="Maximum threshold">
-                    </div>
-                  </div>
-
                   <label for="vehicle_plate">Vehicle Plate Number</label>
                   <input type="text" required name="vehicle_plate" placeholder="Vehicle plate number">
 
@@ -459,7 +448,7 @@ $getCustomersResponse = $Customer->getCustomers();
 
                   <div class="grid">
                     <div class="">
-                      <label for="item_code">Item code</label>
+                      <label for="item_code">Item code/RAL</label>
                       <input type="text" id="itemCode" disabled name="item_code" placeholder="Item code">
                     </div>
                     <div class="">
@@ -489,12 +478,12 @@ $getCustomersResponse = $Customer->getCustomers();
 
                   <div class="grid">
                     <div>
-                      <label for="minimum_threshold">Min threshold</br>(Optional)</label>
-                      <input type="number" name="minimum_threshold" placeholder="Minimum threshold">
+                      <label for="minimum_threshold">Min threshold</label>
+                      <input type="number" required name="minimum_threshold" placeholder="Minimum threshold">
                     </div>
                     <div>
-                      <label for="maximum_threshold">Max threshold</br>(Optional)</label>
-                      <input type="number" name="maximum_threshold" placeholder="Maximum threshold">
+                      <label for="maximum_threshold">Max threshold</label>
+                      <input type="number" required name="maximum_threshold" placeholder="Maximum threshold">
                     </div>
                   </div>
 

@@ -179,7 +179,7 @@ $getLocationsResponse = $Location->getLocations();
       <?php
         foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
       ?>
-        <div class="modal" id="editLocation<?php echo $singleLocationInfo['entry_id']; ?>">
+        <div class="modal" id="editLocation<?php echo $singleLocationInfo['location_id']; ?>">
 
           <div class="modal-dialog">
               <div class="modal-head">
@@ -190,7 +190,7 @@ $getLocationsResponse = $Location->getLocations();
                   <?php
                       echo CSRF::createToken();
                   ?>
-                  <input type="hidden" name="location_id" value="<?php echo $singleLocationInfo['entry_id'] ?>">
+                  <input type="hidden" name="location_id" value="<?php echo $singleLocationInfo['location_id'] ?>">
 
                   <label for="location_name">Location Name</label>
                   <input type="text" required name="location_name" placeholder="Location name" value="<?php echo $singleLocationInfo['location_name'] ?>">
@@ -206,13 +206,13 @@ $getLocationsResponse = $Location->getLocations();
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="close-modal-btn" onclick="closeModal('#editLocation<?php echo $singleLocationInfo['entry_id']; ?>')" name="button">Close &times;</button>
+                <button type="button" class="close-modal-btn" onclick="closeModal('#editLocation<?php echo $singleLocationInfo['location_id']; ?>')" name="button">Close &times;</button>
               </div>
           </div>
 
         </div>
 
-        <div class="modal" id="deleteLocation<?php echo $singleLocationInfo['entry_id']; ?>">
+        <div class="modal" id="deleteLocation<?php echo $singleLocationInfo['location_id']; ?>">
 
           <div class="modal-dialog">
               <div class="modal-head">
@@ -224,13 +224,13 @@ $getLocationsResponse = $Location->getLocations();
                       echo CSRF::createToken();
                   ?>
                   <p>Are you sure you want to delete this location?</p>
-                  <input type="hidden" name="location_id" value="<?php echo $singleLocationInfo['entry_id'] ?>">
+                  <input type="hidden" name="location_id" value="<?php echo $singleLocationInfo['location_id'] ?>">
 
                   <input type="submit" name="submit" value="Yes I am">
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="close-modal-btn" onclick="closeModal('#deleteLocation<?php echo $singleLocationInfo['entry_id']; ?>')" name="button">No &times;</button>
+                <button type="button" class="close-modal-btn" onclick="closeModal('#deleteLocation<?php echo $singleLocationInfo['location_id']; ?>')" name="button">No &times;</button>
               </div>
           </div>
 
@@ -276,13 +276,13 @@ $getLocationsResponse = $Location->getLocations();
             foreach ($getLocationsResponse['data'] as $singleLocationInfo) {
             ?>
             <tr>
-              <td><?php echo $singleLocationInfo['entry_id'] ?></td>
+              <td><?php echo $singleLocationInfo['location_id'] ?></td>
               <td><?php echo $singleLocationInfo['location_name'] ?></td>
               <td><?php echo $singleLocationInfo['location_description'] ?></td>
               <td><?php echo $singleLocationInfo['location_status'] ?></td>
               <td>
-                <button class="action-edit-btn" onclick="openModal('#editLocation<?php echo $singleLocationInfo['entry_id']; ?>')">Edit</button>
-                <button class="action-delete-btn" onclick="openModal('#deleteLocation<?php echo $singleLocationInfo['entry_id']; ?>')">Delete</button>
+                <button class="action-edit-btn" onclick="openModal('#editLocation<?php echo $singleLocationInfo['location_id']; ?>')">Edit</button>
+                <button class="action-delete-btn" onclick="openModal('#deleteLocation<?php echo $singleLocationInfo['location_id']; ?>')">Delete</button>
               </td>
             </tr>
             <?php

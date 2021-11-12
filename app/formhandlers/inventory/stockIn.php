@@ -31,10 +31,6 @@ if (!empty($_POST['item_name']) && !empty($_POST['item_code'])) {
 
   $costPerItem = $Material->sanitiseInput($_POST['cost_per_item']);
 
-  $minimumThreshold = $Material->sanitiseInput($_POST['minimum_threshold']);
-
-  $maximumThreshold = $Material->sanitiseInput($_POST['maximum_threshold']);
-
   $vehiclePlate = $Material->sanitiseInput($_POST['vehicle_plate']);
 
   $startMileage = $Material->sanitiseInput($_POST['start_mileage']);
@@ -51,7 +47,7 @@ if (!empty($_POST['item_name']) && !empty($_POST['item_code'])) {
 
   $imageURL = $Material->sanitiseInput($_POST['image_url']);
 
-  $stockInItemResponse = $Material->stockIn( $itemName,  $itemCode,  $locationID,  $warehouseID,  $vendorID,  $invoice,  $lpo,  $quantity,  $deliveryNoteNo,  $vehiclePlate,  $startMileage,  $stopMileage,  $powder,  $color ,  $material,   $pricePerItem,  $costPerItem,  $imageURL,  $minimumThreshold,  $maximumThreshold);
+  $stockInItemResponse = $Material->stockIn( $itemName,  $itemCode,  $locationID,  $warehouseID,  $vendorID,  $invoice,  $lpo,  $quantity,  $deliveryNoteNo,  $vehiclePlate,  $startMileage,  $stopMileage,  $powder,  $color ,  $material,   $pricePerItem,  $costPerItem,  $imageURL);
 
   if ($stockInItemResponse['response'] == '200') {
     $_SESSION['success'] = "Stock in recorded";
