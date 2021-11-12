@@ -27,7 +27,7 @@
   overflow: hidden;
   transition: 0.2s ease;
   .modal-dialog{
-    width: 400px;
+    width: 70%;
     margin: 20px auto;
     border-radius: 5px;
     background: white;
@@ -35,8 +35,12 @@
       padding: 10px;
       border-bottom: 1px solid rgba(#eeeeee, 0.67);
       form{
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 30% 30% 30%;
+        justify-content: space-evenly;
+        .full-grid{
+          grid-column: 1/4;
+        }
         .grid{
           display: grid;
           grid-template-columns: 40% 55%;

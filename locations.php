@@ -115,7 +115,7 @@ $getLocationsResponse = $Location->getLocations();
           Inventory
         </a>
 
-        
+
         <a href="purchase" class="navigation-item">
           <img src="assets/images/chess-queen-solid.svg" alt="chess-queen-solid Font Awesome icon">
           Purchases
@@ -172,17 +172,22 @@ $getLocationsResponse = $Location->getLocations();
                 <?php
                     echo CSRF::createToken();
                 ?>
+                <div class="">
+                  <label for="location_name">Location Name</label>
+                  <input type="text" required name="location_name" placeholder="Location name">
+                </div>
 
-                <label for="location_name">Location Name</label>
-                <input type="text" required name="location_name" placeholder="Location name">
+                <div>
+                  <label for="location_description">Location Description</label>
+                  <textarea name="location_description" rows="3" placeholder="Location description"></textarea>
+                </div>
 
-                <label for="location_description">Location Description</label>
-                <textarea name="location_description" rows="3" placeholder="Location description"></textarea>
+                <div class="">
+                  <label for="location_status">Location Status</label>
+                  <input type="text" required name="location_status" placeholder="Location status">
+                </div>
 
-                <label for="location_status">Location Status</label>
-                <input type="text" required name="location_status" placeholder="Location status">
-
-                <input type="submit" name="submit" value="Add Location">
+                <input type="submit" class="full-grid" name="submit" value="Add Location">
               </form>
             </div>
             <div class="modal-footer">

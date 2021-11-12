@@ -69,8 +69,8 @@ if (!empty($_POST['customer_name']) && !empty($_POST['coating_job_no']) && !empt
   $addJobResponse = $Material->addCoatingJob( $customerID, $coatingJobNumber, $lpoNo, $deliveryNo, $date, $material, $weight, $profileType, $powderEstimate, $powderUsed, $ral, $color, $code, $owner, $itemsSectionData, $preparedBy, $approvedBy, $supervisor, $qualityBy, $inDate, $outDate, $readyDate);
 
   // Column headings
-  $header = array('Item Code', 'Item Quantity', 'Quantity', 'KG');
-
+  $header = array('Item Code', 'Item Description', 'Quantity', 'KG');
+  
   $pdf = new pdfGenerator();
 
   $pdf->SetFont('Arial','',14);
