@@ -285,6 +285,11 @@ CREATE TABLE `purchases` (
 
 CREATE TABLE `purchase_order` (
   `purchase_order_id` int(11) NOT NULL,
+  `purchase_no` VARCHAR(255) NOT NULL,
+  `pic` VARCHAR(255) NOT NULL,
+  `customer_pic` VARCHAR(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `reference` varchar(255) NOT NULL,
   `vendor_name` varchar(255) NOT NULL,
   `record_date` datetime DEFAULT NULL,
   `due_date` datetime DEFAULT NULL,
