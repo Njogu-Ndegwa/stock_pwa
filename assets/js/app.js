@@ -104,7 +104,7 @@ function validateEmail(inputText)
     }
 }
 
-document.querySelector('#keyInput').value = getRandomString(15);
+// document.querySelector('#keyInput').value = getRandomString(15);
 
 /**
  * Generate a random string
