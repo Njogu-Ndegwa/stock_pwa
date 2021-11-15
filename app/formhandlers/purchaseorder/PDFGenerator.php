@@ -15,7 +15,7 @@ class PDFGenerator extends FPDF
 
 
       // Column widths
-      $w = array(60, 60,);
+      $w = array(40, 35, 40, 45);
       // Header
       for($i=0;$i<count($header);$i++)
           $this->Cell($w[$i],7,$header[$i],1,0,'C');
@@ -23,8 +23,8 @@ class PDFGenerator extends FPDF
       // Data
       foreach($data as $row)
       {
-          $this->Cell($w[0],6,$row[$header[0]],1);
-          $this->Cell($w[1],6,$row[$header[1]],1);
+          $this->Cell($w[0],6,$row[$header[1]],1);
+          $this->Cell($w[1],6,$row['record_date'],1);
          
           $this->Ln();
       }

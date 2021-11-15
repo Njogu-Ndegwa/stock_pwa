@@ -27,7 +27,7 @@ if (!empty($_POST['vendor_name']) && !empty($_POST['item_name']) && !empty($_POS
       'item_name' => $_POST['item_name'][$i],
       'item_description' => $_POST['item_description'][$i],
       'item_quantity' => $_POST['item_quantity'][$i],
-      'item_kg' => $_POST['item_kg'][$i],
+      // 'item_kg' => $_POST['item_kg'][$i],
       'item_unit_cost' => $_POST['item_unit_cost'][$i],
       'item_amount' => $_POST['item_amount'][$i]
     );
@@ -36,7 +36,7 @@ if (!empty($_POST['vendor_name']) && !empty($_POST['item_name']) && !empty($_POS
 
   $itemsSectionData = json_encode($items);
 
-  $totalAmount = sanitiseInput($_POST['amount']);
+  $totalAmount = 10;
 
   $poStatus = $PurchaseOrder->sanitiseInput($_POST['po_status']);
 
@@ -44,7 +44,7 @@ if (!empty($_POST['vendor_name']) && !empty($_POST['item_name']) && !empty($_POS
 
   $userID  = (!empty($_SESSION['auth_uid'])) ? $_SESSION['auth_uid'] : "0" ;
 
-  $addPurchaseOrderResponse = $PurchaseOrder->addPurchaseOrder($vendorName, $itemsSectionData, $recordDate, $dueDate, $quotationReference, $quotationDate, $termsConditions,  $poStatus, $userID);
+  $addPurchaseOrderResponse = $PurchaseOrder->addPurchaseOrder($vendorName,  $totalAmount, $itemsSectionData, $recordDate, $dueDate, $quotationReference, $quotationDate, $termsConditions,  $poStatus, $userID);
 
   if ($addPurchaseOrderResponse['response'] == '200') {
     $_SESSION['success'] = "New purchase Order has been added to the system successfuly";

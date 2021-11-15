@@ -381,6 +381,8 @@ function populateItemList(selectElement) {
     selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').value = 1;
     const amount = selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').value * unitCost
     selectElement.parentElement.parentElement.querySelectorAll('td')[6].querySelector('input').value = amount;
+    document.getElementById('total-amount').value = amount
+
 
   }else{
     selectElement.parentElement.parentElement.querySelectorAll('td')[4].querySelector('input').disabled = false;
@@ -390,8 +392,16 @@ function populateItemList(selectElement) {
     selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').value = 1;
     const amount = selectElement.parentElement.parentElement.querySelectorAll('td')[3].querySelector('input').value * unitCost
     selectElement.parentElement.parentElement.querySelectorAll('td')[6].querySelector('input').value = amount;
+    document.getElementById('total-amount').value = amount
+
   }
 
   selectElement.parentElement.parentElement.querySelectorAll('td')[2].querySelector('input').value = itemDescription;
   selectElement.parentElement.parentElement.querySelectorAll('td')[5].querySelector('input').value = unitCost;
 }
+
+
+// function populateTotalAmount(selectElement) {
+//   selectElement.parentElement.querySelector('input').value = 0
+
+// }

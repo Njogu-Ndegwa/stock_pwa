@@ -6,32 +6,58 @@ require_once '../postMiddleware.php';
 
 use app\PurchaseOrder;
 
-if (!empty($_POST['vendor_name']) && !empty($_POST['purchase_order_id']) && !empty($_POST['item']) && !empty($_POST['status'])) {
+if (!empty($_POST['vendor_name']) && !empty($_POST['item_name']) && !empty($_POST['po_status'])) {
   $PurchaseOrder = new PurchaseOrder();
 
   $vendorName = $PurchaseOrder->sanitiseInput($_POST['vendor_name']);
 
-  $item = $PurchaseOrder>sanitiseInput($_POST['item']);
+  $recordDate = $PurchaseOrder->sanitiseInput($_POST['record_date']);
 
-  $poStatus = $PurchaseOrder->sanitiseInput($_POST['status']);
+  $dueDate = $PurchaseOrder->sanitiseInput($_POST['due_date']);
 
-  $purchaseOrderID = $PurchaseOrder->sanitiseInput($_POST['purchase_id']);
+  $quotationReference = $PurchaseOrder->sanitiseInput($_POST['quotation_reference']);
 
-  $updateTime = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
+  $quotationDate = $PurchaseOrder->sanitiseInput($_POST['quotation_date']);
 
-  $addPurchaseOrderResponse = $PurchaseOrder->editPurchaseOrder($purchaseOrderID, $poStatus, $item, $vendorName, $userID);
+
+  $items = array();
+
+  for ($i=0; $i < count($_POST['item_name']) ; $i++) {
+    $rowItem = array(
+      'item_name' => $_POST['item_name'][$i],
+      'item_description' => $_POST['item_description'][$i],
+      'item_quantity' => $_POST['item_quantity'][$i],
+      'item_unit_cost' => $_POST['item_unit_cost'][$i],
+      'item_amount' => $_POST['item_amount'][$i]
+    );
+    array_push($items, $rowItem);
+  }
+
+  $itemsSectionData = json_encode($items);
+
+  $totalAmount = 10;
+
+  $poStatus = $PurchaseOrder->sanitiseInput($_POST['po_status']);
+
+  $termsConditions = $PurchaseOrder->sanitiseInput($_POST['terms_and_conditions']);
+
+  $userID  = (!empty($_SESSION['auth_uid'])) ? $_SESSION['auth_uid'] : "0" ;
+
+  $purchaseOrderID = $Purchase->sanitiseInput($_POST['purchase_order_id']);
+
+  $addPurchaseOrderResponse = $PurchaseOrder->addPurchaseOrder($purchaseOrderID, $vendorName,  $totalAmount, $itemsSectionData, $recordDate, $dueDate, $quotationReference, $quotationDate, $termsConditions,  $poStatus, $userID);
 
   if ($addPurchaseOrderResponse['response'] == '200') {
     $_SESSION['success'] = "Purchase Order has been edited in the system successfuly";
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }else {
-    $_SESSION['error'] = "Failed to edit the purchase Order";
+    $_SESSION['error'] = "Failed to edit purchase Order";
     header("Location:". $_SERVER['HTTP_REFERER']);
     exit();
   }
 }else {
-  $_SESSION['error'] = "Required input to edit purchase Order are missing";
+  $_SESSION['error'] = "Required input to add a location are missing";
   header("Location:". $_SERVER['HTTP_REFERER']);
   exit();
 }

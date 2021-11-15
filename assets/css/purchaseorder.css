@@ -1,13 +1,13 @@
 /* Dropdown Button */
 .dropbtn {
-    width: 80%;
+    width: 100% !important;
   }
   
   /* The container <div> - needed to position the dropdown content */
   .dropdown {
     position: relative;
     display: inline-block;
-    width: 100%;
+    width: 80%;
   }
   
   /* Dropdown Content (Hidden by Default) */
@@ -37,124 +37,4 @@
   
   /* Change the background color of the dropdown button when the dropdown content is shown */
 
-  /* .modal-po {
-      width: 80% !important;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background: rgba(#000000, 0.75);
-      height: 0%;
-      z-index: 2;
-      overflow: hidden;
-      transition: 0.2s ease;
-  }
-
-  .modal-po .modal-dialog {
-    width: 80%;
-    margin: 20px auto;
-    border-radius: 5px;
-    background: white;
-  }
-
-  .modal-po .modal-dialog .modal-head, .modal-body{
-    padding: 10px;
-    border-bottom: 1px solid rgba(#eeeeee, 0.67);
-  } */
-
-
-  .modal-po {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.75);
-    width: 100%;
-    height: 0%;
-    z-index: 2;
-    overflow: hidden;
-    transition: 0.2s ease;
-}
-.modal-po .modal-dialog {
-    width: 70%;
-    margin: 20px auto;
-    border-radius: 5px;
-    background: white;
-}
-/* .modal-po .modal-dialog .modal-head, .modal-po .modal-dialog .modal-body {
-    padding: 10px;
-    border-bottom: 1px solid rgba(238, 238, 238, 0.67);
-}
-.modal-po .modal-dialog .modal-head form, .modal-po .modal-dialog .modal-body form {
-    display: grid;
-    grid-template-columns: 30% 30% 30%;
-    justify-content: space-evenly;
-}
-.modal-po .modal-dialog .modal-head form .full-grid, .modal-po .modal-dialog .modal-body form .full-grid {
-    grid-column: 0.25;
-}
-.modal-po .modal-dialog .modal-head form .grid, .modal-po .modal-dialog .modal-body form .grid {
-    display: grid;
-    grid-template-columns: 40% 55%;
-    justify-content: space-between;
-    width: 100%;
-}
-.modal-po .modal-dialog .modal-head form .grid div, .modal-po .modal-dialog .modal-body form .grid div {
-    width: 100%;
-}
-.modal-po .modal-dialog .modal-head form .grid div input, .modal-po .modal-dialog .modal-body form .grid div input, .modal-po .modal-dialog .modal-head form .grid div select, .modal-po .modal-dialog .modal-body form .grid div select {
-    width: 90%;
-}
-.modal-po .modal-dialog .modal-head form .input-wrapper, .modal-po .modal-dialog .modal-body form .input-wrapper {
-    display: -ms-flexbox;
-    display: flex;
-    width: 100%;
-    margin-bottom: 15px;
-}
-.modal-po .modal-dialog .modal-head form input, .modal-po .modal-dialog .modal-body form input, .modal-po .modal-dialog .modal-head form select, .modal-po .modal-dialog .modal-body form select, .modal-po .modal-dialog .modal-head form textarea, .modal-po .modal-dialog .modal-body form textarea {
-    border: 1px solid rgba(238, 238, 238, 0.87);
-    margin: 10px 0px;
-    outline: none;
-    transition: 0.2s ease;
-    padding: 10px;
-}
-.modal-po .modal-dialog .modal-head form input:focus, .modal-po .modal-dialog .modal-body form input:focus, .modal-po .modal-dialog .modal-head form select:focus, .modal-po .modal-dialog .modal-body form select:focus, .modal-po .modal-dialog .modal-head form textarea:focus, .modal-po .modal-dialog .modal-body form textarea:focus {
-    border: 1px solid rgba(65, 65, 65, 0.87);
-} */
-.modal-po .modal-dialog .modal-footer {
-    padding: 5px 10px;
-}
-.modal-po .modal-dialog .modal-footer .close-modal-btn {
-    background: #c00;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-.typical-row {
-    width: 900px;
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    margin-left: 20px;
-}
-
-.typical-row input[type='text'], .typical-row input[type='date'], .typical-row input[type='file']  {
-    width: 200px;
-    height: 30px;
-    margin: 0;
-    padding: 0;
-}
-
-.typical-row input[type='file'] {
-    border: 0.5px solid #00000069;
-}
-
-.typical-row select {
-    width: 200px;
-    height: 30px;
-}
-
-
-
+ 
